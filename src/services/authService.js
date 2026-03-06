@@ -1,7 +1,10 @@
 // services/authService.js
 
-const LOGIN_URL = "/api/Auth/Login";
-const SIGNUP_URL = "/api/Auth/Register";
+// استخدم رابط الـ backend الفعلي
+const BASE_URL = "https://med-scope1.runasp.net";
+
+const LOGIN_URL = `${BASE_URL}/api/Auth/Login`;
+const SIGNUP_URL = `${BASE_URL}/api/Auth/Register`;
 
 // Login function
 export const loginUser = async (email, password) => {
@@ -29,7 +32,7 @@ export const loginUser = async (email, password) => {
 };
 
 // Signup function
-export const signupUser = async (firstName, lastName, email, password,confirmPassword,phone,gender,dob) => {
+export const signupUser = async (firstName, lastName, email, password, confirmPassword, phone, gender, dob) => {
   try {
     const response = await fetch(SIGNUP_URL, {
       method: "POST",
