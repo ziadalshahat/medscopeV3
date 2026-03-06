@@ -1,0 +1,151 @@
+/* ===== Overlay ===== */
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.success-overlay.fade-in {
+  animation: overlayIn 0.3s ease forwards;
+}
+
+.success-overlay.fade-out {
+  animation: overlayOut 0.3s ease forwards;
+}
+
+@keyframes overlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes overlayOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+/* ===== Modal Card ===== */
+.success-modal {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.success-modal.scale-in {
+  animation: modalIn 0.3s ease forwards;
+}
+
+.success-modal.scale-out {
+  animation: modalOut 0.25s ease forwards;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+}
+
+/* ===== Icon ===== */
+.success-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #34d399);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
+}
+
+.success-icon-wrapper i {
+  font-size: 1.8rem;
+  color: #ffffff;
+}
+
+/* ===== Text ===== */
+.success-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.5rem;
+}
+
+.success-message {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0 0 1.75rem;
+  line-height: 1.5;
+}
+
+/* ===== Button ===== */
+.success-btn {
+  background: #084668;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 3rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(8, 70, 104, 0.2);
+}
+
+.success-btn:hover {
+  background: #063550;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(8, 70, 104, 0.3);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .success-modal {
+    padding: 2rem 1.5rem 1.5rem;
+  }
+
+  .success-icon-wrapper {
+    width: 52px;
+    height: 52px;
+  }
+
+  .success-icon-wrapper i {
+    font-size: 1.4rem;
+  }
+}

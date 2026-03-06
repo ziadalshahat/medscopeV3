@@ -1,0 +1,60 @@
+/* ================= Global Reset ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ================= Html & Body ================= */
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    background-color: #d9e8f2; /* خلفية الصفحة الرئيسية */
+    overflow-x: hidden; /* يمنع scroll أفقي */
+}
+
+/* ================= Links ================= */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ================= Buttons ================= */
+button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-family: inherit;
+}
+
+/* ================= Input & Textarea ================= */
+input, textarea {
+    font-family: inherit;
+    outline: none;
+}
+
+/* ================= Images ================= */
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* ================= Scrollbar Optional ================= */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c4d8e4;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #004f78;
+}
