@@ -10,7 +10,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import OtpVerification from "./pages/OtpVerification";
 import ResetPassword from "./pages/ResetPassword";
 import ResetSuccess from "./pages/ResetSuccess";
-import Home from "./pages/Home";
+import Home from "./pages/home";
 import NotFound from "./pages/NotFound";
 
 
