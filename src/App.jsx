@@ -12,6 +12,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ResetSuccess from "./pages/ResetSuccess";
 import Home from "./pages/home";
 import NotFound from "./pages/NotFound";
+import PatientRoutes from './patient/patientRoutes.jsx';
 
 
 // Public Layout
@@ -55,6 +56,9 @@ function App() {
           <Route path="*" element={<NotFound />} />
 
         </Route>
+
+        {/* Patient Module Sub-routes */}
+        <Route path="/patient/*" element={<PatientRoutes />} />
 
       </Routes>
 

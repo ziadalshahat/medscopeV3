@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthCard from "../components/AuthCard";
 import SuccessModal from "../components/SuccessModal";
 import Loader from "../components/Loader";
+import { signupUser } from "../services/authService";
 import "./Auth.css";
 
 const EMAIL_RE = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
@@ -132,39 +133,29 @@ const SignUpForm = () => {
   };
 
   const handleConfirm = async () => {
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          password,
-          confirmPassword,
-          phoneNumber: phone,
-          gender,
-          dateOfBirth: dob
-        }),
-      });
+    const data = await signupUser(
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPassword,
+      phone,
+      gender,
+      dob
+    );
 
-      const data = await response.json();
+    localStorage.setItem("token", data.token);
+    setShowSuccess(true);
 
-      if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
-      }
-
-      localStorage.setItem("token", data.token);
-      setShowSuccess(true);
-
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (error) {
+    alert(error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const fieldError = (field) => shouldShow(field) ? (
     <span className="field-error"><i className="fas fa-exclamation-circle"></i> {errors[field]}</span>

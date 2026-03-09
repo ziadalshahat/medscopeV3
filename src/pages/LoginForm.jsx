@@ -17,11 +17,17 @@ const Login = () => {
   const [fadeOut, setFadeOut] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  // ✨ Effect لإخفاء الرسالة بعد 4 ثواني مع fade
+  const handleInputChange = (setter) => (e) => {
+    setter(e.target.value);
+
+    if (errorMessage) {
+      setErrorMessage("");
+    }
+  };
   useEffect(() => {
     if (!errorMessage) return;
 
-    setFadeOut(false); // إعادة ضبط الانيميشن
+    setFadeOut(false);
     const timer = setTimeout(() => {
       setFadeOut(true);
       // بعد 0.5s نمسح الرسالة بالكامل
@@ -32,31 +38,45 @@ const Login = () => {
   }, [errorMessage]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setErrorMessage("");
+  e.preventDefault();
 
-    try {
-      const data = await loginUser(email, password);
+  setLoading(true);
+  setErrorMessage("");
 
-      if (data.isSuccess) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data));
-        setSuccessMessage("Login successful! Redirecting...");
-      } else {
-        setErrorMessage(data.message || "Invalid credentials");
-      }
-    } catch (error) {
-      setErrorMessage(error.message || "Something went wrong");
-    } finally {
-      setLoading(false);
+  try {
+
+    const data = await loginUser(email, password);
+    console.log(data);
+
+    if (data.isSuccess) {
+
+      localStorage.setItem("token", data.token);
+
+      localStorage.setItem("user", JSON.stringify({
+        userId: data.userId,
+        fullName: data.fullName,
+        email: data.email,
+        role: data.role
+      }));
+
+      setSuccessMessage("Login successful! Redirecting...");
+
+      setTimeout(() => {
+        navigate("/home");
+      }, 1500);
+
+    } else {
+      setErrorMessage(data.message || "Invalid credentials");
     }
-  };
 
-  const handleInputChange = (setter) => (e) => {
-    setter(e.target.value);
-    if (errorMessage) setErrorMessage("");
-  };
+  } catch (error) {
+
+    setErrorMessage(error.message || "Something went wrong");
+
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <AuthCard
