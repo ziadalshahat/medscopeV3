@@ -1,197 +1,388 @@
-import React, { useState } from 'react';
+// src/patient/pages/Profile.jsx
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { usePatient } from "../context/PatientContext";
+import profileService from "../services/profileService";
 import {
-    UserIcon,
-    EnvelopeIcon,
-    PhoneIcon,
-    MapPinIcon,
-    PencilSquareIcon,
-    IdentificationIcon,
-    CalendarDaysIcon,
-    ShieldCheckIcon,
-    ClockIcon,
-    BellIcon,
-    XMarkIcon
+    UserIcon, PhoneIcon, MapPinIcon, PencilSquareIcon,
+    IdentificationIcon, CalendarDaysIcon, ShieldCheckIcon, ClockIcon,
+    BellIcon, XMarkIcon, HeartIcon
 } from '@heroicons/react/24/outline';
+import Loader from '../../components/Loader';
 import '../styles/Profile.css';
 
+/* ── Toast ─────────────────────────────────────────────────────────────── */
+const Toast = ({ message, type, onClose }) => (
+    <div className={`profile-toast profile-toast--${type}`}>
+        <span>{message}</span>
+        <button className="profile-toast__close" onClick={onClose}>
+            <XMarkIcon />
+        </button>
+    </div>
+);
+
+/* ── Profile Page ───────────────────────────────────────────────────────── */
 const Profile = () => {
-    // State for Modals
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const navigate = useNavigate();
+    const { setPatient, profileData, setProfileData } = usePatient();
 
-    // Mock User Data
-    const [userData, setUserData] = useState({
-        fullName: 'John Doe',
-        email: 'john.doe@email.com',
-        phone: '+1 (555) 123-4567',
-        address: '123 Main St, New York, NY 10001'
+    /* ── State ── */
+    const [loading, setLoading]   = useState(true);
+    const [saving, setSaving]     = useState(false);
+    const [toast, setToast]       = useState(null);
+
+    const [editForm, setEditForm] = useState({
+        firstName: '', lastName: '', phoneNumber: '', address: '', bloodGroup: ''
     });
+    const [notifications, setNotifications] = useState({
+        emailNotifications: true, smsNotifications: false, appointmentReminders: true
+    });
+    const [passwordForm, setPasswordForm] = useState({
+        oldPassword: '', newPassword: '', confirmPassword: ''
+    });
+    const [passwordError, setPasswordError]   = useState('');
+    const [isEditModalOpen, setIsEditModalOpen]         = useState(false);
+    const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen]     = useState(false);
 
-    // Handle Edit Form
-    const handleEditChange = (e) => {
-        setUserData({
-            ...userData,
-            [e.target.name]: e.target.value
+    /* ── Helpers ── */
+    const showToast = useCallback((message, type = 'success') => {
+        setToast({ message, type });
+        setTimeout(() => setToast(null), 4000);
+    }, []);
+
+    const applyProfileToState = useCallback((data) => {
+        setProfileData(data);
+        setEditForm({
+            firstName:   data.firstName   || '',
+            lastName:    data.lastName    || '',
+            phoneNumber: data.phoneNumber || '',
+            address:     data.address     || '',
+            bloodGroup:  data.bloodGroup  || '',
         });
+        setNotifications({
+            emailNotifications:  data.notifications?.emailNotifications  ?? true,
+            smsNotifications:    data.notifications?.smsNotifications    ?? false,
+            appointmentReminders: data.notifications?.appointmentReminders ?? true,
+        });
+    }, [setProfileData]);
+
+    /* ── Fetch on mount ── */
+    useEffect(() => {
+        // profileData may already be loaded by PatientContext; use it immediately
+        // and still refresh in the background to guarantee freshness.
+        if (profileData) {
+            applyProfileToState(profileData);
+            setLoading(false);
+        }
+
+        const fetchProfile = async () => {
+            try {
+                const data = await profileService.getProfile();
+                applyProfileToState(data);
+            } catch (err) {
+                showToast(err?.response?.data?.message || 'Failed to load profile', 'error');
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    /* ── Edit Profile ── */
+    const handleEditChange = (e) => {
+        setEditForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    const handleSaveEdit = () => {
-        // Here you would call an API to save
-        setIsEditModalOpen(false);
+    const handleSaveEdit = async (e) => {
+        e.preventDefault();
+        setSaving(true);
+        try {
+            await profileService.updateProfile(editForm);
+            // Re-fetch to get the latest server-confirmed data
+            const refreshed = await profileService.getProfile();
+            applyProfileToState(refreshed);
+            setPatient(prev => ({ ...prev, name: refreshed.firstName || 'Patient' }));
+            setIsEditModalOpen(false);
+            showToast('Profile updated successfully');
+        } catch (err) {
+            showToast(err?.response?.data?.message || 'Failed to update profile', 'error');
+        } finally {
+            setSaving(false);
+        }
     };
 
-    const handleDeleteAccount = () => {
-        // Here you would call an API to delete
-        console.log("Account deleted!");
-        setIsDeleteModalOpen(false);
+    /* ── Notifications (optimistic update) ── */
+    const handleNotificationToggle = async (field) => {
+        const previous = { ...notifications };
+        const updated  = { ...notifications, [field]: !notifications[field] };
+        setNotifications(updated); // optimistic
+        try {
+            await profileService.updateNotifications({ [field]: updated[field] });
+        } catch {
+            setNotifications(previous); // rollback
+            showToast('Failed to update notification setting', 'error');
+        }
     };
+
+    /* ── Change Password ── */
+    const handlePasswordChange = (e) => {
+        setPasswordForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        setPasswordError('');
+    };
+
+    const handlePasswordSubmit = async (e) => {
+        e.preventDefault();
+        setPasswordError('');
+
+        if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+            setPasswordError('Passwords do not match');
+            return;
+        }
+
+        // Strong password check: min 8 chars, 1 uppercase, 1 lowercase, 1 number
+        const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
+        if (!strongRegex.test(passwordForm.newPassword)) {
+            setPasswordError('Password must be at least 8 characters long, with 1 uppercase, 1 lowercase, and 1 number');
+            return;
+        }
+
+        setSaving(true);
+        try {
+            await profileService.changePassword({
+                oldPassword:     passwordForm.oldPassword,
+                newPassword:     passwordForm.newPassword,
+                confirmPassword: passwordForm.confirmPassword,
+            });
+            setIsPasswordModalOpen(false);
+            setPasswordForm({ oldPassword: '', newPassword: '', confirmPassword: '' });
+            showToast('Password changed successfully. Please login again.');
+            
+            // Force logout after password change
+            setTimeout(() => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                navigate('/login');
+            }, 2500);
+            
+        } catch (err) {
+            setPasswordError(err?.response?.data?.message || 'Incorrect current password');
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    /* ── Delete Account ── */
+    const handleDeleteAccount = async () => {
+        setSaving(true);
+        try {
+            await profileService.deleteAccount();
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            navigate('/login');
+        } catch (err) {
+            showToast(err?.response?.data?.message || 'Failed to delete account', 'error');
+            setSaving(false);
+        }
+    };
+
+    /* ── Render ── */
+    if (loading) return <Loader message="Loading Your Profile..." />;
 
     return (
         <div className="profile-container">
 
-            {/* Personal Information Section */}
+            {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+
+            {/* ─── Personal Information ─── */}
             <div className="profile-card">
                 <div className="profile-card-header">
                     <h3>Personal Information</h3>
                     <button className="btn-edit" onClick={() => setIsEditModalOpen(true)}>
-                        <PencilSquareIcon />
-                        Edit
+                        <PencilSquareIcon /> Edit
                     </button>
                 </div>
-
                 <div className="info-grid">
                     <div className="info-item">
-                        <div className="info-label"><UserIcon /> Full Name</div>
-                        <div className="info-value">{userData.fullName}</div>
+                        <div className="info-label"><UserIcon /> First Name</div>
+                        <div className="info-value">{profileData?.firstName || '—'}</div>
                     </div>
                     <div className="info-item">
-                        <div className="info-label"><EnvelopeIcon /> Email</div>
-                        <div className="info-value">{userData.email}</div>
+                        <div className="info-label"><UserIcon /> Last Name</div>
+                        <div className="info-value">{profileData?.lastName || '—'}</div>
                     </div>
                     <div className="info-item">
                         <div className="info-label"><PhoneIcon /> Phone Number</div>
-                        <div className="info-value">{userData.phone}</div>
+                        <div className="info-value">{profileData?.phoneNumber || '—'}</div>
                     </div>
                     <div className="info-item">
                         <div className="info-label"><MapPinIcon /> Address</div>
-                        <div className="info-value">{userData.address}</div>
+                        <div className="info-value">{profileData?.address || '—'}</div>
+                    </div>
+                    <div className="info-item">
+                        <div className="info-label"><HeartIcon /> Blood Group</div>
+                        <div className="info-value">{profileData?.bloodGroup || '—'}</div>
                     </div>
                 </div>
             </div>
 
-            {/* Account Information Section */}
+            {/* ─── Account Information ─── */}
             <div className="profile-card">
                 <div className="profile-card-header">
                     <h3>Account Information</h3>
                 </div>
-
                 <div className="account-cards-grid">
                     <div className="account-box">
                         <div className="account-box-label"><IdentificationIcon /> Patient ID</div>
-                        <div className="account-box-value">PT-2024-001234</div>
+                        <div className="account-box-value">{profileData?.patientId || '—'}</div>
                     </div>
                     <div className="account-box">
                         <div className="account-box-label"><CalendarDaysIcon /> Registration Date</div>
-                        <div className="account-box-value">January 15, 2024</div>
+                        <div className="account-box-value">{profileData?.registrationDate || '—'}</div>
                     </div>
                     <div className="account-box">
                         <div className="account-box-label"><ShieldCheckIcon /> Account Status</div>
-                        <div className="account-box-value value-active">Active</div>
+                        <div className={`account-box-value ${profileData?.accountStatus === 'Active' ? 'value-active' : ''}`}>
+                            {profileData?.accountStatus || '—'}
+                        </div>
                     </div>
                     <div className="account-box">
                         <div className="account-box-label"><ClockIcon /> Last Login</div>
-                        <div className="account-box-value">January 27, 2026 at 9:30 AM</div>
+                        <div className="account-box-value">{profileData?.lastLogin || 'Never'}</div>
                     </div>
                 </div>
             </div>
 
-            {/* Settings Section */}
+            {/* ─── Settings ─── */}
             <div className="profile-card">
-                <div className="profile-card-header">
-                    <h3>Settings</h3>
-                </div>
-
-                <h4 style={{ color: '#004f78', fontSize: '0.9rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <BellIcon style={{ width: '18px' }} /> Notification Preferences
-                </h4>
-
+                <div className="profile-card-header"><h3>Settings</h3></div>
+                <h4 className="notification-heading"><BellIcon /> Notification Preferences</h4>
                 <div className="settings-list">
-                    <div className="setting-item">
-                        <span className="setting-label">Email Notifications</span>
-                        <label className="switch">
-                            <input type="checkbox" defaultChecked />
-                            <span className="slider"></span>
-                        </label>
-                    </div>
-                    <div className="setting-item">
-                        <span className="setting-label">SMS Notifications</span>
-                        <label className="switch">
-                            <input type="checkbox" />
-                            <span className="slider"></span>
-                        </label>
-                    </div>
-                    <div className="setting-item">
-                        <span className="setting-label">Appointment Reminders</span>
-                        <label className="switch">
-                            <input type="checkbox" defaultChecked />
-                            <span className="slider"></span>
-                        </label>
-                    </div>
+                    {[
+                        { key: 'emailNotifications',  label: 'Email Notifications' },
+                        { key: 'smsNotifications',    label: 'SMS Notifications' },
+                        { key: 'appointmentReminders',label: 'Appointment Reminders' },
+                    ].map(({ key, label }) => (
+                        <div className="setting-item" key={key}>
+                            <span className="setting-label">{label}</span>
+                            <label className="switch">
+                                <input
+                                    type="checkbox"
+                                    checked={notifications[key]}
+                                    onChange={() => handleNotificationToggle(key)}
+                                />
+                                <span className="slider" />
+                            </label>
+                        </div>
+                    ))}
                 </div>
-
                 <div className="settings-actions">
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <button className="btn-action-primary">Change Password</button>
+                    <div className="settings-action-col">
+                        <button className="btn-action-primary" onClick={() => setIsPasswordModalOpen(true)}>
+                            Change Password
+                        </button>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <button className="btn-action-danger" onClick={() => setIsDeleteModalOpen(true)}>Delete Account</button>
-                        <span className="danger-text">Once you delete your account, there is no going back. Please be certain.</span>
+                    <div className="settings-action-col">
+                        <button className="btn-action-danger" onClick={() => setIsDeleteModalOpen(true)}>
+                            Delete Account
+                        </button>
+                        <span className="danger-text">
+                            Once you delete your account, there is no going back. Please be certain.
+                        </span>
                     </div>
                 </div>
             </div>
 
-            {/* --- Modals --- */}
+            {/* ══════════════════ MODALS ══════════════════ */}
 
-            {/* Edit Modal */}
+            {/* Edit Profile */}
             {isEditModalOpen && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
+                <div className="modal-overlay" onClick={() => setIsEditModalOpen(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
                             <h3>Edit Profile</h3>
                             <button className="modal-close" onClick={() => setIsEditModalOpen(false)}>
                                 <XMarkIcon />
                             </button>
                         </div>
-                        <form onSubmit={(e) => { e.preventDefault(); handleSaveEdit(); }}>
-                            <div className="edit-form-group">
-                                <label>Full Name</label>
-                                <input type="text" name="fullName" value={userData.fullName} onChange={handleEditChange} required />
-                            </div>
-                            <div className="edit-form-group">
-                                <label>Email</label>
-                                <input type="email" name="email" value={userData.email} onChange={handleEditChange} required />
-                            </div>
-                            <div className="edit-form-group">
-                                <label>Phone Number</label>
-                                <input type="text" name="phone" value={userData.phone} onChange={handleEditChange} required />
-                            </div>
-                            <div className="edit-form-group">
-                                <label>Address</label>
-                                <input type="text" name="address" value={userData.address} onChange={handleEditChange} required />
-                            </div>
+                        <form onSubmit={handleSaveEdit}>
+                            {[
+                                { name: 'firstName',   label: 'First Name',    required: true },
+                                { name: 'lastName',    label: 'Last Name',     required: true },
+                                { name: 'phoneNumber', label: 'Phone Number',  required: true },
+                                { name: 'address',     label: 'Address',       required: true },
+                                { name: 'bloodGroup',  label: 'Blood Group',   required: false },
+                            ].map(({ name, label, required }) => (
+                                <div className="edit-form-group" key={name}>
+                                    <label>{label}</label>
+                                    <input
+                                        type="text"
+                                        name={name}
+                                        value={editForm[name]}
+                                        onChange={handleEditChange}
+                                        required={required}
+                                    />
+                                </div>
+                            ))}
                             <div className="modal-actions">
-                                <button type="button" className="btn-cancel" onClick={() => setIsEditModalOpen(false)}>Cancel</button>
-                                <button type="submit" className="btn-action-primary">Save Changes</button>
+                                <button type="button" className="btn-cancel" onClick={() => setIsEditModalOpen(false)}>
+                                    Cancel
+                                </button>
+                                <button type="submit" className="btn-action-primary" disabled={saving}>
+                                    {saving ? 'Saving...' : 'Save Changes'}
+                                </button>
                             </div>
                         </form>
                     </div>
                 </div>
             )}
 
-            {/* Delete Confirmation Modal */}
+            {/* Change Password */}
+            {isPasswordModalOpen && (
+                <div className="modal-overlay" onClick={() => setIsPasswordModalOpen(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>Change Password</h3>
+                            <button className="modal-close" onClick={() => { setIsPasswordModalOpen(false); setPasswordError(''); }}>
+                                <XMarkIcon />
+                            </button>
+                        </div>
+                        <form onSubmit={handlePasswordSubmit}>
+                            {[
+                                { name: 'oldPassword',     label: 'Current Password' },
+                                { name: 'newPassword',     label: 'New Password' },
+                                { name: 'confirmPassword', label: 'Confirm New Password' },
+                            ].map(({ name, label }) => (
+                                <div className="edit-form-group" key={name}>
+                                    <label>{label}</label>
+                                    <input
+                                        type="password"
+                                        name={name}
+                                        value={passwordForm[name]}
+                                        onChange={handlePasswordChange}
+                                        required
+                                    />
+                                </div>
+                            ))}
+                            {passwordError && <p className="password-error">{passwordError}</p>}
+                            <div className="modal-actions">
+                                <button type="button" className="btn-cancel" onClick={() => { setIsPasswordModalOpen(false); setPasswordError(''); }}>
+                                    Cancel
+                                </button>
+                                <button type="submit" className="btn-action-primary" disabled={saving}>
+                                    {saving ? 'Changing...' : 'Change Password'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Delete Account */}
             {isDeleteModalOpen && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
+                <div className="modal-overlay" onClick={() => setIsDeleteModalOpen(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
                             <h3>Delete Account</h3>
                             <button className="modal-close" onClick={() => setIsDeleteModalOpen(false)}>
@@ -199,13 +390,17 @@ const Profile = () => {
                             </button>
                         </div>
                         <p className="modal-warning-text">
-                            Are you absolutely sure you want to delete your account?
-                            <strong> All your medical records, appointments, and personal data will be permanently removed.</strong>
+                            Are you absolutely sure you want to delete your account?{' '}
+                            <strong>All your medical records, appointments, and personal data will be permanently removed.</strong>{' '}
                             This action cannot be undone.
                         </p>
                         <div className="modal-actions">
-                            <button type="button" className="btn-cancel" onClick={() => setIsDeleteModalOpen(false)}>Cancel</button>
-                            <button type="button" className="btn-action-danger" onClick={handleDeleteAccount}>Yes, Delete Account</button>
+                            <button type="button" className="btn-cancel" onClick={() => setIsDeleteModalOpen(false)}>
+                                Cancel
+                            </button>
+                            <button type="button" className="btn-action-danger" onClick={handleDeleteAccount} disabled={saving}>
+                                {saving ? 'Deleting...' : 'Yes, Delete Account'}
+                            </button>
                         </div>
                     </div>
                 </div>

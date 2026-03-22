@@ -1,69 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import AppointmentCard from '../../components/AppointmentCard';
 import '../../styles/Appointments.css';
+import { getAppointments } from '../../services/patientService';
 
 const Upcoming = () => {
     const navigate = useNavigate();
+    const [upcomingAppointments, setUpcomingAppointments] = useState([]);
 
-    // Mock upcoming appointments data
-    const upcomingAppointments = [
-        {
-            id: 1,
-            date: 'Jan 28, 2026',
-            time: '10:00 AM',
-            doctorName: 'Dr. Sarah Johnson',
-            specialty: 'Cardiologist',
-            hospital: 'City General Hospital',
-            status: 'Confirmed'
-        },
-        {
-            id: 2,
-            date: 'Jan 28, 2026',
-            time: '10:00 AM',
-            doctorName: 'Dr. Sarah Johnson',
-            specialty: 'Cardiologist',
-            hospital: 'City General Hospital',
-            status: 'Confirmed'
-        },
-        {
-            id: 3,
-            date: 'Feb 02, 2026',
-            time: '2:30 PM',
-            doctorName: 'Dr. Michael Chen',
-            specialty: 'General Physician',
-            hospital: 'City General Hospital',
-            status: 'Confirmed'
-        },
-        {
-            id: 4,
-            date: 'Jan 28, 2026',
-            time: '10:00 AM',
-            doctorName: 'Dr. Sarah Johnson',
-            specialty: 'Cardiologist',
-            hospital: 'City General Hospital',
-            status: 'Confirmed'
-        },
-        {
-            id: 5,
-            date: 'Feb 10, 2026',
-            time: '11:00 AM',
-            doctorName: 'Dr. Emily Rodriguez',
-            specialty: 'Dermatologist',
-            hospital: 'City General Hospital',
-            status: 'Pending'
-        },
-        {
-            id: 6,
-            date: 'Jan 28, 2026',
-            time: '10:00 AM',
-            doctorName: 'Dr. Sarah Johnson',
-            specialty: 'Cardiologist',
-            hospital: 'City General Hospital',
-            status: 'Confirmed'
-        }
-    ];
+    useEffect(() => {
+        const data = getAppointments();
+        // Filter for upcoming (we'll keep all for now as the initial list is all future-like)
+        setUpcomingAppointments(data);
+    }, []);
 
     return (
         <div className="appointments-container">
@@ -81,7 +31,7 @@ const Upcoming = () => {
 
                 <button
                     className="btn-book-new"
-                    onClick={() => navigate('/patient/appointments/book/hospital')}
+                    onClick={() => navigate('/patient/appointments/hospital')}
                 >
                     <PlusIcon />
                     Book a New Appointment

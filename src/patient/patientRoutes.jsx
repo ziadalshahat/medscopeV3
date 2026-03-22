@@ -7,7 +7,6 @@ import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import UpcomingAppointments from './pages/Appointments/Upcoming';
 import PastAppointments from './pages/Appointments/Past';
-import BookNewAppointment from './pages/Appointments/BookNew';
 import SelectHospital from './pages/Appointments/SelectHospital';
 import SelectSpecialty from './pages/Appointments/SelectSpecialty';
 import SelectDoctor from './pages/Appointments/SelectDoctor';
@@ -19,11 +18,11 @@ import Notes from './pages/Notes';
 import MultiHospital from './pages/MultiHospital';
 import SmartAssistant from './pages/SmartAssistant';
 import './styles/PatientLayout.css';
-
+import { usePatient } from "../../src/patient/context/PatientContext";
 // Patient Layout: includes the top Header, Sidebar and the main content area
 const PatientLayout = () => {
     const location = useLocation();
-
+    const { patient } = usePatient();
     // Determine Header text based on path
     const getHeaderText = () => {
         if (location.pathname.includes('/profile')) {
@@ -38,17 +37,34 @@ const PatientLayout = () => {
                 subtitle: 'View and manage your appointments'
             };
         }
+        if (location.pathname.includes('/medical-history')) {
+            return {
+                title: 'Patient Record',
+                subtitle: ''
+            };
+        }
         if (location.pathname.includes('/appointments/book')) {
             return {
                 title: 'Book a New Appointment',
                 subtitle: 'Choose specialty, doctor, and time — confirm in one step.'
             };
         }
-
+        if (location.pathname.includes('/hospitals')) {
+            return {
+                title: 'Multi-Hospital View',
+                subtitle: 'View available bed types at hospitals'
+            };
+        }
+        if (location.pathname.includes('/blood-bank')) {
+            return {
+                title: 'Blood Bank',
+                subtitle: 'View available blood types and quantities at hospitals and blood banks'
+            };
+        }
 
         // Default Header
         return {
-            title: 'Welcome back, John Doe',
+            title: `Welcome back, ${patient.name || "Patient"}`,
             subtitle: "Here's what's happening with your health today"
         };
     };
@@ -102,7 +118,8 @@ const PatientRoutes = () => {
                     {/* Appointments Flow */}
                     <Route path="appointments/upcoming" element={<UpcomingAppointments />} />
                     <Route path="appointments/past" element={<PastAppointments />} />
-                    <Route path="appointments/book" element={<BookNewAppointment />} />
+
+                    <Route path="appointments/hospital" element={<SelectHospital />} />
                     <Route path="appointments/book/hospital" element={<SelectHospital />} />
                     <Route path="appointments/book/specialty" element={<SelectSpecialty />} />
                     <Route path="appointments/book/doctor" element={<SelectDoctor />} />

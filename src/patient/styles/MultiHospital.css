@@ -1,0 +1,174 @@
+/* ============================================================
+   Multi-Hospital View — Pure CSS
+   Medical-grade teal/blue color palette
+   ============================================================ */
+
+/* ---- Page Container ---- */
+.mh-container {
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* ---- Hospital Card ---- */
+.mh-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 28px 32px;
+    box-shadow: 0 4px 20px rgba(0, 50, 80, 0.08);
+    border: 1px solid #dce8ef;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.mh-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 50, 80, 0.12);
+}
+
+/* ---- Card Header ---- */
+.mh-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.mh-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #004f78;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.mh-icon svg {
+    width: 22px;
+    height: 22px;
+    color: #ffffff;
+}
+
+.mh-hospital-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #006d8f;
+    margin: 0;
+}
+
+/* ---- Bed List ---- */
+.mh-bed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* ---- Bed Row ---- */
+.mh-bed-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.mh-bed-label {
+    width: 140px;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1e3a4f;
+}
+
+.mh-bed-label--teal {
+    color: #007a94;
+}
+
+/* ---- Progress Bar ---- */
+.mh-progress-track {
+    flex: 1;
+    height: 6px;
+    background: #e2ecf1;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.mh-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0098b5, #00b8d4);
+    border-radius: 3px;
+    transition: width 0.8s ease;
+}
+
+/* ---- Bed Count ---- */
+.mh-bed-count {
+    width: 90px;
+    flex-shrink: 0;
+    text-align: right;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4a7389;
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+
+@media (max-width: 767px) {
+    .mh-card {
+        padding: 22px 20px;
+    }
+
+    .mh-bed-row {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .mh-bed-label {
+        width: 120px;
+        font-size: 0.85rem;
+    }
+
+    .mh-bed-count {
+        width: 80px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 479px) {
+    .mh-card {
+        padding: 18px 16px;
+        border-radius: 12px;
+    }
+
+    .mh-card-header {
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    .mh-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .mh-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .mh-hospital-name {
+        font-size: 1rem;
+    }
+
+    .mh-bed-label {
+        width: 100%;
+    }
+
+    .mh-progress-track {
+        flex: 1;
+        min-width: 60%;
+    }
+}

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthCard from "../components/AuthCard";
 import SuccessModal from "../components/SuccessModal";
 import Loader from "../components/Loader";
-import { signupUser } from "../services/authService";
+import { signupUser } from "../patient/services/authService.js";
 import "./Auth.css";
 
 const EMAIL_RE = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;

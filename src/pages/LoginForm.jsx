@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthCard from "../components/AuthCard";
 import SuccessModal from "../components/SuccessModal";
 import Loader from "../components/Loader";
-import { loginUser } from "../services/authService";
+import { loginUser } from "../patient/services/authService.js";
 import "./Auth.css";
 
 const Login = () => {
@@ -46,7 +46,6 @@ const Login = () => {
   try {
 
     const data = await loginUser(email, password);
-    console.log(data);
 
     if (data.isSuccess) {
 
@@ -157,7 +156,7 @@ const Login = () => {
         message={successMessage}
         onClose={() => {
           setSuccessMessage("");
-          navigate("/home");
+          navigate("/patient");
         }}
         autoDismiss={2500}
       />

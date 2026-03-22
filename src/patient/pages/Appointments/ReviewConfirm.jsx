@@ -6,13 +6,16 @@ import {
     PhoneIcon,
     EnvelopeIcon,
     CalendarDaysIcon,
-    ClockIcon
+    ClockIcon,
+    CheckCircleIcon
 } from '@heroicons/react/24/outline';
 import '../../styles/SelectSpecialty.css'; // Common layout
 import '../../styles/ReviewConfirm.css';
+import { saveAppointment } from '../../services/patientService';
 
 const ReviewConfirm = () => {
     const navigate = useNavigate();
+    const [showSuccess, setShowSuccess] = useState(false);
 
     // Mock initial user data
     const [patientData, setPatientData] = useState({
@@ -23,10 +26,37 @@ const ReviewConfirm = () => {
     });
 
     const handleConfirmBooking = () => {
-        // Here you would make API call to confirm the booking
-        console.log('Booking Confirmed!', patientData);
-        navigate('/patient/appointments/upcoming');
+        // Save appointment to localStorage
+        saveAppointment({
+            doctorName: 'Dr. Morgan Reed',
+            specialty: 'Cardiology',
+            hospital: 'City General Hospital',
+            date: 'Oct 09, 2025',
+            time: '10:30 AM',
+            patientName: patientData.name,
+            notes: patientData.notes
+        });
+
+        setShowSuccess(true);
+        setTimeout(() => {
+            navigate('/patient/appointments/upcoming');
+        }, 2500);
     };
+
+    if (showSuccess) {
+        return (
+            <div className="booking-layout">
+                <div className="success-overlay">
+                    <div className="success-card">
+                        <CheckCircleIcon className="success-icon" />
+                        <h2>Appointment Booked Successfully!</h2>
+                        <p>Your appointment with Dr. Morgan Reed has been scheduled.</p>
+                        <p className="redirect-text">Redirecting to your appointments...</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="booking-layout">

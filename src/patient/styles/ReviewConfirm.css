@@ -211,3 +211,66 @@
 .btn-review-confirm:hover {
     background-color: #003647;
 }
+
+/* Success Overlay */
+.success-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.success-card {
+    background: white;
+    padding: 48px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: slideUp 0.4s ease-out;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    color: #10b981;
+    margin: 0 auto 24px;
+}
+
+.success-card h2 {
+    color: #0f172a;
+    font-size: 1.75rem;
+    margin-bottom: 12px;
+}
+
+.success-card p {
+    color: #64748b;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.redirect-text {
+    margin-top: 24px;
+    font-weight: 500;
+    color: #004a61 !important;
+    font-size: 0.95rem !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}

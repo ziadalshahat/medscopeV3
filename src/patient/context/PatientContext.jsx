@@ -1,37 +1,34 @@
-import React, { createContext, useState, useEffect } from 'react';
+// src/patient/context/PatientContext.jsx
+import React, { createContext, useContext, useEffect, useState } from "react";
+import profileService from "../services/profileService";
 
-export const PatientContext = createContext();
+const PatientContext = createContext();
 
 export const PatientProvider = ({ children }) => {
-    const [patientData, setPatientData] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [patient, setPatient] = useState({ name: "", loading: true });
+    const [profileData, setProfileData] = useState(null);
 
-    // Mock fetching data
     useEffect(() => {
-        const fetchPatientData = async () => {
-            setLoading(true);
-            // Simulate API call
-            setTimeout(() => {
-                setPatientData({
-                    id: 'PAT-12345',
-                    firstName: 'John',
-                    lastName: 'Doe',
-                    email: 'john.doe@example.com',
-                    phone: '+1 234 567 8900',
-                    bloodType: 'O+',
-                    upcomingAppointments: 2,
-                    unreadNotes: 1
-                });
-                setLoading(false);
-            }, 500);
+        const fetchPatient = async () => {
+            try {
+                // profileService.getProfile() returns normalized data,
+                // so data.firstName is always available (split from fullName)
+                const data = await profileService.getProfile();
+                setProfileData(data);
+                setPatient({ name: data.firstName || "Patient", loading: false });
+            } catch (err) {
+                console.error("Failed to fetch patient profile:", err);
+                setPatient({ name: "Patient", loading: false });
+            }
         };
-
-        fetchPatientData();
+        fetchPatient();
     }, []);
 
     return (
-        <PatientContext.Provider value={{ patientData, setPatientData, loading }}>
+        <PatientContext.Provider value={{ patient, setPatient, profileData, setProfileData }}>
             {children}
         </PatientContext.Provider>
     );
 };
+
+export const usePatient = () => useContext(PatientContext);
