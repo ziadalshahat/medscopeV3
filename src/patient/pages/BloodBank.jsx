@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import HospitalCard from '../components/HospitalCard';
 import Loader from '../../components/Loader';
 import { getHospitals } from '../services/bloodBankService';
-import '../styles/bloodbank.css';
+import '../styles/BloodBank.css';
 
 const BloodBank = () => {
     const [hospitals, setHospitals] = useState([]);
