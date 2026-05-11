@@ -27,3 +27,22 @@ export const signupUser = async (
   });
   return response.data;
 };
+
+export const forgotPassword = async (email) => {
+  const response = await axiosInstance.post('/Auth/forgot-password', { email });
+  return response.data;
+};
+
+export const verifyOtp = async (email, otp) => {
+  const response = await axiosInstance.post('/Auth/verify-otp', { email, otp });
+  return response.data;
+};
+
+export const resetPassword = async (email, resetToken, newPassword) => {
+  const response = await axiosInstance.post('/Auth/reset-password', {
+    resetToken: resetToken,
+    newPassword: newPassword,
+    confirmPassword: newPassword
+  });
+  return response.data;
+};

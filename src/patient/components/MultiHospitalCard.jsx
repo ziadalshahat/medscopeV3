@@ -16,21 +16,40 @@ const MultiHospitalCard = ({ hospital }) => {
             {/* Bed Rows */}
             <div className="mh-bed-list">
                 {hospital.beds.map((bed, index) => {
-                    const percentage = Math.round((bed.occupied / bed.total) * 100);
+                    const total = bed.total || 0;
+                    const occupied = bed.occupied || 0;
+                    const available = total - occupied;
+                    const percentage = total > 0 ? Math.min(Math.round((occupied / total) * 100), 100) : 0;
+                    
+                    // Determine color based on availability
+                    let statusClass = '';
+                    if (total === 0) statusClass = 'status-empty';
+                    else if (percentage >= 90) statusClass = 'status-critical';
+                    else if (percentage >= 70) statusClass = 'status-warning';
+                    else statusClass = 'status-good';
+
                     return (
-                        <div className="mh-bed-row" key={index}>
-                            <span className={`mh-bed-label ${index > 0 ? 'mh-bed-label--teal' : ''}`}>
-                                {bed.type}
-                            </span>
-                            <div className="mh-progress-track">
-                                <div
-                                    className="mh-progress-fill"
-                                    style={{ width: `${percentage}%` }}
-                                />
+                        <div className={`mh-bed-row ${statusClass}`} key={index}>
+                            <div className="mh-bed-info">
+                                <span className={`mh-bed-label ${index > 0 ? 'mh-bed-label--teal' : ''}`}>
+                                    {bed.type}
+                                </span>
+                                <span className="mh-bed-count">
+                                    {occupied}/{total} <small>beds</small>
+                                </span>
                             </div>
-                            <span className="mh-bed-count">
-                                {bed.occupied}/{bed.total} beds
-                            </span>
+                            
+                            <div className="mh-progress-container">
+                                <div className="mh-progress-track">
+                                    <div
+                                        className="mh-progress-fill"
+                                        style={{ width: `${percentage}%` }}
+                                    />
+                                </div>
+                                <span className="mh-availability-text">
+                                    {total > 0 ? `${available} available` : 'N/A'}
+                                </span>
+                            </div>
                         </div>
                     );
                 })}
@@ -40,3 +59,4 @@ const MultiHospitalCard = ({ hospital }) => {
 };
 
 export default MultiHospitalCard;
+

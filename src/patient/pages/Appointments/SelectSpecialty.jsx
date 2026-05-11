@@ -1,30 +1,70 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BookingStepper from '../../components/BookingStepper';
+import { usePatient } from '../../context/PatientContext';
+import appointmentService from '../../services/appointmentService';
+import Loader from '../../../components/Loader';
 import {
     MagnifyingGlassIcon,
-    HeartIcon, /* Cardiology */
-    UserIcon, /* Orthopedics placeholder */
-    EyeIcon, /* Ophthalmology */
-    SparklesIcon, /* Dermatology placeholder */
-    FaceSmileIcon /* Pediatrics placeholder */
+    HeartIcon,
+    UserIcon,
+    EyeIcon,
+    SparklesIcon,
+    FaceSmileIcon
 } from '@heroicons/react/24/outline';
 import '../../styles/SelectSpecialty.css';
 
+const getSpecialtyIcon = (name) => {
+    const lName = (name || '').toLowerCase();
+    if (lName.includes('cardiol')) return <HeartIcon className="specialty-icon" />;
+    if (lName.includes('ophthal')) return <EyeIcon className="specialty-icon" />;
+    if (lName.includes('derma')) return <SparklesIcon className="specialty-icon" />;
+    if (lName.includes('pedia') || lName.includes('psych')) return <FaceSmileIcon className="specialty-icon" />;
+    return <UserIcon className="specialty-icon" />; // Fallback
+};
+
 const SelectSpecialty = () => {
     const navigate = useNavigate();
+    const { bookingData, setBookingData } = usePatient();
+
+    const [specialties, setSpecialties] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
     const [selectedSpecialty, setSelectedSpecialty] = useState(null);
 
-    const specialties = [
-        { id: 'cardiology', name: 'Cardiology', icon: <HeartIcon className="specialty-icon" /> },
-        { id: 'orthopedics', name: 'Orthopedics', icon: <UserIcon className="specialty-icon" /> },
-        { id: 'dermatology', name: 'Dermatology', icon: <SparklesIcon className="specialty-icon" /> },
-        { id: 'neurology', name: 'Neurology', icon: <FaceSmileIcon className="specialty-icon" /> },
-        { id: 'pediatrics', name: 'Pediatrics', icon: <UserIcon className="specialty-icon" /> },
-        { id: 'ophthalmology', name: 'Ophthalmology', icon: <EyeIcon className="specialty-icon" /> },
-        { id: 'gastroenterology', name: 'Gastroenterology', icon: <UserIcon className="specialty-icon" /> },
-        { id: 'psychiatry', name: 'Psychiatry', icon: <FaceSmileIcon className="specialty-icon" /> }
-    ];
+    useEffect(() => {
+        const fetchSpecialties = async () => {
+            try {
+                const data = await appointmentService.getSpecialties(bookingData?.hospitalId);
+                setSpecialties(data || []);
+            } catch (err) {
+                console.error("Failed to fetch specialties:", err);
+                setError('Could not load specialties. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchSpecialties();
+    }, []);
+
+    const filteredSpecialties = specialties.filter(spec => {
+        const name = typeof spec === 'string' ? spec : spec.name || '';
+        return name.toLowerCase().includes(searchQuery.toLowerCase());
+    });
+
+    const handleNext = () => {
+        if (!selectedSpecialty) return;
+        const name = typeof selectedSpecialty === 'string' ? selectedSpecialty : selectedSpecialty.name;
+        const id = typeof selectedSpecialty === 'string' ? selectedSpecialty : selectedSpecialty.id;
+
+        setBookingData(prev => ({
+            ...prev,
+            specialtyId: id,
+            specialtyName: name
+        }));
+        navigate('/patient/appointments/book/doctor');
+    };
 
     return (
         <div className="booking-layout">
@@ -44,27 +84,43 @@ const SelectSpecialty = () => {
                         type="text"
                         className="specialty-search-input"
                         placeholder="Search specialties..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                     />
                 </div>
 
-                <div className="specialty-grid">
-                    {specialties.map((spec) => (
-                        <div
-                            key={spec.id}
-                            className={`specialty-card ${selectedSpecialty === spec.id ? 'selected' : ''}`}
-                            onClick={() => setSelectedSpecialty(spec.id)}
-                        >
-                            {spec.icon}
-                            <span className="specialty-name">{spec.name}</span>
-                        </div>
-                    ))}
-                </div>
+                {loading && <Loader />}
+                {error && <div style={{ color: 'red', textAlign: 'center', marginTop: '2rem' }}>{error}</div>}
+
+                {!loading && !error && (
+                    <div className="specialty-grid">
+                        {filteredSpecialties.map((spec, index) => {
+                            const name = typeof spec === 'string' ? spec : spec.name;
+                            const id = typeof spec === 'string' ? spec : spec.id;
+                            const isSelected = selectedSpecialty === spec || selectedSpecialty?.id === id;
+
+                            return (
+                                <div
+                                    key={id || index}
+                                    className={`specialty-card ${isSelected ? 'selected' : ''}`}
+                                    onClick={() => setSelectedSpecialty(spec)}
+                                >
+                                    {getSpecialtyIcon(name)}
+                                    <span className="specialty-name">{name}</span>
+                                </div>
+                            );
+                        })}
+                        {filteredSpecialties.length === 0 && (
+                            <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>No specialties found.</p>
+                        )}
+                    </div>
+                )}
 
                 <div className="booking-actions">
                     <button
                         className="btn-wizard-next"
                         disabled={!selectedSpecialty}
-                        onClick={() => navigate('/patient/appointments/book/doctor')}
+                        onClick={handleNext}
                     >
                         Next
                     </button>

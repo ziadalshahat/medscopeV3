@@ -6,14 +6,15 @@ import {
 } from '@heroicons/react/24/outline';
 import '../styles/Appointments.css';
 
-const AppointmentCard = ({ data, isPast }) => {
+const AppointmentCard = ({ data, isPast, onCancel }) => {
 
     // Determine badge class
     const getBadgeClass = (status) => {
         switch (status.toLowerCase()) {
             case 'confirmed': return 'confirmed';
             case 'pending': return 'pending';
-            case 'completed': return 'pending'; // Example
+            case 'completed': return 'pending';
+            case 'cancelled': return 'cancelled';
             default: return 'pending';
         }
     };
@@ -40,7 +41,7 @@ const AppointmentCard = ({ data, isPast }) => {
                     {data.doctorName}
                 </h4>
                 <p className="doctor-specialty">
-                    {data.specialty} <span className="separator">•</span> {data.hospital}
+                    {data.specialty} <span className="separator">•</span> {data.hospitalName}
                 </p>
 
                 <div className="appt-status-row">
@@ -51,9 +52,12 @@ const AppointmentCard = ({ data, isPast }) => {
             </div>
 
             {/* Bottom Action */}
-            {!isPast && (
+            {!isPast && data.status.toLowerCase() !== 'cancelled' && (
                 <div className="appt-footer">
-                    <button className="btn-cancel-appt">
+                    <button 
+                        className="btn-cancel-appt"
+                        onClick={() => onCancel && onCancel(data.id)}
+                    >
                         Cancel Appointment
                     </button>
                 </div>

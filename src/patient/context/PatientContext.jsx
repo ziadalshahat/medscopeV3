@@ -8,6 +8,22 @@ export const PatientProvider = ({ children }) => {
     const [patient, setPatient] = useState({ name: "", loading: true });
     const [profileData, setProfileData] = useState(null);
 
+    const initialBookingState = {
+        hospitalId: null,
+        hospitalName: null,
+        specialtyId: null,
+        specialtyName: null,
+        doctorId: null,
+        doctorName: null,
+        doctorImage: null,
+        date: null,
+        time: null,
+        notes: ''
+    };
+    const [bookingData, setBookingData] = useState(initialBookingState);
+
+    const resetBookingData = () => setBookingData(initialBookingState);
+
     useEffect(() => {
         const fetchPatient = async () => {
             try {
@@ -25,7 +41,12 @@ export const PatientProvider = ({ children }) => {
     }, []);
 
     return (
-        <PatientContext.Provider value={{ patient, setPatient, profileData, setProfileData }}>
+        <PatientContext.Provider value={{
+            patient, setPatient,
+            profileData, setProfileData,
+            bookingData, setBookingData,
+            resetBookingData
+        }}>
             {children}
         </PatientContext.Provider>
     );

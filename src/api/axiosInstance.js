@@ -6,9 +6,7 @@ const axiosInstance = axios.create({
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
-    // ⚠️ Do NOT read the token here — it would be captured once at module load
-    // and become stale if the user logs in/out. The request interceptor below
-    // reads it fresh on every request.
+
   },
 });
 

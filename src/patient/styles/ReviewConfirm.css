@@ -68,6 +68,12 @@
     /* specific color from mockup */
 }
 
+.review-label .blood-icon {
+    width: 16px;
+    height: 16px;
+    color: #dc2626;
+}
+
 .review-label-blue svg {
     color: #004a61;
     /* Specific from mockup */
@@ -93,9 +99,67 @@
     background-color: white;
 }
 
+/* Readonly inputs — visually distinct, not editable */
+.review-input-readonly {
+    background-color: #f1f5f9;
+    color: #475569;
+    cursor: default;
+    border-color: #e2e8f0;
+}
+
+.review-input-readonly:focus {
+    border-color: #e2e8f0;
+    background-color: #f1f5f9;
+}
+
+/* Select dropdown — matches input style */
+.review-select {
+    width: 100%;
+    padding: 10px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: #334155;
+    background-color: #f8fafc;
+    outline: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23475569' d='M6 8.825a.5.5 0 0 1-.354-.146L2.146 5.18a.5.5 0 1 1 .708-.708L6 7.618l3.146-3.146a.5.5 0 1 1 .708.708L6.354 8.68a.5.5 0 0 1-.354.146Z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+}
+
+.review-select:focus {
+    border-color: #004a61;
+    background-color: white;
+}
+
+/* Required field indicator */
+.required-star {
+    color: #dc2626;
+    font-weight: 700;
+    margin-left: 2px;
+}
+
 .review-textarea {
     min-height: 100px;
     resize: vertical;
+}
+
+.review-textarea::placeholder {
+    color: #94a3b8;
+    font-style: italic;
+}
+
+/* Character counter below textarea */
+.notes-char-count {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    text-align: right;
+    margin-top: -4px;
 }
 
 /* Appointment Summary Card */
@@ -206,10 +270,72 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.btn-review-confirm:hover {
+.btn-review-confirm:hover:not(:disabled) {
     background-color: #003647;
+}
+
+.btn-review-confirm:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Button spinner (inline) */
+.btn-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    display: inline-block;
+}
+
+/* ── Profile Loading State ─────────────────────────────────────────────────── */
+.profile-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 48px 0;
+}
+
+.profile-loading p {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.profile-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid #e2e8f0;
+    border-top-color: #004a61;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ── Error Banner ──────────────────────────────────────────────────────────── */
+.review-error-banner {
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 16px;
+    animation: fadeIn 0.3s ease-out;
 }
 
 /* Success Overlay */

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Loader from '../../components/Loader';
 import { getMedicalHistory } from '../services/medicalHistoryService';
+import { getNotes } from '../services/notesService';
 import '../styles/MedicalHistory.css';
 import {
     PrinterIcon,
@@ -9,20 +10,25 @@ import {
     BeakerIcon,
     ExclamationCircleIcon,
     DocumentTextIcon
-} from '@heroicons/react/24/outline'; // Using approximate icons from heroicons
+} from '@heroicons/react/24/outline';
 
 const MedicalHistory = () => {
     const [data, setData] = useState(null);
+    const [notes, setNotes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('history');
 
     useEffect(() => {
         const fetchRecord = async () => {
             try {
-                const result = await getMedicalHistory();
-                setData(result);
+                const [historyResult, notesResult] = await Promise.all([
+                    getMedicalHistory(),
+                    getNotes()
+                ]);
+                setData(historyResult);
+                setNotes(notesResult || []);
             } catch (err) {
-                console.error("Failed to load medical history", err);
+                console.error("Failed to load medical history or notes", err);
             } finally {
                 setLoading(false);
             }
@@ -43,7 +49,7 @@ const MedicalHistory = () => {
             {/* Action Bar */}
             <div className="mh-action-bar">
                 <div className="mh-action-bar-left"></div>
-                <button className="mh-print-btn">
+                <button className="mh-print-btn" onClick={() => window.print()}>
                     <PrinterIcon />
                     Print Patient Record
                 </button>
@@ -54,20 +60,26 @@ const MedicalHistory = () => {
                 <div className="mh-patient-header">
                     <div className="mh-patient-name-container">
                         <h2>{data.patient.name}</h2>
-                        <p className="mh-patient-id">Patient ID: <strong>{data.patient.id}</strong></p>
+                        {data.patient.id && data.patient.id !== '-' && (
+                            <p className="mh-patient-id">Patient ID: <strong>{data.patient.id}</strong></p>
+                        )}
                     </div>
                     <div className="mh-blood-badge">{data.patient.bloodType}</div>
                 </div>
 
                 <div className="mh-patient-details">
-                    <div className="mh-detail-item">
-                        <span className="mh-detail-label">Age</span>
-                        <span className="mh-detail-value">{data.patient.age}</span>
-                    </div>
-                    <div className="mh-detail-item">
-                        <span className="mh-detail-label">Gender</span>
-                        <span className="mh-detail-value">{data.patient.gender}</span>
-                    </div>
+                    {data.patient.age && data.patient.age !== '-' && (
+                        <div className="mh-detail-item">
+                            <span className="mh-detail-label">Age</span>
+                            <span className="mh-detail-value">{data.patient.age}</span>
+                        </div>
+                    )}
+                    {data.patient.gender && data.patient.gender !== '-' && (
+                        <div className="mh-detail-item">
+                            <span className="mh-detail-label">Gender</span>
+                            <span className="mh-detail-value">{data.patient.gender}</span>
+                        </div>
+                    )}
                     <div className="mh-detail-item">
                         <span className="mh-detail-label">Phone</span>
                         <span className="mh-detail-value">{data.patient.phone}</span>
@@ -109,87 +121,143 @@ const MedicalHistory = () => {
 
             {/* Tabs */}
             <div className="mh-tabs-container">
-                <button 
+                <button
                     className={`mh-tab ${activeTab === 'history' ? 'active' : ''}`}
                     onClick={() => setActiveTab('history')}
                 >
                     <ChartBarIcon /> Medical History
                 </button>
-                <button 
+                <button
                     className={`mh-tab ${activeTab === 'notes' ? 'active' : ''}`}
                     onClick={() => setActiveTab('notes')}
                 >
-                    <DocumentTextIcon /> Notes (2)
+                    <DocumentTextIcon /> Notes ({(data.visits?.length || 0) + notes.length})
                 </button>
             </div>
 
             {/* Lists content */}
             {activeTab === 'history' && (
                 <div className="mh-details-wrapper">
-                    
+
                     {/* Chronic Diseases */}
                     <div className="mh-section-card">
                         <h4 className="mh-section-title"><ChartBarIcon /> Chronic Diseases</h4>
-                        {data.history.chronicDiseases.map(item => (
-                            <div className="mh-list-item" key={item.id}>
+                        {data.history.chronicDiseases.map((item, index) => (
+                            <div className="mh-list-item" key={index}>
                                 <div className="mh-item-content">
                                     <p className="mh-item-name">{item.name}</p>
-                                    <p className="mh-item-detail">{item.date}</p>
+                                    {item.diagnosedDate && <p className="mh-item-detail">Diagnosed: {item.diagnosedDate}</p>}
+                                    {item.date && !item.diagnosedDate && <p className="mh-item-detail">Diagnosed: {item.date}</p>}
                                 </div>
                             </div>
                         ))}
+                        {data.history.chronicDiseases.length === 0 && (
+                            <p style={{ color: '#5a7d91', margin: '10px 0' }}>No chronic diseases recorded.</p>
+                        )}
                     </div>
 
                     {/* Surgeries */}
                     <div className="mh-section-card">
                         <h4 className="mh-section-title"><Bars3CenterLeftIcon /> Surgical History</h4>
-                        {data.history.surgeries.map(item => (
-                            <div className="mh-list-item" key={item.id}>
+                        {data.history.surgeries.map((item, index) => (
+                            <div className="mh-list-item" key={index}>
                                 <div className="mh-item-content">
                                     <p className="mh-item-name">{item.name}</p>
-                                    <p className="mh-item-detail">{item.date}</p>
-                                    <p className="mh-item-detail">{item.hospital}</p>
-                                    <p className="mh-item-detail">{item.notes}</p>
+                                    {item.date && <p className="mh-item-detail"><strong>Date</strong>: {item.date}</p>}
+                                    {item.hospital && <p className="mh-item-detail"><strong>Hospital</strong>: {item.hospital}</p>}
+                                    {item.notes && <p className="mh-item-detail"><strong>Notes</strong>: {item.notes}</p>}
                                 </div>
                             </div>
                         ))}
+                        {data.history.surgeries.length === 0 && (
+                            <p style={{ color: '#5a7d91', margin: '10px 0' }}>No surgeries recorded.</p>
+                        )}
                     </div>
 
                     {/* Medications */}
                     <div className="mh-section-card">
                         <h4 className="mh-section-title"><BeakerIcon /> Current Medications</h4>
-                        {data.history.medications.map(item => (
-                            <div className="mh-list-item" key={item.id}>
+                        {data.history.medications.map((item, index) => (
+                            <div className="mh-list-item" key={index}>
                                 <div className="mh-item-content">
                                     <p className="mh-item-name">{item.name}</p>
-                                    <p className="mh-item-detail">{item.frequency}</p>
-                                    <p className="mh-item-detail">{item.started}</p>
+                                    {item.frequency && <p className="mh-item-detail"><strong>Frequency</strong>: {item.frequency}</p>}
+                                    {(item.started || item.startedDate) && <p className="mh-item-detail"><strong>Started</strong>: {item.startedDate || item.started}</p>}
                                 </div>
-                                <div className="mh-med-pill">{item.dosage}</div>
+                                {item.dosage && <div className="mh-med-pill">{item.dosage}</div>}
                             </div>
                         ))}
+                        {data.history.medications.length === 0 && (
+                            <p style={{ color: '#5a7d91', margin: '10px 0' }}>No current medications.</p>
+                        )}
                     </div>
 
                     {/* Allergies */}
                     <div className="mh-section-card">
                         <h4 className="mh-section-title"><ExclamationCircleIcon className="mh-icon-red" /> Allergies</h4>
-                        {data.history.allergies.map(item => (
-                            <div className="mh-list-item" key={item.id}>
+                        {data.history.allergies.map((item, index) => (
+                            <div className="mh-list-item" key={index}>
                                 <div className="mh-item-content">
                                     <p className="mh-item-name">{item.name}</p>
-                                    <p className="mh-item-detail">{item.reaction}</p>
+                                    {item.reaction && <p className="mh-item-detail"><strong>Reaction</strong>: {item.reaction}</p>}
                                 </div>
                             </div>
                         ))}
+                        {data.history.allergies.length === 0 && (
+                            <p style={{ color: '#5a7d91', margin: '10px 0' }}>No allergies recorded.</p>
+                        )}
                     </div>
 
                 </div>
             )}
-            
-            {/* Notes placeholder state */}
+
+            {/* Notes / Visits content */}
             {activeTab === 'notes' && (
-                <div className="mh-section-card" style={{ display: 'flex', justifyContent: 'center', padding: '60px' }}>
-                    <p style={{ color: '#5a7d91' }}>Notes will be displayed here.</p>
+                <div className="mh-details-wrapper">
+                    {/* Visits from medical history */}
+                    {data.visits && data.visits.length > 0 && (
+                        <div className="mh-section-card">
+                            <h4 className="mh-section-title"><DocumentTextIcon /> Visit Records</h4>
+                            {data.visits.map((visit, index) => (
+                                <div className="mh-list-item" key={visit.id || index}>
+                                    <div className="mh-item-content">
+                                        <p className="mh-item-name">{visit.diagnosis || 'Visit'}</p>
+                                        {visit.date && <p className="mh-item-detail">Date: {visit.date}</p>}
+                                        {visit.treatmentPlan && <p className="mh-item-detail">Treatment: {visit.treatmentPlan}</p>}
+                                        {visit.followUp && <p className="mh-item-detail">Follow-up: {visit.followUp}</p>}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Notes from /patient/notes endpoint */}
+                    {notes.length > 0 && (
+                        <div className="mh-section-card">
+                            <h4 className="mh-section-title"><DocumentTextIcon /> Doctor Notes</h4>
+                            {notes.map((note, index) => (
+                                <div className="mh-list-item" key={note.id || index}>
+                                    <div className="mh-item-content">
+                                        <p className="mh-item-name">{note.title || 'Note'}</p>
+                                        {note.date && <p className="mh-item-detail">{note.date}</p>}
+                                        {note.content && (
+                                            <p className="mh-item-detail" style={{ marginTop: '8px' }}>
+                                                {note.content}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {(!data.visits || data.visits.length === 0) && notes.length === 0 && (
+                        <div className="mh-section-card">
+                            <div style={{ display: 'flex', justifyContent: 'center', padding: '40px' }}>
+                                <p style={{ color: '#5a7d91' }}>No notes or visit records available.</p>
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
 

@@ -1,39 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import AuthCard from "../components/AuthCard";
+import { resetPassword } from "../patient/services/authService";
 import "./Auth.css";
 
 const ResetPassword = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    
+    const email = location.state?.email || "";
+    const resetToken = location.state?.resetToken || location.state?.otp || "";
+
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
+    
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        if (!email || !resetToken) {
+            navigate("/forgot-password");
+        }
+    }, [email, resetToken, navigate]);
 
     const handleSubmit = async (e) => {
-  e.preventDefault();
+        e.preventDefault();
+        
+        if (password !== confirmPassword) {
+            setError("Passwords do not match.");
+            return;
+        }
 
-  try {
-    const response = await fetch("http://localhost:5000/api/auth/reset-password", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email,
-        otp,
-        newPassword: password
-      })
-    });
+        if (password.length < 6) {
+            setError("Password must be at least 6 characters long.");
+            return;
+        }
 
-    const data = await response.json();
+        setLoading(true);
+        setError("");
 
-    if (!response.ok) {
-      throw new Error(data.message);
-    }
-
-    navigate("/reset-success");
-
-  } catch (error) {
-    alert(error.message);
-  }
-};
+        try {
+            await resetPassword(email, resetToken, password);
+            navigate("/reset-success");
+        } catch (err) {
+            let errorMessage = "Failed to reset password. Please try again.";
+            
+            if (err.response?.data?.errors) {
+                // Handle ASP.NET Core Validation Errors
+                const errors = err.response.data.errors;
+                const firstKey = Object.keys(errors)[0];
+                if (firstKey && errors[firstKey].length > 0) {
+                    errorMessage = errors[firstKey][0];
+                }
+            } else if (err.response?.data?.message) {
+                errorMessage = err.response.data.message;
+            } else if (typeof err.response?.data === 'string' && err.response.data.trim() !== '') {
+                errorMessage = err.response.data;
+            }
+            
+            setError(errorMessage);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <AuthCard
@@ -52,6 +83,8 @@ const ResetPassword = () => {
                             type={showPassword ? "text" : "password"}
                             className="auth-input"
                             required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                         <button
                             type="button"
@@ -73,6 +106,8 @@ const ResetPassword = () => {
                             type={showConfirm ? "text" : "password"}
                             className="auth-input"
                             required
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                         <button
                             type="button"
@@ -84,8 +119,10 @@ const ResetPassword = () => {
                     </div>
                 </div>
 
-                <button type="submit" className="auth-submit-btn">
-                    Update Password
+                {error && <div className="auth-error-message mb-3" style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
+
+                <button type="submit" className="auth-submit-btn" disabled={loading}>
+                    {loading ? "Updating..." : "Update Password"}
                 </button>
             </form>
         </AuthCard>

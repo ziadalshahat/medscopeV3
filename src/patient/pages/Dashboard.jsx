@@ -45,10 +45,6 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
 
-      <h2 className="welcome-title">
-        Welcome {dashboardData.patientName}
-      </h2>
-
       {/* Updates */}
       <div className="updates-card">
 
