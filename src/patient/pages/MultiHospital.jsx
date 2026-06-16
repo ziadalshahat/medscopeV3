@@ -3,6 +3,7 @@ import MultiHospitalCard from '../components/MultiHospitalCard';
 import Loader from '../../components/Loader';
 import { getMultiHospitals } from '../services/multiHospitalService';
 import '../styles/MultiHospital.css';
+import Chatbot from "../components/Chatbot";
 
 const MultiHospital = () => {
     const [hospitals, setHospitals] = useState([]);
@@ -58,6 +59,8 @@ const MultiHospital = () => {
     }
 
     return (
+        <>
+        <Chatbot/>
         <div className="mh-page-wrapper">
             <div className="mh-page-header">
                 <p className="mh-last-updated">
@@ -78,6 +81,7 @@ const MultiHospital = () => {
                 ))}
             </div>
         </div>
+        </>
     );
 };
 

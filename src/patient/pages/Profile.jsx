@@ -10,6 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Loader from '../../components/Loader';
 import '../styles/Profile.css';
+import Chatbot from "../components/Chatbot";
 
 /* ── Toast ─────────────────────────────────────────────────────────────── */
 const Toast = ({ message, type, onClose }) => (
@@ -191,6 +192,8 @@ const Profile = () => {
     if (loading) return <Loader message="Loading Your Profile..." />;
 
     return (
+        <>
+        <Chatbot/>
         <div className="profile-container">
 
             {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
@@ -407,6 +410,8 @@ const Profile = () => {
             )}
 
         </div>
+        </>
+
     );
 };
 

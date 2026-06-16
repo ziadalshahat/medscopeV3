@@ -12,6 +12,7 @@ import {
     DocumentTextIcon
 } from '@heroicons/react/24/outline';
 
+import Chatbot from "../components/Chatbot";
 const MedicalHistory = () => {
     const [data, setData] = useState(null);
     const [notes, setNotes] = useState([]);
@@ -45,6 +46,8 @@ const MedicalHistory = () => {
     }
 
     return (
+        <>
+        <Chatbot/>
         <div className="mh-record-container">
             {/* Action Bar */}
             <div className="mh-action-bar">
@@ -262,6 +265,7 @@ const MedicalHistory = () => {
             )}
 
         </div>
+        </>
     );
 };
 

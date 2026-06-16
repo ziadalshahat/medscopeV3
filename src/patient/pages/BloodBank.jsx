@@ -5,6 +5,8 @@ import Loader from '../../components/Loader';
 import { getHospitals } from '../services/bloodBankService';
 import '../styles/BloodBank.css';
 
+import Chatbot from "../components/Chatbot";
+
 const BloodBank = () => {
     const [hospitals, setHospitals] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -67,6 +69,9 @@ const BloodBank = () => {
     }
 
     return (
+        <>
+          <Chatbot />
+
         <div className="bloodbank-container">
             <Header
                 searchQuery={searchQuery}
@@ -90,7 +95,8 @@ const BloodBank = () => {
                     </div>
                 )}
             </div>
-        </div>
+        </div> 
+        </>
     );
 };
 

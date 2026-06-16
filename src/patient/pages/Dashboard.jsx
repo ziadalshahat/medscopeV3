@@ -14,6 +14,7 @@ import "../styles/Dashboard.css";
 import { getDashboardData } from "../services/dashboardService";
 import Loader from "../../components/Loader";
 
+import Chatbot from "../components/Chatbot";
 const Dashboard = () => {
 
   const [dashboardData, setDashboardData] = useState(null);
@@ -43,7 +44,10 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="dashboard-container">
+<>
+
+  <Chatbot />
+      <div className="dashboard-container">
 
       {/* Updates */}
       <div className="updates-card">
@@ -253,6 +257,7 @@ const Dashboard = () => {
       </div>
 
     </div>
+    </>
   );
 };
 
