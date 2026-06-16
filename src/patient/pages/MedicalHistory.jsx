@@ -49,15 +49,6 @@ const MedicalHistory = () => {
         <>
         <Chatbot/>
         <div className="mh-record-container">
-            {/* Action Bar */}
-            <div className="mh-action-bar">
-                <div className="mh-action-bar-left"></div>
-                <button className="mh-print-btn" onClick={() => window.print()}>
-                    <PrinterIcon />
-                    Print Patient Record
-                </button>
-            </div>
-
             {/* Patient Info Card */}
             <div className="mh-patient-card">
                 <div className="mh-patient-header">
