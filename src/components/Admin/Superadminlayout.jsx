@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
-import "./SuperAdminLayout.css";
+import "./Superadminlayout.css";
 
 const pageInfo = {
   "/super-admin/hospitals": { title: "Hospital Management", subtitle: "Manage and monitor all hospitals" },
