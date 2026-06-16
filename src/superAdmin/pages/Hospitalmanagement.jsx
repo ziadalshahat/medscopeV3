@@ -98,7 +98,7 @@ const HospitalManagement = () => {
           phone: formData.phone,
           address: formData.address,
           type: "General",
-          hospitalNumber: 1,
+          hospitalNumber: Math.floor(Math.random() * 900000) + 100000,
           website: "https://medscope.com",
         });
         setModalStep(null);
@@ -111,7 +111,7 @@ const HospitalManagement = () => {
           phone: formData.phone,
           address: formData.address,
           type: "General",
-          hospitalNumber: 1,
+          hospitalNumber: Math.floor(Math.random() * 900000) + 100000,
           website: "https://medscope.com",
         });
         setCreatedId(formData.name);
