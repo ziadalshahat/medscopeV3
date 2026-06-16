@@ -6,9 +6,9 @@ import {
   Outlet,
 } from "react-router-dom";
 
-import SuperAdminRoutes from "./superAdmin/superAdminRoutes";
+import SuperAdminRoutes from "./superAdmin/superAdminRoutes.jsx";
 import AdminRoutes from "./Admin/AdminRoutes.jsx";
-import DoctorRoutes from "./doctor/DoctorRoutes";
+import DoctorRoutes from "./Doctor/doctorRoutes.jsx";
 
 
 import Header from "./components/Header";
