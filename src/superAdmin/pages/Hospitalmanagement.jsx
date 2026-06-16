@@ -119,7 +119,13 @@ const HospitalManagement = () => {
       await fetchHospitals();
     } catch (err) {
       console.error("Error saving hospital:", err);
-      alert(err.response?.data || "Failed to save hospital");
+      const errorMsg =
+        err.response?.data?.message ||
+        err.response?.data?.title ||
+        (err.response?.data?.errors ? Object.values(err.response.data.errors).flat().join(", ") : null) ||
+        err.response?.data ||
+        "Failed to save hospital";
+      alert(typeof errorMsg === "string" ? errorMsg : JSON.stringify(errorMsg));
     } finally {
       setSaving(false);
     }
@@ -134,7 +140,12 @@ const HospitalManagement = () => {
       await fetchHospitals();
     } catch (err) {
       console.error("Error deleting hospital:", err);
-      alert(err.response?.data || "Failed to delete hospital");
+      const errorMsg =
+        err.response?.data?.message ||
+        err.response?.data?.title ||
+        err.response?.data ||
+        "Failed to delete hospital";
+      alert(typeof errorMsg === "string" ? errorMsg : JSON.stringify(errorMsg));
     }
   };
 
@@ -145,7 +156,12 @@ const HospitalManagement = () => {
       await fetchHospitals();
     } catch (err) {
       console.error("Error changing status:", err);
-      alert(err.response?.data || "Failed to change status");
+      const errorMsg =
+        err.response?.data?.message ||
+        err.response?.data?.title ||
+        err.response?.data ||
+        "Failed to change status";
+      alert(typeof errorMsg === "string" ? errorMsg : JSON.stringify(errorMsg));
     }
   };
 
