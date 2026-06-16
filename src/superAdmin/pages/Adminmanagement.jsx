@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../styles/AdminManagement.css";
+import "../styles/Adminmanagement.css";
 import {
   getAdmins,
   createAdmin,
