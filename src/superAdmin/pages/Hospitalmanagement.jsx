@@ -120,9 +120,9 @@ const HospitalManagement = () => {
     } catch (err) {
       console.error("Error saving hospital:", err);
       const errorMsg =
+        (err.response?.data?.errors ? Object.values(err.response.data.errors).flat().join(", ") : null) ||
         err.response?.data?.message ||
         err.response?.data?.title ||
-        (err.response?.data?.errors ? Object.values(err.response.data.errors).flat().join(", ") : null) ||
         err.response?.data ||
         "Failed to save hospital";
       alert(typeof errorMsg === "string" ? errorMsg : JSON.stringify(errorMsg));
