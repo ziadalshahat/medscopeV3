@@ -97,6 +97,9 @@ const HospitalManagement = () => {
           email: formData.email,
           phone: formData.phone,
           address: formData.address,
+          type: "General",
+          hospitalNumber: 1,
+          website: "https://medscope.com",
         });
         setModalStep(null);
       } else {
@@ -108,8 +111,8 @@ const HospitalManagement = () => {
           phone: formData.phone,
           address: formData.address,
           type: "General",
-          hospitalNumber: 0,
-          website: "",
+          hospitalNumber: 1,
+          website: "https://medscope.com",
         });
         setCreatedId(formData.name);
         setModalStep("success");
