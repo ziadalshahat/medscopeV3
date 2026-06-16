@@ -8,7 +8,7 @@ import {
 
 import SuperAdminRoutes from "./superAdmin/superAdminRoutes.jsx";
 import AdminRoutes from "./Admin/AdminRoutes.jsx";
-import DoctorRoutes from "./doctor/DoctorRoutes.jsx";
+import DoctorRoutes from "./Doctor/doctorRoutes.jsx";
 
 
 import Header from "./components/Header";
