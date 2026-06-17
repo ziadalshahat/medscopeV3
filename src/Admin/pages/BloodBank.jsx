@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "../styles/BloodBank.css";
 import { getBloodBank, increaseBlood, decreaseBlood } from "../services/bloodBank";
 import toast from "react-hot-toast";
+import Loader from "../../components/Loader";
 
 const BloodBank = () => {
   const [bloodData, setBloodData] = useState([]);
   const [loadingIds, setLoadingIds] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchBlood();
@@ -13,10 +15,13 @@ const BloodBank = () => {
 
   const fetchBlood = async () => {
     try {
+      setLoading(true);
       const res = await getBloodBank();
       setBloodData(res.data);
     } catch (err) {
       toast.error("Failed to load blood data");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,6 +86,7 @@ const BloodBank = () => {
 
   return (
     <div className="blood-container">
+      {loading && <Loader message="Loading blood bank inventory..." />}
 
       <h1 className="blood-title">
         🩸 Blood Bank

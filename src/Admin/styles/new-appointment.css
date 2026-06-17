@@ -1,200 +1,441 @@
-/* ===========================
-   NEW APPOINTMENT PAGE
-   =========================== */
+/* ==========================================================================
+   NEW APPOINTMENT — Design matching mockup (light-blue card, centered)
+   ========================================================================== */
 
-.appointment-page {
-  padding: 32px 36px;
-  background-color: #ffffff;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ── Page wrapper: light powder-blue background matching the admin layout ── */
+.na-page {
   min-height: 100vh;
+  background-color: #d0e7f5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 24px 60px;
   box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 
-/* ===========================
-   CARD
-   =========================== */
-
-.appointment-card {
-  background: #F1F8FF;
-  border-radius: 14px;
-  box-shadow: 0 4px 20px rgba(0, 79, 120, 0.08);
-  border: 1px solid rgba(0, 79, 120, 0.12);
-  padding: 28px 32px 32px 32px;
-}
-
-/* ===========================
-   HEADER
-   =========================== */
-
-.appointment-header {
-  margin-bottom: 28px;
-}
-
-.breadcrumb {
-  font-size: 13px;
-  color: rgba(0, 79, 120, 0.55);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  margin-bottom: 8px;
-  transition: color 0.2s;
-}
-
-.breadcrumb:hover {
-  color: #004F78;
-}
-
-.appointment-header h2 {
-  font-size: 22px;
-  font-weight: 700;
-  color: #004F78;
-  margin: 6px 0 0 0;
-}
-
-/* ===========================
-   FORM GRID
-   =========================== */
-
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px 28px;
-}
-
-.form-group {
+/* ── Init loading state ── */
+.na-init-loading {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 60vh;
+  color: #004F78;
 }
 
-.form-group.full-width {
-  grid-column: 1 / -1;
-}
-
-/* Labels */
-.form-group label {
-  font-size: 13px;
+.na-init-loading p {
+  font-size: 14px;
   font-weight: 600;
-  color: #004F78;
+  color: #5b7990;
 }
 
-/* Inputs & Selects */
-.form-group input,
-.form-group select,
-.form-group textarea {
-  padding: 10px 14px;
-  border: 1px solid rgba(0, 79, 120, 0.25);
-  border-radius: 10px;
-  font-size: 13.5px;
-  color: #004F78;
-  background-color: #ffffff;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+.na-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(0, 79, 120, 0.15);
+  border-top-color: #004F78;
+  border-radius: 50%;
+  animation: na-spin 0.75s linear infinite;
+}
+
+@keyframes na-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Main modal-style card ── */
+.na-modal-card {
+  background: #eef5fb;
+  border-radius: 18px;
+  border: 1.5px solid #c2d8ea;
+  box-shadow: 0 4px 24px rgba(0, 79, 120, 0.08);
   width: 100%;
+  max-width: 720px;
+  padding: 28px 36px 32px;
   box-sizing: border-box;
-  appearance: none;
-  -webkit-appearance: none;
 }
 
-.form-group input::placeholder {
-  color: rgba(0, 79, 120, 0.35);
+/* ── Breadcrumb ── */
+.na-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #5b7990;
+  cursor: pointer;
+  margin-bottom: 18px;
+  transition: color 0.15s;
+  user-select: none;
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.na-breadcrumb:hover {
+  color: #004F78;
+}
+
+.na-breadcrumb-icon {
+  font-size: 13px;
+}
+
+/* ── Title ── */
+.na-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #003d5c;
+  text-align: center;
+  margin: 0 0 28px;
+  letter-spacing: -0.3px;
+}
+
+/* ── Form ── */
+.na-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Row (2 columns) ── */
+.na-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  align-items: flex-end;
+}
+
+.na-row-align-top {
+  align-items: flex-start;
+}
+
+/* ── Field group ── */
+.na-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+
+/* ── Labels ── */
+.na-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #3a6070;
+}
+
+.na-required {
+  color: #c0392b;
+  margin-left: 2px;
+}
+
+.na-label-optional {
+  color: #3a6070;
+}
+
+.na-optional-tag {
+  font-weight: 500;
+  color: #22a97a;
+  margin-left: 4px;
+}
+
+/* ── Text input ── */
+.na-input {
+  height: 40px;
+  padding: 0 12px;
+  border: 1.5px solid #bcd5e6;
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: #003d5c;
+  background: #f5fafd;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.na-input:focus {
   border-color: #004F78;
   box-shadow: 0 0 0 3px rgba(0, 79, 120, 0.08);
+  background: #fff;
 }
 
-/* Select arrow */
-.form-group select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23004F78' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  padding-right: 36px;
+/* ── Patient search input wrapper ── */
+.na-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1.5px solid #bcd5e6;
+  border-radius: 8px;
+  background: #f5fafd;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.na-search-wrap:focus-within {
+  border-color: #004F78;
+  box-shadow: 0 0 0 3px rgba(0, 79, 120, 0.08);
+  background: #fff;
+}
+
+.na-search-wrap.na-input-error {
+  border-color: #d96c6c;
+}
+
+.na-search-wrap.na-input-selected {
+  border-color: #22a97a;
+  background: #f0fdf8;
+}
+
+.na-search-icon {
+  font-size: 12px;
+  color: #8fa3b3;
+  flex-shrink: 0;
+}
+
+.na-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: #003d5c;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  min-width: 0;
+}
+
+.na-search-input::placeholder {
+  color: #aabcca;
+}
+
+/* ── Error message ── */
+.na-error-msg {
+  font-size: 11px;
+  color: #c0392b;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* ── Patient autocomplete dropdown ── */
+.na-patient-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1.5px solid #bcd5e6;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 79, 120, 0.12);
+  z-index: 200;
+  max-height: 230px;
+  overflow-y: auto;
+}
+
+.na-patient-option {
+  padding: 10px 14px;
   cursor: pointer;
+  border-bottom: 1px solid #eef3f7;
+  transition: background 0.1s;
 }
 
-/* Textarea */
-.form-group textarea {
+.na-patient-option:last-child {
+  border-bottom: none;
+}
+
+.na-patient-option:hover {
+  background: #f0f7fc;
+}
+
+.na-patient-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #003d5c;
+}
+
+.na-patient-sub {
+  display: flex;
+  gap: 12px;
+  margin-top: 2px;
+}
+
+.na-patient-sub span {
+  font-size: 11px;
+  color: #8fa3b3;
+}
+
+.na-patient-no-results {
+  padding: 14px;
+  text-align: center;
+  font-size: 13px;
+  color: #8fa3b3;
+}
+
+.na-patient-more {
+  padding: 8px 14px;
+  font-size: 11px;
+  color: #8fa3b3;
+  text-align: center;
+  border-top: 1px solid #eef3f7;
+  font-style: italic;
+}
+
+/* ── Select wrapper ── */
+.na-select-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.na-select {
+  width: 100%;
+  height: 40px;
+  padding: 0 32px 0 12px;
+  border: 1.5px solid #bcd5e6;
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: #003d5c;
+  background: #f5fafd;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.na-select:focus {
+  border-color: #004F78;
+  box-shadow: 0 0 0 3px rgba(0, 79, 120, 0.08);
+  background: #fff;
+}
+
+.na-select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.na-select-padded {
+  padding-left: 34px;
+}
+
+.na-select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: #8fa3b3;
+  pointer-events: none;
+}
+
+.na-date-icon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #8fa3b3;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Textarea ── */
+.na-textarea {
+  padding: 10px 12px;
+  border: 1.5px solid #bcd5e6;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #003d5c;
+  background: #f5fafd;
+  outline: none;
   resize: vertical;
-  min-height: 110px;
-  line-height: 1.6;
+  min-height: 88px;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+  width: 100%;
 }
 
-/* ===========================
-   FORM ACTIONS
-   =========================== */
+.na-textarea:focus {
+  border-color: #004F78;
+  box-shadow: 0 0 0 3px rgba(0, 79, 120, 0.08);
+  background: #fff;
+}
 
-.form-actions {
+.na-textarea::placeholder {
+  color: #aabcca;
+}
+
+/* ── Action buttons ── */
+.na-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 14px;
-  margin-top: 28px;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1.5px solid #d0e2ee;
 }
 
-.cancel-btn {
-  padding: 10px 28px;
-  border-radius: 23px;
-  border: 1.5px solid #004F78;
-  background: transparent;
-  color: #004F78;
-  font-size: 14px;
+.na-btn-cancel {
+  padding: 9px 24px;
+  border-radius: 8px;
+  font-size: 13.5px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  background: transparent;
+  color: #5b7990;
+  border: 1.5px solid #bcd5e6;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.15s, color 0.15s;
 }
 
-.cancel-btn:hover {
-  background: rgba(0, 79, 120, 0.06);
+.na-btn-cancel:hover {
+  background: #eef3f7;
+  color: #003d5c;
 }
 
-.confirm-btn {
-  padding: 10px 28px;
-  border-radius: 23px;
-  border: none;
+.na-btn-save {
+  padding: 9px 24px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
   background: #004F78;
   color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.15s;
 }
 
-.confirm-btn:hover {
-  opacity: 0.85;
+.na-btn-save:hover:not(:disabled) {
+  background: #003a58;
 }
 
-.confirm-btn:disabled {
+.na-btn-save:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* ===========================
-   RESPONSIVE
-   =========================== */
-
-@media (max-width: 640px) {
-  .appointment-page {
-    padding: 20px 16px;
+/* ── Responsive ── */
+@media (max-width: 620px) {
+  .na-page {
+    padding: 20px 12px 40px;
   }
 
-  .form-grid {
+  .na-modal-card {
+    padding: 20px 18px 24px;
+  }
+
+  .na-row {
     grid-template-columns: 1fr;
   }
 
-  .form-group.full-width {
-    grid-column: 1;
-  }
-
-  .form-actions {
-    flex-direction: column-reverse;
-  }
-
-  .cancel-btn,
-  .confirm-btn {
-    width: 100%;
-    text-align: center;
+  .na-title {
+    font-size: 20px;
   }
 }

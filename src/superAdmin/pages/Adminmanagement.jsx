@@ -3,7 +3,6 @@ import "../styles/Adminmanagement.css";
 import {
   getAdmins,
   createAdmin,
-  updateAdmin,
   getAllHospitals,
 } from "../services/superAdminApi";
 
@@ -99,12 +98,11 @@ const AdminManagement = () => {
     setEditIndex(index);
     const admin = admins[index];
     const nameParts = (admin.name || "").split(" ");
-    const matchedHospital = hospitals.find((h) => h.name === admin.hospitalName);
     setFormData({
       firstName: nameParts[0] || "",
       lastName: nameParts.slice(1).join(" ") || "",
       email: admin.email || "",
-      hospitalId: matchedHospital ? matchedHospital.id : "",
+      hospitalId: "",
       password: "",
     });
     setModalStep("form");
@@ -115,19 +113,9 @@ const AdminManagement = () => {
       setSaving(true);
 
       if (editIndex !== null) {
-        // Edit existing admin
-        const admin = admins[editIndex];
-        await updateAdmin(admin.id, {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          hospitalId: parseInt(formData.hospitalId),
-          isActive: admin.status === "Active",
-          phoneNumber: "",
-          department: "",
-        });
+        // Edit not supported in backend - close modal
+        alert("Edit admin is not supported yet from the API");
         setModalStep(null);
-        await fetchAdmins();
       } else {
         // Create new admin
         await createAdmin({
@@ -145,9 +133,7 @@ const AdminManagement = () => {
     } catch (err) {
       console.error("Error saving admin:", err);
       const errorMsg =
-        (err.response?.data?.errors ? Object.values(err.response.data.errors).flat().join(", ") : null) ||
         err.response?.data?.message ||
-        err.response?.data?.title ||
         err.response?.data ||
         "Failed to save admin";
       alert(typeof errorMsg === "string" ? errorMsg : JSON.stringify(errorMsg));

@@ -1,13 +1,19 @@
 import axiosInstance from "../../api/axiosInstance";
 
-// ✅ GET new
-export const getNewAppointments = () => {
-  return axiosInstance.get("/admin/appointments/new");
+// ✅ GET new (with server-side pagination, search, date)
+export const getNewAppointments = ({ page = 1, pageSize = 10, search = "", date = "" } = {}) => {
+  const params = { page, pageSize };
+  if (search) params.search = search;
+  if (date) params.date = date;
+  return axiosInstance.get("/admin/appointments/new", { params });
 };
 
-// ✅ GET completed
-export const getCompletedAppointments = () => {
-  return axiosInstance.get("/admin/appointments/completed");
+// ✅ GET completed (with server-side pagination, search, date)
+export const getCompletedAppointments = ({ page = 1, pageSize = 10, search = "", date = "" } = {}) => {
+  const params = { page, pageSize };
+  if (search) params.search = search;
+  if (date) params.date = date;
+  return axiosInstance.get("/admin/appointments/completed", { params });
 };
 
 // ✅ POST create new appointment
