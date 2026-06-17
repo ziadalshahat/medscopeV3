@@ -286,6 +286,18 @@
   border: 2px solid #a8c8e0;
 }
 
+.super-avatar.initials-avatar {
+  background: linear-gradient(135deg, #dfaa7b, #c78f5a);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  user-select: none;
+}
+
 .super-user-name {
   color: #dfaa7b;
   font-size: 14px;

@@ -151,7 +151,16 @@ const SuperAdminLayout = () => {
 
             {/* User Info */}
             <div className="super-user-info">
-              <img src="/doctor_profile_avatar.png" alt="admin" className="super-avatar" />
+              <div className="super-avatar initials-avatar">
+                {(() => {
+                  if (!userName) return "SA";
+                  const parts = userName.trim().split(/\s+/);
+                  if (parts.length > 1) {
+                    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+                  }
+                  return userName.slice(0, 2).toUpperCase();
+                })()}
+              </div>
               <div>
                 <p className="super-user-name">{userName}</p>
                 <p className="super-user-role">{userRole}</p>
