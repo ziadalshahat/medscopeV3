@@ -208,28 +208,196 @@
 /* ===========================
    BODY DIAGRAM SECTION
    =========================== */
-.body-diagram-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.body-diagram-section {
+  background-color: #f8fbfd;
+  padding: 80px 2%;
   position: relative;
-  max-width: 800px;
-  margin: 0 auto;
 }
 
-.body-diagram-img {
+.title-divider {
+  width: 120px;
+  height: 4px;
+  background-color: #0b3d5b;
+  margin: 0 auto 50px;
+  border-radius: 2px;
+}
+
+.interactive-body-outer {
   width: 100%;
-  max-width: 400px;
-  position: relative;
-  z-index: 2;
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
-.bg-circles {
+.interactive-body-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1000 / 750;
+  background: transparent;
+}
+
+.body-svg-overlay {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, transparent 20%, #dcf0f9 21%, #dcf0f9 22%, transparent 23%, transparent 40%, #dcf0f9 41%, #dcf0f9 42%, transparent 43%, transparent 60%, #dcf0f9 61%, #dcf0f9 62%, transparent 63%);
   z-index: 1;
+}
+
+.svg-body-image {
+  pointer-events: none;
+}
+
+.hotspot-group {
+  pointer-events: auto;
+}
+
+.pulse-circle {
+  animation: pulse-ring 2s infinite ease-in-out;
+  transform-origin: center;
+}
+
+@keyframes pulse-ring {
+  0% {
+    r: 10px;
+    stroke-opacity: 0.8;
+  }
+  50% {
+    r: 18px;
+    stroke-opacity: 0.3;
+  }
+  100% {
+    r: 10px;
+    stroke-opacity: 0.8;
+  }
+}
+
+.connection-line {
+  stroke-dasharray: 4 4;
+  animation: dash 30s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+/* Specialty Cards */
+.specialty-label-card {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: white;
+  border: 1px solid #cce2f0;
+  padding: 8px 18px;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 79, 120, 0.05);
+  z-index: 10;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  user-select: none;
+}
+
+.specialty-label-card.left {
+  transform: translateX(-50%);
+}
+
+.specialty-label-card.right {
+  transform: translateX(50%);
+}
+
+.specialty-label-card:hover,
+.specialty-label-card.active {
+  background: linear-gradient(135deg, #1c5b7c, #0b3d5b);
+  border-color: #0b3d5b;
+  box-shadow: 0 8px 25px rgba(11, 61, 91, 0.3);
+  transform: scale(1.05) translateY(-2px);
+}
+
+.specialty-label-card.left:hover,
+.specialty-label-card.left.active {
+  transform: translateX(-50%) scale(1.05) translateY(-2px);
+}
+
+.specialty-label-card.right:hover,
+.specialty-label-card.right.active {
+  transform: translateX(50%) scale(1.05) translateY(-2px);
+}
+
+.specialty-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #f0f7fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.specialty-label-card:hover .specialty-card-icon,
+.specialty-label-card.active .specialty-card-icon {
+  background: #ffffff;
+}
+
+.specialty-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0b3d5b;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+.specialty-label-card:hover .specialty-card-name,
+.specialty-label-card.active .specialty-card-name {
+  color: #ffffff;
+}
+
+/* RESPONSIVE MEDIA QUERIES */
+@media (max-width: 900px) {
+  .specialty-card-name {
+    font-size: 13px;
+  }
+  .specialty-card-icon {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .interactive-body-container {
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    height: auto;
+  }
+
+  .body-svg-overlay {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    aspect-ratio: 1000 / 750;
+  }
+
+  .specialty-label-card {
+    position: static !important;
+    transform: none !important;
+    width: 90%;
+    max-width: 380px;
+    justify-content: space-between;
+  }
+  
+  .specialty-label-card.right {
+    flex-direction: row-reverse;
+  }
 }
 
 /* ===========================
