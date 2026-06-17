@@ -153,6 +153,9 @@
     flex-shrink: 0;
     margin-top: 2px;
 }
+.hospital-detail span {
+    color: black;
+}
 
 .hospital-detail-icon.phone {
     color: #2a9bb5;
