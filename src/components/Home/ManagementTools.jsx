@@ -15,11 +15,12 @@ const ManagementTools = () => {
   return (
     <div className="home-section management-tools-section">
       <div style={{ marginBottom: '20px' }}>
-        <span style={{ backgroundColor: '#ffffff', color: '#1c5b7c', padding: '5px 15px', borderRadius: '15px', fontSize: '12px', fontWeight: '600', border: '1px solid #d1e2f3' }}>
-          MANAGEMENT TOOLS
+        <span className="platform-services-badge">
+          Platform Services
         </span>
       </div>
       <h2 className="home-section-title">Comprehensive Healthcare<br />Management Tools</h2>
+      <div className="title-divider"></div>
       <p className="home-section-subtitle">
         Access powerful healthcare management tools designed to streamline your medical journey.
       </p>
@@ -32,10 +33,31 @@ const ManagementTools = () => {
           className="main-tool-img"
         />
         <div className="main-tool-overlay">
-          <h2>Doctor Appointments Booking</h2>
-          <button className="login-btn-large" onClick={handleLoginRedirect}>
-            Login to Book &rarr;
-          </button>
+          <div className="main-tool-header">
+            <div className="main-tool-calendar-box">
+              <i className="fas fa-calendar-alt"></i>
+            </div>
+            <span className="most-popular-badge">Most Popular</span>
+          </div>
+
+          <div className="main-tool-content">
+            <h2>Doctor Appointments Booking</h2>
+            
+            <div className="main-tool-features">
+              <span className="feature-item">
+                <i className="fas fa-clock feature-icon-red"></i> Instant Booking
+              </span>
+              <span className="feature-item">
+                <i className="fas fa-bell feature-icon-red"></i> Reminders
+              </span>
+            </div>
+          </div>
+
+          <div className="main-tool-footer">
+            <button className="login-btn-wide" onClick={handleLoginRedirect}>
+              Login to Book &rarr;
+            </button>
+          </div>
         </div>
       </div>
 
