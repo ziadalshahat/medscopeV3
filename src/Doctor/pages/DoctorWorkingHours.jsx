@@ -65,9 +65,9 @@ const DoctorWorkingHours = () => {
               return [
                 day,
                 {
-                  enabled: entry?.enabled ?? false,
-                  startTime: entry?.startTime || entry?.start || "09:00",
-                  endTime: entry?.endTime || entry?.end || "16:00",
+                  enabled: entry ? (entry.enabled ?? true) : false,
+                  startTime: entry?.from || entry?.startTime || entry?.start || "09:00",
+                  endTime: entry?.to || entry?.endTime || entry?.end || "16:00",
                 },
               ];
             })
