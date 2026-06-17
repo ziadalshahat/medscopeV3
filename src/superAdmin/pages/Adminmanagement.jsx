@@ -416,7 +416,7 @@ const AdminManagement = () => {
                 <i className="fas fa-check"></i>
               </div>
               <h3>Admin created successfully</h3>
-              <p>Temporary password: {tempPassword} (sent via email)</p>
+              <p>Temporary password: {tempPassword}</p>
               <div className="new-modal-btns">
                 <button className="new-save-btn" onClick={openAdd}>
                   Add Another
