@@ -24,6 +24,24 @@ const SuperAdminLayout = () => {
   const [notifications, setNotifications] = useState(initialNotifications);
   const notifRef = useRef(null);
 
+  const [userName, setUserName] = useState("Gina");
+  const [userRole, setUserRole] = useState("Super Admin");
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const parsed = JSON.parse(storedUser);
+        if (parsed.fullName) setUserName(parsed.fullName);
+        if (parsed.role) {
+          setUserRole(parsed.role === "SuperAdmin" ? "Super Admin" : parsed.role);
+        }
+      } catch (e) {
+        console.error("Error parsing user from localStorage:", e);
+      }
+    }
+  }, []);
+
   const current = pageInfo[location.pathname] || { title: "", subtitle: "" };
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -133,10 +151,10 @@ const SuperAdminLayout = () => {
 
             {/* User Info */}
             <div className="super-user-info">
-              <img src="/public/sup.jpg" alt="admin" className="super-avatar" />
+              <img src="/doctor_profile_avatar.png" alt="admin" className="super-avatar" />
               <div>
-                <p className="super-user-name">Gina</p>
-                <p className="super-user-role">Doctor</p>
+                <p className="super-user-name">{userName}</p>
+                <p className="super-user-role">{userRole}</p>
               </div>
             </div>
           </div>
