@@ -88,11 +88,7 @@ const PatientLayout = () => {
                     <div className="patient-header-info">
                         <h2>{headerContent.title}</h2>
                         <p>{headerContent.subtitle}</p>
-                    </div>
-                    <button className="patient-header-actions">
-                        <BellIcon />
-                        <span className="notification-dot"></span>
-                    </button>
+                    </div>  
                 </header>
 
                 {/* Page Content */}
