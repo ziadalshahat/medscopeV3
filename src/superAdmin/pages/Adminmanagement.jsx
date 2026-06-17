@@ -183,19 +183,20 @@ const AdminManagement = () => {
 
   return (
     <div className="admin-page">
-      <div className="admin-header">
-        <button
-          className="add-btn"
-          onClick={openAdd}
-          style={{ marginLeft: "auto", display: "block" }}
-        >
-          + Create New Admin
-        </button>
-      </div>
-
       {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
 
       <div className="admin-table-wrapper">
+        <div className="table-card-header">
+          <button className="add-btn" onClick={openAdd}>
+            + Create New Admin
+          </button>
+          <span className="expand-icon-btn">
+            <i className="fas fa-expand-arrows-alt"></i>
+          </span>
+        </div>
+
+        <hr className="table-card-divider" />
+
         <div className="table-controls">
           <div className="search-box">
             <i className="fas fa-search"></i>
@@ -209,20 +210,23 @@ const AdminManagement = () => {
               }}
             />
           </div>
-          <select
-            className="filter-select"
-            value={filterHospital}
-            onChange={(e) => {
-              setFilterHospital(e.target.value);
-              setCurrentPage(1);
-            }}
-          >
-            {hospitalOptions.map((h) => (
-              <option key={h} value={h}>
-                {h === "All" ? "Filter by Hospital" : h}
-              </option>
-            ))}
-          </select>
+          <div className="filter-wrapper">
+            <select
+              className="filter-select"
+              value={filterHospital}
+              onChange={(e) => {
+                setFilterHospital(e.target.value);
+                setCurrentPage(1);
+              }}
+            >
+              {hospitalOptions.map((h) => (
+                <option key={h} value={h}>
+                  {h === "All" ? "Filter by Hospital" : h}
+                </option>
+              ))}
+            </select>
+            <i className="fas fa-filter filter-icon"></i>
+          </div>
         </div>
 
         <table className="admin-table">

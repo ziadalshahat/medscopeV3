@@ -178,17 +178,20 @@ const HospitalManagement = () => {
 
   return (
     <div className="hospital-page">
-      <button
-        className="add-btn"
-        onClick={openAdd}
-        style={{ marginLeft: "auto", display: "block", marginBottom: "20px" }}
-      >
-        + Add New Hospital
-      </button>
-
       {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
 
       <div className="hospital-table-wrapper">
+        <div className="table-card-header">
+          <button className="add-btn" onClick={openAdd}>
+            + Add New Hospital
+          </button>
+          <span className="expand-icon-btn">
+            <i className="fas fa-expand-arrows-alt"></i>
+          </span>
+        </div>
+
+        <hr className="table-card-divider" />
+
         <div className="table-controls">
           <div className="search-box">
             <i className="fas fa-search"></i>
@@ -202,18 +205,21 @@ const HospitalManagement = () => {
               }}
             />
           </div>
-          <select
-            className="filter-select"
-            value={filterStatus}
-            onChange={(e) => {
-              setFilterStatus(e.target.value);
-              setCurrentPage(1);
-            }}
-          >
-            <option value="All">Filter by Status</option>
-            <option value="Active">Active</option>
-            <option value="Suspended">Suspended</option>
-          </select>
+          <div className="filter-wrapper">
+            <select
+              className="filter-select"
+              value={filterStatus}
+              onChange={(e) => {
+                setFilterStatus(e.target.value);
+                setCurrentPage(1);
+              }}
+            >
+              <option value="All">Filter by Status</option>
+              <option value="Active">Active</option>
+              <option value="Suspended">Suspended</option>
+            </select>
+            <i className="fas fa-filter filter-icon"></i>
+          </div>
         </div>
 
         <table className="hospital-table">

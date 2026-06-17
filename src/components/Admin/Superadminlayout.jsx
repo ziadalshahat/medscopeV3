@@ -3,7 +3,7 @@ import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import "./Superadminlayout.css";
 
 const pageInfo = {
-  "/super-admin/hospitals": { title: "Hospital Management", subtitle: "Manage and monitor all hospitals" },
+  "/super-admin/hospitals": { title: "Hospital Management", subtitle: "Manage your personal information and settings" },
   "/super-admin/admins":    { title: "Admin Management", subtitle: "Manage your personal information and settings" },
   "/super-admin/reports":   { title: "Reports & Analytics", subtitle: "Manage your personal information and settings" },
   "/super-admin/settings":  { title: "Settings", subtitle: "Manage your personal information and settings" },
@@ -59,7 +59,7 @@ const SuperAdminLayout = () => {
       {/* Sidebar */}
       <aside className="super-sidebar">
         <div className="super-sidebar-header">
-          <h2>Super Admin</h2>
+          {/* Spacer to align with header */}
         </div>
 
         <nav className="super-sidebar-nav">
@@ -135,8 +135,8 @@ const SuperAdminLayout = () => {
             <div className="super-user-info">
               <img src="/public/sup.jpg" alt="admin" className="super-avatar" />
               <div>
-                <p className="super-user-name">Ahmed</p>
-                <p className="super-user-role">Super Admin</p>
+                <p className="super-user-name">Gina</p>
+                <p className="super-user-role">Doctor</p>
               </div>
             </div>
           </div>
