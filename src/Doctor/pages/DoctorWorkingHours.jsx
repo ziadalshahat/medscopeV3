@@ -90,7 +90,8 @@ const DoctorWorkingHours = () => {
         }
       } catch (error) {
         console.error(error);
-        alert("GET Error: " + error.message);
+        const errData = error.response?.data;
+        alert("GET Error: " + error.message + "\nResponse Data: " + (typeof errData === 'object' ? JSON.stringify(errData) : errData));
       } finally {
         setLoading(false);
       }
