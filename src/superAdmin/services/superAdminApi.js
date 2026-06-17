@@ -43,7 +43,7 @@ export const toggleAdminStatus = (id) =>
 // ============================
 
 export const getReports = (month = 1) =>
-  axiosInstance.get("/super-admin/reports", { params: { month } });
+  axiosInstance.get("/super-admin/reports", { params: { month, Month: month } });
 
 export const exportAdminsPdf = () =>
   axiosInstance.get("/super-admin/reports/admins/pdf", {
@@ -57,13 +57,13 @@ export const exportAdminsExcel = () =>
 
 export const exportDashboardPdf = (month = 1) =>
   axiosInstance.get("/super-admin/reports/dashboard/pdf", {
-    params: { month },
+    params: { month, Month: month },
     responseType: "blob",
   });
 
 export const exportDashboardExcel = (month = 1) =>
   axiosInstance.get("/super-admin/reports/dashboard/excel", {
-    params: { month },
+    params: { month, Month: month },
     responseType: "blob",
   });
 
