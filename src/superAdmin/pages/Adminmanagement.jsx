@@ -3,6 +3,8 @@ import "../styles/Adminmanagement.css";
 import {
   getAdmins,
   createAdmin,
+  updateAdmin,
+  toggleAdminStatus,
   getAllHospitals,
 } from "../services/superAdminApi";
 
@@ -98,11 +100,12 @@ const AdminManagement = () => {
     setEditIndex(index);
     const admin = admins[index];
     const nameParts = (admin.name || "").split(" ");
+    const matchedHospital = hospitals.find((h) => h.name === admin.hospitalName);
     setFormData({
       firstName: nameParts[0] || "",
       lastName: nameParts.slice(1).join(" ") || "",
       email: admin.email || "",
-      hospitalId: "",
+      hospitalId: matchedHospital ? matchedHospital.id : "",
       password: "",
     });
     setModalStep("form");
@@ -113,9 +116,19 @@ const AdminManagement = () => {
       setSaving(true);
 
       if (editIndex !== null) {
-        // Edit not supported in backend - close modal
-        alert("Edit admin is not supported yet from the API");
+        // Edit existing admin
+        const admin = admins[editIndex];
+        await updateAdmin(admin.id, {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          hospitalId: parseInt(formData.hospitalId),
+          isActive: admin.status === "Active",
+          phoneNumber: "",
+          department: "",
+        });
         setModalStep(null);
+        await fetchAdmins();
       } else {
         // Create new admin
         await createAdmin({
@@ -133,12 +146,30 @@ const AdminManagement = () => {
     } catch (err) {
       console.error("Error saving admin:", err);
       const errorMsg =
+        (err.response?.data?.errors ? Object.values(err.response.data.errors).flat().join(", ") : null) ||
         err.response?.data?.message ||
+        err.response?.data?.title ||
         err.response?.data ||
         "Failed to save admin";
       alert(typeof errorMsg === "string" ? errorMsg : JSON.stringify(errorMsg));
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleToggleStatus = async (id) => {
+    try {
+      await toggleAdminStatus(id);
+      await fetchAdmins();
+    } catch (err) {
+      console.error("Error toggling admin status:", err);
+      const errorMsg =
+        (err.response?.data?.errors ? Object.values(err.response.data.errors).flat().join(", ") : null) ||
+        err.response?.data?.message ||
+        err.response?.data?.title ||
+        err.response?.data ||
+        "Failed to toggle status";
+      alert(typeof errorMsg === "string" ? errorMsg : JSON.stringify(errorMsg));
     }
   };
 
@@ -228,9 +259,7 @@ const AdminManagement = () => {
                 <td className="actions-cell">
                   <button
                     className="action-btn ban-btn"
-                    onClick={() =>
-                      alert("Toggle status not supported yet from the API")
-                    }
+                    onClick={() => handleToggleStatus(admin.id)}
                   >
                     <i className="fas fa-ban"></i>
                   </button>
@@ -351,19 +380,21 @@ const AdminManagement = () => {
                     ))}
                   </select>
                 </div>
-                <div className="new-form-field">
-                  <label>
-                    <i className="fas fa-lock" style={{ color: "#c0392b" }}></i>{" "}
-                    Password *
-                  </label>
-                  <input
-                    type="password"
-                    value={formData.password}
-                    onChange={(e) =>
-                      setFormData({ ...formData, password: e.target.value })
-                    }
-                  />
-                </div>
+                {editIndex === null && (
+                  <div className="new-form-field">
+                    <label>
+                      <i className="fas fa-lock" style={{ color: "#c0392b" }}></i>{" "}
+                      Password *
+                    </label>
+                    <input
+                      type="password"
+                      value={formData.password}
+                      onChange={(e) =>
+                        setFormData({ ...formData, password: e.target.value })
+                      }
+                    />
+                  </div>
+                )}
                 <div className="new-modal-btns">
                   <button
                     className="new-save-btn"
