@@ -264,14 +264,6 @@ const AdminManagement = () => {
                     <i className="fas fa-ban"></i>
                   </button>
                   <button
-                    className="action-btn reset-btn"
-                    onClick={() =>
-                      alert(`Password reset sent for ${admin.employeeId}`)
-                    }
-                  >
-                    <i className="fas fa-sync-alt"></i>
-                  </button>
-                  <button
                     className="action-btn edit-btn"
                     onClick={() => openEdit(index)}
                   >
