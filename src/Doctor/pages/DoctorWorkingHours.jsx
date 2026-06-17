@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/DoctorWorkingHours.css";
+import axiosInstance from "../../api/axiosInstance";
 import {
   getDoctorWorkingHours,
   updateDoctorWorkingHours,
@@ -55,6 +56,7 @@ const DoctorWorkingHours = () => {
       try {
         setLoading(true);
         const data = await getDoctorWorkingHours();
+        alert("GET Response: " + JSON.stringify(data));
 
         if (data) {
           const workingDaysArray = Array.isArray(data) 
@@ -88,6 +90,7 @@ const DoctorWorkingHours = () => {
         }
       } catch (error) {
         console.error(error);
+        alert("GET Error: " + error.message);
       } finally {
         setLoading(false);
       }
@@ -136,9 +139,23 @@ const DoctorWorkingHours = () => {
         endTime: schedule[day].endTime,
       }));
 
-      await updateDoctorWorkingHours(scheduleArray, appointmentDuration);
+      const payload = {
+        appointmentDuration,
+        workingDays: scheduleArray
+          .filter((item) => item.enabled)
+          .map((item) => ({
+            day: item.day,
+            from: item.startTime,
+            to: item.endTime,
+          })),
+      };
+
+      alert("POST Payload: " + JSON.stringify(payload));
+
+      await axiosInstance.post('/doctor/working-hours', payload);
       setMessage("Working hours updated successfully.");
     } catch (error) {
+      alert("POST Error: " + error.message);
       setMessage("Failed to update working hours.");
     } finally {
       setSaving(false);
