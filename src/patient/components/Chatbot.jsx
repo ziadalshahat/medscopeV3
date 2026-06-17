@@ -1,0 +1,80 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+function Chatbot() {
+  const location = useLocation();
+
+  useEffect(() => {
+
+    // لو صفحة Smart Assistant متعملش حاجة
+    if (location.pathname.includes("smart-assistant")) {
+      removeChatbot();
+      return;
+    }
+
+
+    if (window.chatbase) return;
+
+
+    const script = document.createElement("script");
+
+    script.innerHTML = `
+      (function(){
+        if(!window.chatbase||window.chatbase("getState")!=="initialized"){
+          window.chatbase=(...arguments)=>{
+            if(!window.chatbase.q){window.chatbase.q=[]}
+            window.chatbase.q.push(arguments)
+          };
+
+          window.chatbase=new Proxy(window.chatbase,{
+            get(target,prop){
+              if(prop==="q"){return target.q}
+              return(...args)=>target(prop,...args)
+            }
+          })
+        }
+
+        const onLoad=function(){
+          const script=document.createElement("script");
+          script.src="https://www.chatbase.co/embed.min.js";
+          script.id="R6TLm3ER5j0XAJ46ll2wO";
+          script.domain="www.chatbase.co";
+          document.body.appendChild(script);
+        };
+
+        onLoad();
+
+      })();
+    `;
+
+
+    document.body.appendChild(script);
+
+
+  }, [location.pathname]);
+
+
+  return null;
+}
+
+
+
+function removeChatbot(){
+
+  // يمسح كل عناصر Chatbase
+  const elements = document.querySelectorAll(
+    "iframe, [id*='chatbase'], [class*='chatbase']"
+  );
+
+  elements.forEach(el => {
+    el.remove();
+  });
+
+
+  // يمسح المتغير
+  delete window.chatbase;
+
+}
+
+
+export default Chatbot;
