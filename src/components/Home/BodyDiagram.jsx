@@ -7,10 +7,10 @@ const specialties = [
     id: "neurology",
     name: "Neurology",
     side: "right",
-    dotX: 495, dotY: 125,
-    cornerX: 620, cornerY: 110,
-    labelX: 680, labelY: 110,
-    htmlTop: "12%", htmlRight: "2%",
+    dotX: 630, dotY: 282,
+    cornerX: 800, cornerY: 295,
+    labelX: 935, labelY: 295,
+    htmlTop: "24.5%", htmlRight: "3%",
     icon: (color) => (
       <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" strokeOpacity="0.2"/>
@@ -22,10 +22,10 @@ const specialties = [
     id: "ophthalmology",
     name: "Ophthalmology",
     side: "left",
-    dotX: 478, dotY: 158,
-    cornerX: 380, cornerY: 168,
-    labelX: 320, labelY: 168,
-    htmlTop: "20%", htmlLeft: "2%",
+    dotX: 605, dotY: 310,
+    cornerX: 470, cornerY: 320,
+    labelX: 335, labelY: 320,
+    htmlTop: "27%", htmlLeft: "3%",
     icon: (color) => (
       <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
@@ -37,10 +37,10 @@ const specialties = [
     id: "oral-surgery",
     name: "Oral & Maxillofacial Surgery",
     side: "right",
-    dotX: 495, dotY: 180,
-    cornerX: 530, cornerY: 205,
-    labelX: 680, labelY: 205,
-    htmlTop: "24%", htmlRight: "2%",
+    dotX: 622, dotY: 330,
+    cornerX: 800, cornerY: 360,
+    labelX: 935, labelY: 360,
+    htmlTop: "31%", htmlRight: "3%",
     icon: (color) => (
       <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 2a4 4 0 0 0-4 4v5c0 3 2 5 4 7 2-2 4-4 4-7V6a4 4 0 0 0-4-4z"/>
@@ -52,10 +52,10 @@ const specialties = [
     id: "cardiology",
     name: "Cardiology",
     side: "right",
-    dotX: 515, dotY: 265,
-    cornerX: 580, cornerY: 310,
-    labelX: 680, labelY: 310,
-    htmlTop: "38%", htmlRight: "2%",
+    dotX: 650, dotY: 425,
+    cornerX: 780, cornerY: 510,
+    labelX: 935, labelY: 510,
+    htmlTop: "45%", htmlRight: "3%",
     icon: (color) => (
       <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -66,10 +66,10 @@ const specialties = [
     id: "gastroenterology",
     name: "Gastroenterology",
     side: "left",
-    dotX: 482, dotY: 332,
-    cornerX: 380, cornerY: 332,
-    labelX: 320, labelY: 332,
-    htmlTop: "42%", htmlLeft: "2%",
+    dotX: 610, dotY: 490,
+    cornerX: 470, cornerY: 468,
+    labelX: 335, labelY: 468,
+    htmlTop: "41%", htmlLeft: "3%",
     icon: (color) => (
       <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 3c-1.5 0-3 1-3.5 2.5C8 7 7.5 9 8.5 11.5c1 2.5 3 4 5 5s4.5.5 5-1.5c.6-2.5-1.5-5.5-3.5-6.5C13 7.5 13.5 3 12 3z"/>
@@ -81,10 +81,10 @@ const specialties = [
     id: "urology",
     name: "Urology",
     side: "left",
-    dotX: 485, dotY: 425,
-    cornerX: 380, cornerY: 460,
-    labelX: 320, labelY: 460,
-    htmlTop: "59%", htmlLeft: "2%",
+    dotX: 618, dotY: 565,
+    cornerX: 470, cornerY: 620,
+    labelX: 335, labelY: 620,
+    htmlTop: "56%", htmlLeft: "3%",
     icon: (color) => (
       <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M6 5c1.5 0 3 2.5 3 5s-1.5 5-3 5-3-2.5-3-5 1.5-5 3-5zM18 5c1.5 0 3 2.5 3 5s-1.5 5-3 5-3-2.5-3-5 1.5-5 3-5z"/>
@@ -96,10 +96,10 @@ const specialties = [
     id: "rheumatology",
     name: "Rheumatology",
     side: "left",
-    dotX: 468, dotY: 575,
-    cornerX: 380, cornerY: 600,
-    labelX: 320, labelY: 600,
-    htmlTop: "77%", htmlLeft: "2%",
+    dotX: 598, dotY: 742,
+    cornerX: 470, cornerY: 795,
+    labelX: 335, labelY: 795,
+    htmlTop: "73%", htmlLeft: "3%",
     icon: (color) => (
       <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 3v7m0 4v7M9 7h6M9 17h6M10 10a2 2 0 0 1 4 0M10 14a2 2 0 0 0 4 0"/>
@@ -110,10 +110,10 @@ const specialties = [
     id: "orthopedics",
     name: "Orthopedics",
     side: "right",
-    dotX: 512, dotY: 675,
-    cornerX: 600, cornerY: 705,
-    labelX: 680, labelY: 705,
-    htmlTop: "90%", htmlRight: "2%",
+    dotX: 642, dotY: 842,
+    cornerX: 790, cornerY: 892,
+    labelX: 935, labelY: 892,
+    htmlTop: "82.5%", htmlRight: "3%",
     icon: (color) => (
       <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M19 19c-1 0-4-1-6-3s-3-5-3-6 1-4 3-4h1v10M8 8V6a2 2 0 0 0-2-2H4"/>
@@ -134,13 +134,15 @@ const BodyDiagram = () => {
       <div className="interactive-body-outer">
         <div className="interactive-body-container">
           
-          {/* SVG Overlay for concentric circles, connector lines, and hotspots */}
-          <svg viewBox="0 0 1000 750" className="body-svg-overlay">
-            {/* Concentric Background Circles */}
-            <circle cx="500" cy="350" r="180" fill="none" stroke="#dcf0f9" strokeWidth="3" />
-            <circle cx="500" cy="350" r="260" fill="none" stroke="#dcf0f9" strokeWidth="2.5" strokeDasharray="12, 12" />
-            <circle cx="500" cy="350" r="340" fill="none" stroke="#dcf0f9" strokeWidth="3" />
+          {/* Main Body Image - Renders naturally inside the relative container */}
+          <img 
+            src={bodyImg} 
+            alt="Human Body Diagram" 
+            className="body-diagram-main-image"
+          />
 
+          {/* SVG Overlay covering the image exactly (viewBox matches image dimensions 1280x1034) */}
+          <svg viewBox="0 0 1280 1034" className="body-svg-overlay">
             {/* Render Connection Lines */}
             {specialties.map((spec) => {
               const isHovered = hoveredSpecialty === spec.id;
@@ -156,16 +158,6 @@ const BodyDiagram = () => {
                 />
               );
             })}
-
-            {/* Embedded Human Body Image */}
-            <image 
-              href={bodyImg} 
-              x="330" 
-              y="50" 
-              width="340" 
-              height="650" 
-              className="svg-body-image"
-            />
 
             {/* Interactive SVG Hotspot Dots */}
             {specialties.map((spec) => {
