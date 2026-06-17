@@ -32,6 +32,9 @@ export const getAdmins = (params = {}) =>
 export const createAdmin = (data) =>
   axiosInstance.post("/super-admin/admins", data);
 
+export const updateAdmin = (id, data) =>
+  axiosInstance.put(`/super-admin/admins/${id}`, data);
+
 // ============================
 // Reports
 // ============================
