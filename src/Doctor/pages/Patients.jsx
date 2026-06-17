@@ -3,39 +3,40 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Patients.css";
 import { getPatients } from "../services/patientsApi";
 import { deletePatient } from "../services/deletePatientApi";
+import Loader from "../../components/Loader";
+import ConfirmModal from "../../components/ConfirmModal";
+import SuccessModal from "../../components/SuccessModal";
 
 const Patients = () => {
   const navigate = useNavigate();
 
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
 
   const [search, setSearch] = useState("");
-  const [filterGender, setFilterGender] =
-    useState("All");
+  const [filterGender, setFilterGender] = useState("All");
+  const [activePage, setActivePage] = useState(1);
+  const [showFilter, setShowFilter] = useState(false);
 
-  const [activePage, setActivePage] =
-    useState(1);
+  // ConfirmModal state
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [patientToDelete, setPatientToDelete] = useState(null);
 
-  const [showFilter, setShowFilter] =
-    useState(false);
+  // SuccessModal state
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     const fetchPatients = async () => {
       try {
         const response = await getPatients();
-
         setPatients(response.data || []);
       } catch (error) {
-        console.error(
-          "Error fetching patients:",
-          error
-        );
+        console.error("Error fetching patients:", error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchPatients();
   }, []);
 
@@ -43,39 +44,77 @@ const Patients = () => {
     const matchSearch = (p.fullName || "")
       .toLowerCase()
       .includes(search.toLowerCase());
-
     const matchGender =
-      filterGender === "All" ||
-      p.gender === filterGender;
-
+      filterGender === "All" || p.gender === filterGender;
     return matchSearch && matchGender;
   });
 
+  // Step 1: click Delete → store patient + open ConfirmModal
+  const handleDeleteClick = (patient) => {
+    setPatientToDelete(patient);
+    setShowConfirm(true);
+  };
+
+  // Step 2: user confirms → close modal, show Loader, call API
+  const handleConfirmDelete = async () => {
+    setShowConfirm(false);
+    try {
+      setDeleting(true);
+      await deletePatient(patientToDelete.patientId);
+      setPatients((prev) =>
+        prev.filter((p) => p.patientId !== patientToDelete.patientId)
+      );
+      // Step 3: success → show SuccessModal
+      setSuccessMessage(`${patientToDelete.fullName} has been deleted successfully.`);
+    } catch (error) {
+      console.error(error);
+      setSuccessMessage(""); // don't show success on failure
+      alert("Failed to delete patient. Please try again.");
+    } finally {
+      setDeleting(false);
+      setPatientToDelete(null);
+    }
+  };
+
   if (loading) {
-    return <h2>Loading...</h2>;
+    return <Loader message="Loading patients..." />;
   }
 
   return (
     <div className="pt-page">
+      {/* Loader — shown while delete API call is in progress */}
+      {deleting && <Loader message="Deleting patient..." />}
+
+      {/* ConfirmModal — shown when delete button is clicked */}
+      <ConfirmModal
+        isOpen={showConfirm}
+        onClose={() => { setShowConfirm(false); setPatientToDelete(null); }}
+        onConfirm={handleConfirmDelete}
+        title="Delete Patient"
+        message={`Are you sure you want to delete ${patientToDelete?.fullName}? This action cannot be undone.`}
+        confirmText="Yes, Delete"
+        cancelText="Cancel"
+        isDestructive={true}
+      />
+
+      {/* SuccessModal — shown after successful delete */}
+      <SuccessModal
+        message={successMessage}
+        onClose={() => setSuccessMessage("")}
+        autoDismiss={4000}
+      />
+
       {/* Sidebar */}
       <aside className="pt-sidebar">
         <div className="pt-sidebar-top">
-          <div className="pt-logo">
-            <div className="pt-logo-icon">
-              +
-            </div>
-
-            <span className="pt-logo-text">
-              Alhaya
-            </span>
+          <div className="da-logo">
+            <div className="da-logo-icon">+</div>
           </div>
 
           <nav className="pt-nav">
             <div
               className="pt-nav-item"
-              onClick={() =>
-                navigate("/doctor/appointments")
-              }
+              onClick={() => navigate("/doctor/appointments")}
             >
               <span>Appointments</span>
             </div>
@@ -84,18 +123,23 @@ const Patients = () => {
               <span>Patients</span>
             </div>
 
-            {/* مهم: شيلنا الـ patientId الثابت */}
-            <div className="pt-nav-item">
+            <div
+              className="pt-nav-item"
+              onClick={() => navigate("/doctor/patient-record")}
+            >
               <span>Patient Record</span>
+            </div>
+
+            <div
+              className="pt-nav-item"
+              onClick={() => navigate("/doctor/working-hours")}
+            >
+              <span>Working Hours</span>
             </div>
           </nav>
         </div>
 
-        {/* Logout */}
-        <div
-          className="pt-logout"
-          onClick={() => navigate("/login")}
-        >
+        <div className="pt-logout" onClick={() => navigate("/login")}>
           <span>Logout</span>
         </div>
       </aside>
@@ -103,17 +147,12 @@ const Patients = () => {
       {/* Main */}
       <main className="pt-main">
         <div className="pt-topbar">
-          <h1 className="pt-page-title">
-            Patients
-          </h1>
+          <h1 className="pt-page-title">Patients</h1>
         </div>
 
         <div className="pt-card">
           <div className="pt-card-header">
-            <h2 className="pt-card-title">
-              Patient Details
-            </h2>
-
+            <h2 className="pt-card-title">Patient Details</h2>
             <div className="pt-card-title-line"></div>
           </div>
 
@@ -124,41 +163,25 @@ const Patients = () => {
                 className="pt-search"
                 placeholder="Search"
                 value={search}
-                onChange={(e) =>
-                  setSearch(e.target.value)
-                }
+                onChange={(e) => setSearch(e.target.value)}
               />
             </div>
 
             <div className="pt-filter-wrap">
               <button
                 className="pt-filter-btn"
-                onClick={() =>
-                  setShowFilter(!showFilter)
-                }
+                onClick={() => setShowFilter(!showFilter)}
               >
                 Filter by Gender
               </button>
 
               {showFilter && (
                 <div className="pt-filter-dropdown">
-                  {[
-                    "All",
-                    "Male",
-                    "Female",
-                  ].map((g) => (
+                  {["All", "Male", "Female"].map((g) => (
                     <div
                       key={g}
-                      className={`pt-filter-option ${
-                        filterGender === g
-                          ? "pt-filter-selected"
-                          : ""
-                      }`}
-                      onClick={() => {
-                        setFilterGender(g);
-
-                        setShowFilter(false);
-                      }}
+                      className={`pt-filter-option ${filterGender === g ? "pt-filter-selected" : ""}`}
+                      onClick={() => { setFilterGender(g); setShowFilter(false); }}
                     >
                       {g}
                     </div>
@@ -184,31 +207,21 @@ const Patients = () => {
 
               <tbody>
                 {filtered.map((p, index) => (
-                  <tr
-                    key={p.patientId || index}
-                  >
+                  <tr key={p.patientId || index}>
                     <td>
                       <div className="pt-patient-cell">
                         <img
-                          src={`https://i.pravatar.cc/100?img=${
-                            index + 1
-                          }`}
+                          src={`https://i.pravatar.cc/100?img=${index + 1}`}
                           alt={p.fullName}
                           className="pt-avatar"
                         />
-
                         {p.fullName}
                       </div>
                     </td>
-
                     <td>{p.age}</td>
-
                     <td>{p.gender}</td>
-
                     <td>{p.phoneNumber}</td>
-
                     <td>{p.email}</td>
-
                     <td>
                       <div className="pt-action-btns">
                         {/* View Record */}
@@ -216,92 +229,27 @@ const Patients = () => {
                           className="pt-icon-btn pt-icon-record"
                           title="View Record"
                           onClick={() =>
-                            navigate(
-                              "/doctor/patient-record",
-                              {
-                                state: {
-                                  patientId:
-                                    p.patientId,
-                                },
-                              }
-                            )
+                            navigate("/doctor/patient-record", {
+                              state: { patientId: p.patientId },
+                            })
                           }
                         >
-                          <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            width="16"
-                            height="16"
-                          >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-
                             <polyline points="14,2 14,8 20,8" />
                           </svg>
                         </button>
 
-                        {/* Delete */}
+                        {/* Delete — now opens ConfirmModal */}
                         <button
                           className="pt-icon-btn pt-icon-delete"
                           title="Delete"
-                          onClick={async () => {
-                              const confirmDelete = window.confirm(
-                                `Delete ${p.fullName}?`
-                              );
-
-                              if (!confirmDelete) return;
-
-                              try {
-                                await deletePatient(
-                                  p.patientId
-                                );
-
-                                setPatients((prev) =>
-                                  prev.filter(
-                                    (patient) =>
-                                      patient.patientId !==
-                                      p.patientId
-                                  )
-                                );
-
-                                alert(
-                                  "Patient deleted successfully"
-                                );
-                              } catch (error) {
-                                console.error(error);
-
-                                alert("Failed to delete patient");
-                              }
-                            }}
+                          onClick={() => handleDeleteClick(p)}
                         >
-                          <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.2"
-                            width="16"
-                            height="16"
-                          >
-                            <circle
-                              cx="12"
-                              cy="12"
-                              r="10"
-                            />
-
-                            <line
-                              x1="15"
-                              y1="9"
-                              x2="9"
-                              y2="15"
-                            />
-
-                            <line
-                              x1="9"
-                              y1="9"
-                              x2="15"
-                              y2="15"
-                            />
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" width="16" height="16">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="15" y1="9" x2="9" y2="15" />
+                            <line x1="9" y1="9" x2="15" y2="15" />
                           </svg>
                         </button>
 
@@ -310,24 +258,11 @@ const Patients = () => {
                           className="pt-icon-btn pt-icon-edit"
                           title="Edit"
                           onClick={() =>
-                            navigate(
-                              "/doctor/edit-patient",
-                              {
-                                state: p,
-                              }
-                            )
+                            navigate("/doctor/edit-patient", { state: p })
                           }
                         >
-                          <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            width="16"
-                            height="16"
-                          >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-
                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                           </svg>
                         </button>
@@ -341,31 +276,19 @@ const Patients = () => {
 
           {/* Pagination */}
           <div className="pt-pagination">
-            <button className="pt-page-nav">
-              Previous
-            </button>
-
+            <button className="pt-page-nav">Previous</button>
             <div className="pt-page-nums">
               {[1, 2, 3, 4].map((n) => (
                 <button
                   key={n}
-                  className={`pt-page-btn ${
-                    activePage === n
-                      ? "pt-page-active"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    setActivePage(n)
-                  }
+                  className={`pt-page-btn ${activePage === n ? "pt-page-active" : ""}`}
+                  onClick={() => setActivePage(n)}
                 >
                   {n}
                 </button>
               ))}
             </div>
-
-            <button className="pt-page-nav">
-              Next
-            </button>
+            <button className="pt-page-nav">Next</button>
           </div>
         </div>
       </main>

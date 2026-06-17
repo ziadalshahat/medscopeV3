@@ -85,7 +85,7 @@ const Sidebar = () => {
 
 
                 <h2>
-                    MedScope
+                    Alhaya
                 </h2>
 
 
