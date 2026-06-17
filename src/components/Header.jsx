@@ -12,13 +12,8 @@ const Header = () => {
     const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
     const isSignupPage = location.pathname === "/signup";
-    const buttonText = isSignupPage ? "Sign In" : "Sign Up";
-    const buttonIcon = isSignupPage ? "fas fa-user" : "fas fa-user-plus";
-
-    const handleButtonClick = () => {
-        navigate(isSignupPage ? "/login" : "/signup");
-        closeMobileMenu();
-    };
+    const isLoginPage = location.pathname === "/login";
+    const isLandingPage = location.pathname === "/" || location.pathname === "/home";
 
     return (
         <header className="header">
@@ -48,10 +43,18 @@ const Header = () => {
 
                 {/* Right Section */}
                 <div className="header-right">
-                    <button className="signin-btn" onClick={handleButtonClick}>
-                        <i className={`${buttonIcon} signin-icon`}></i>
-                        {buttonText}
-                    </button>
+                    {(isLandingPage || isSignupPage) && (
+                        <button className="signin-btn" onClick={() => { navigate("/login"); closeMobileMenu(); }}>
+                            <i className="fas fa-user signin-icon"></i>
+                            Sign in
+                        </button>
+                    )}
+                    {(isLandingPage || isLoginPage) && (
+                        <button className="signup-btn" onClick={() => { navigate("/signup"); closeMobileMenu(); }}>
+                            <i className="fas fa-user-plus signup-icon"></i>
+                            Sign up
+                        </button>
+                    )}
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -76,10 +79,18 @@ const Header = () => {
                         </ul>
                     </nav>
                     <div className="mobile-menu-actions">
-                        <button className="mobile-signin-btn" onClick={handleButtonClick}>
-                            <i className={`${buttonIcon} mobile-signin-icon`}></i>
-                            {buttonText}
-                        </button>
+                        {(isLandingPage || isSignupPage) && (
+                            <button className="mobile-signin-btn" onClick={() => { navigate("/login"); closeMobileMenu(); }}>
+                                <i className="fas fa-user mobile-signin-icon"></i>
+                                Sign in
+                            </button>
+                        )}
+                        {(isLandingPage || isLoginPage) && (
+                            <button className="mobile-signup-btn" onClick={() => { navigate("/signup"); closeMobileMenu(); }} style={{ marginTop: (isLandingPage ? "10px" : "0") }}>
+                                <i className="fas fa-user-plus mobile-signup-icon"></i>
+                                Sign up
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
