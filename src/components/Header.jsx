@@ -16,7 +16,7 @@ const Header = () => {
     const buttonIcon = isSignupPage ? "fas fa-user" : "fas fa-user-plus";
 
     const handleButtonClick = () => {
-        navigate(isSignupPage ? "/" : "/signup");
+        navigate(isSignupPage ? "/login" : "/signup");
         closeMobileMenu();
     };
 

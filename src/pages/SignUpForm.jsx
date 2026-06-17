@@ -345,7 +345,7 @@ const SignUpForm = () => {
           </button>
 
           <div className="text-center small-text text-muted mt-3">
-            Already have an account? <Link to="/" className="auth-link auth-link-danger ms-1" style={{ marginLeft: "0.5rem" }}>Sign In</Link>
+            Already have an account? <Link to="/login" className="auth-link auth-link-danger ms-1" style={{ marginLeft: "0.5rem" }}>Sign In</Link>
           </div>
         </form>
       </AuthCard>
@@ -358,7 +358,7 @@ const SignUpForm = () => {
           message="Registration Successful!"
           onClose={() => {
             setShowSuccess(false);
-            navigate("/");
+            navigate("/login");
           }}
           autoDismiss={2500}
         />
