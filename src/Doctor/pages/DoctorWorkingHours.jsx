@@ -56,10 +56,14 @@ const DoctorWorkingHours = () => {
         setLoading(true);
         const data = await getDoctorWorkingHours();
 
-        if (data && Array.isArray(data)) {
+        if (data) {
+          const workingDaysArray = Array.isArray(data) 
+            ? data 
+            : (Array.isArray(data.workingDays) ? data.workingDays : []);
+
           const normalized = Object.fromEntries(
             dayOrder.map((day) => {
-              const entry = data.find(
+              const entry = workingDaysArray.find(
                 (item) => item.day === day || item.name === day
               );
               return [
@@ -73,8 +77,13 @@ const DoctorWorkingHours = () => {
             })
           );
           setSchedule(normalized);
-          if (data[0]?.appointmentDuration) {
-            setAppointmentDuration(data[0].appointmentDuration);
+          
+          const duration = Array.isArray(data) 
+            ? data[0]?.appointmentDuration 
+            : data.appointmentDuration;
+            
+          if (duration) {
+            setAppointmentDuration(duration);
           }
         }
       } catch (error) {
