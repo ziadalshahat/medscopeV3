@@ -15,6 +15,19 @@ const Header = () => {
     const isLoginPage = location.pathname === "/login";
     const isLandingPage = location.pathname === "/" || location.pathname === "/home";
 
+    const handleNavClick = (e, targetId) => {
+        e.preventDefault();
+        if (isLandingPage) {
+            const element = document.getElementById(targetId);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        } else {
+            navigate(`/#${targetId}`);
+        }
+        closeMobileMenu();
+    };
+
     return (
         <header className="header">
             <div className="header-container">
@@ -34,10 +47,10 @@ const Header = () => {
                 {/* Desktop Navigation */}
                 <nav className="navigation">
                     <ul className="nav-list">
-                        <li><a href="#home" className="nav-link">Home</a></li>
-                        <li><a href="#hospitals" className="nav-link">Hospitals</a></li>
-                        <li><a href="#services" className="nav-link">Services</a></li>
-                        <li><a href="#about" className="nav-link">About</a></li>
+                        <li><a href="#home" className="nav-link" onClick={(e) => handleNavClick(e, "home")}>Home</a></li>
+                        <li><a href="#hospitals" className="nav-link" onClick={(e) => handleNavClick(e, "hospitals")}>Hospitals</a></li>
+                        <li><a href="#services" className="nav-link" onClick={(e) => handleNavClick(e, "services")}>Services</a></li>
+                        <li><a href="#about" className="nav-link" onClick={(e) => handleNavClick(e, "about")}>About</a></li>
                     </ul>
                 </nav>
 
@@ -59,11 +72,11 @@ const Header = () => {
 
                 {/* Mobile Menu Button */}
                 <button
-                    className={`mobile-menu-btn ${isMobileMenuOpen ? "active" : ""}`}
-                    onClick={toggleMobileMenu}
-                    aria-label="Toggle mobile menu"
+                     className={`mobile-menu-btn ${isMobileMenuOpen ? "active" : ""}`}
+                     onClick={toggleMobileMenu}
+                     aria-label="Toggle mobile menu"
                 >
-                    <i className={`fas ${isMobileMenuOpen ? "fa-times" : "fa-bars"} mobile-menu-icon`}></i>
+                     <i className={`fas ${isMobileMenuOpen ? "fa-times" : "fa-bars"} mobile-menu-icon`}></i>
                 </button>
             </div>
 
@@ -72,10 +85,10 @@ const Header = () => {
                 <div className="mobile-menu-content">
                     <nav className="mobile-nav">
                         <ul className="mobile-nav-list">
-                            <li><a href="#home" className="mobile-nav-link" onClick={closeMobileMenu}>Home</a></li>
-                            <li><a href="#hospitals" className="mobile-nav-link" onClick={closeMobileMenu}>Hospitals</a></li>
-                            <li><a href="#services" className="mobile-nav-link" onClick={closeMobileMenu}>Services</a></li>
-                            <li><a href="#about" className="mobile-nav-link" onClick={closeMobileMenu}>About</a></li>
+                            <li><a href="#home" className="mobile-nav-link" onClick={(e) => handleNavClick(e, "home")}>Home</a></li>
+                            <li><a href="#hospitals" className="mobile-nav-link" onClick={(e) => handleNavClick(e, "hospitals")}>Hospitals</a></li>
+                            <li><a href="#services" className="mobile-nav-link" onClick={(e) => handleNavClick(e, "services")}>Services</a></li>
+                            <li><a href="#about" className="mobile-nav-link" onClick={(e) => handleNavClick(e, "about")}>About</a></li>
                         </ul>
                     </nav>
                     <div className="mobile-menu-actions">

@@ -127,7 +127,7 @@ const BodyDiagram = () => {
   const [hoveredSpecialty, setHoveredSpecialty] = useState(null);
 
   return (
-    <div className="home-section body-diagram-section" style={{ overflow: 'hidden' }}>
+    <div id="services" className="home-section body-diagram-section" style={{ overflow: 'hidden' }}>
       <h2 className="home-section-title" style={{ fontSize: '42px', marginBottom: '10px' }}>Where is the pain?</h2>
       <div className="title-divider"></div>
 

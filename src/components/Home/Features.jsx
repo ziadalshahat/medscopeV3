@@ -5,7 +5,7 @@ import '../../styles/Home/Home.css';
 
 const Features = () => {
   return (
-    <div className="home-section">
+    <div id="about" className="home-section">
       <div style={{ marginBottom: '20px' }}>
         <span style={{ backgroundColor: '#e9f2f9', color: '#1c5b7c', padding: '5px 15px', borderRadius: '15px', fontSize: '12px', fontWeight: '600' }}>
           WHAT MEDSCOPE OFFERS

@@ -5,6 +5,7 @@ import heroBg from '../../assets/images/home/hero-bg.jpg';
 const Hero = () => {
   return (
     <div 
+      id="home"
       className="hero-section" 
       style={{ backgroundImage: `url(${heroBg})` }}
     >
