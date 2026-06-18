@@ -424,3 +424,124 @@ html.dark .title-divider {
 html.dark .body-diagram-main-image {
   filter: invert(0.92) hue-rotate(180deg) brightness(0.9) contrast(1.1) !important;
 }
+
+/* Auth Pages Dark Mode Overrides */
+html.dark .auth-page-wrapper {
+  background-color: var(--bg-color) !important;
+}
+
+html.dark .auth-card {
+  background-color: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+html.dark .auth-icon-wrapper {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark .auth-title {
+  color: var(--text-color) !important;
+}
+
+html.dark .auth-subtitle {
+  color: var(--text-muted) !important;
+}
+
+html.dark .auth-label {
+  color: var(--text-color) !important;
+}
+
+html.dark .auth-input-group {
+  background-color: var(--input-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .auth-input-group:focus-within {
+  border-color: #0081c7 !important;
+  box-shadow: 0 0 5px rgba(0, 129, 199, 0.4) !important;
+}
+
+html.dark .auth-input-icon {
+  color: var(--text-muted) !important;
+}
+
+html.dark .auth-input {
+  background: transparent !important;
+  border: none !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .auth-input::placeholder {
+  color: #5b7083 !important;
+}
+
+html.dark .gender-radio {
+  color: var(--text-muted) !important;
+}
+
+html.dark .gender-radio input[type="radio"] {
+  accent-color: #0081c7 !important;
+}
+
+html.dark .terms-checkbox input[type="checkbox"] {
+  accent-color: #0081c7 !important;
+}
+
+html.dark .terms-label {
+  color: var(--text-muted) !important;
+}
+
+html.dark .terms-label a {
+  color: #0081c7 !important;
+  text-decoration-color: #374151 !important;
+}
+
+html.dark .terms-label a:hover {
+  color: #00a0f0 !important;
+  text-decoration-color: #00a0f0 !important;
+}
+
+html.dark .auth-link {
+  color: #0081c7 !important;
+}
+
+html.dark .auth-link:hover {
+  color: #00a0f0 !important;
+}
+
+html.dark .otp-input {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .otp-input:focus {
+  border-color: #0081c7 !important;
+  box-shadow: 0 0 5px rgba(0, 129, 199, 0.4) !important;
+}
+
+html.dark .password-strength-bar {
+  background-color: var(--border-color) !important;
+}
+
+html.dark .password-hint {
+  color: var(--text-muted) !important;
+}
+
+html.dark .confirm-summary li {
+  color: var(--text-color) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+html.dark .confirm-summary strong {
+  color: #0081c7 !important;
+}
+
+html.dark .auth-error-message {
+  background-color: #2d191b !important;
+  border-color: #ef4444 !important;
+  color: #fca5a5 !important;
+}
