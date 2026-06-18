@@ -832,11 +832,15 @@ html.dark .appt-footer {
 }
 
 html.dark .btn-cancel-appt {
-  color: #f87171 !important;
+  background-color: #2d191b !important;
+  color: #fca5a5 !important;
+  border: 1px solid #7f1d1d !important;
 }
 
 html.dark .btn-cancel-appt:hover {
-  background-color: #2d191b !important;
+  background-color: #451a1a !important;
+  color: #ffffff !important;
+  border-color: #b91c1c !important;
 }
 
 /* Blood Bank Page */
