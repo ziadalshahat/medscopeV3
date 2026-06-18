@@ -19,6 +19,8 @@ import MultiHospital from './pages/MultiHospital';
 import SmartAssistant from './pages/SmartAssistant';
 import './styles/PatientLayout.css';
 import { usePatient } from "../../src/patient/context/PatientContext";
+import Chatbot from './components/Chatbot';
+
 // Patient Layout: includes the top Header, Sidebar and the main content area
 const PatientLayout = () => {
     const location = useLocation();
@@ -73,6 +75,7 @@ const PatientLayout = () => {
 
     return (
         <div className="patient-layout-wrapper">
+            <Chatbot />
             {/* Sidebar Container (Left) */}
             <div className="patient-sidebar-container">
                 <div className="patient-branding">
