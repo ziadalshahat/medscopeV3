@@ -77,7 +77,7 @@ const SuperAdminLayout = () => {
 
       {/* Sidebar */}
       <aside className="super-sidebar">
-        <div className="super-sidebar-header" style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
+        <div className="super-sidebar-header">
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <div style={{
               width: "35px",
