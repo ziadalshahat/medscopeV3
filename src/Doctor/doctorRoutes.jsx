@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import AppointmentDetails from "./pages/AppointmentDetails";
 import DoctorAppointment from "./pages/DoctorAppointments";
+import DoctorWorkingHours from "./pages/DoctorWorkingHours";
 import EditPatient from "./pages/EditPatient";
 import PatientRecord from "./pages/PatientRecord";
 import Patients from "./pages/Patients";
@@ -21,6 +22,8 @@ export default function DoctorRoutes() {
 
       <Route path="patient-record" element={<PatientRecord />} />
       <Route path="patient-record/:id" element={<PatientRecord />} />
+
+      <Route path="working-hours" element={<DoctorWorkingHours />} />
 
       <Route path="edit-patient" element={<EditPatient />} />
       <Route path="edit-patient/:id" element={<EditPatient />} />

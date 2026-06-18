@@ -9,14 +9,13 @@ import {
 } from "../services/superAdminApi";
 
 const HospitalManagement = () => {
-  const [hospitals, setHospitals] = useState([]);
+  const [allHospitals, setAllHospitals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
 
   const [modalStep, setModalStep] = useState(null); // null | "form" | "success"
   const [editIndex, setEditIndex] = useState(null);
@@ -32,26 +31,37 @@ const HospitalManagement = () => {
 
   const pageSize = 7;
 
+  // ========== Derived Data (Filtered & Paginated) ==========
+  const filteredHospitals = allHospitals.filter((hospital) => {
+    const matchesSearch =
+      !search ||
+      (hospital.name || "").toLowerCase().includes(search.toLowerCase()) ||
+      (hospital.city || "").toLowerCase().includes(search.toLowerCase()) ||
+      (hospital.address || "").toLowerCase().includes(search.toLowerCase());
+
+    const matchesStatus =
+      filterStatus === "All" || hospital.status === filterStatus;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  const totalPages = Math.ceil(filteredHospitals.length / pageSize) || 1;
+  const paginatedHospitals = filteredHospitals.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
   // ========== Fetch Hospitals ==========
   const fetchHospitals = async () => {
     try {
       setLoading(true);
       setError("");
 
-      const params = {
-        Page: currentPage,
-        PageSize: pageSize,
-      };
-
-      if (search) params.Search = search;
-      if (filterStatus === "Active") params.IsActive = true;
-      else if (filterStatus === "Suspended") params.IsActive = false;
-
-      const response = await getHospitals(params);
+      // Fetch all hospitals (up to 1000) to support client-side filtering
+      const response = await getHospitals({ Page: 1, PageSize: 1000 });
       const result = response.data;
 
-      setHospitals(result.data || []);
-      setTotalPages(result.totalPages || 1);
+      setAllHospitals(result.data || []);
     } catch (err) {
       console.error("Error fetching hospitals:", err);
       setError("Failed to load hospitals");
@@ -62,7 +72,7 @@ const HospitalManagement = () => {
 
   useEffect(() => {
     fetchHospitals();
-  }, [currentPage, search, filterStatus]);
+  }, []);
 
   // ========== Modal Handlers ==========
   const openAdd = () => {
@@ -73,7 +83,7 @@ const HospitalManagement = () => {
 
   const openEdit = (index) => {
     setEditIndex(index);
-    const h = hospitals[index];
+    const h = paginatedHospitals[index];
     setFormData({
       name: h.name || "",
       city: h.city || "",
@@ -90,13 +100,16 @@ const HospitalManagement = () => {
 
       if (editIndex !== null) {
         // Edit existing hospital
-        const hospital = hospitals[editIndex];
+        const hospital = paginatedHospitals[editIndex];
         await updateHospital(hospital.id, {
           name: formData.name,
           city: formData.city,
           email: formData.email,
           phone: formData.phone,
           address: formData.address,
+          type: "General",
+          hospitalNumber: Math.floor(Math.random() * 900000) + 100000,
+          website: "https://medscope.com",
         });
         setModalStep(null);
       } else {
@@ -108,8 +121,8 @@ const HospitalManagement = () => {
           phone: formData.phone,
           address: formData.address,
           type: "General",
-          hospitalNumber: 0,
-          website: "",
+          hospitalNumber: Math.floor(Math.random() * 900000) + 100000,
+          website: "https://medscope.com",
         });
         setCreatedId(formData.name);
         setModalStep("success");
@@ -119,7 +132,13 @@ const HospitalManagement = () => {
       await fetchHospitals();
     } catch (err) {
       console.error("Error saving hospital:", err);
-      alert(err.response?.data || "Failed to save hospital");
+      const errorMsg =
+        (err.response?.data?.errors ? Object.values(err.response.data.errors).flat().join(", ") : null) ||
+        err.response?.data?.message ||
+        err.response?.data?.title ||
+        err.response?.data ||
+        "Failed to save hospital";
+      alert(typeof errorMsg === "string" ? errorMsg : JSON.stringify(errorMsg));
     } finally {
       setSaving(false);
     }
@@ -134,7 +153,12 @@ const HospitalManagement = () => {
       await fetchHospitals();
     } catch (err) {
       console.error("Error deleting hospital:", err);
-      alert(err.response?.data || "Failed to delete hospital");
+      const errorMsg =
+        err.response?.data?.message ||
+        err.response?.data?.title ||
+        err.response?.data ||
+        "Failed to delete hospital";
+      alert(typeof errorMsg === "string" ? errorMsg : JSON.stringify(errorMsg));
     }
   };
 
@@ -145,11 +169,16 @@ const HospitalManagement = () => {
       await fetchHospitals();
     } catch (err) {
       console.error("Error changing status:", err);
-      alert(err.response?.data || "Failed to change status");
+      const errorMsg =
+        err.response?.data?.message ||
+        err.response?.data?.title ||
+        err.response?.data ||
+        "Failed to change status";
+      alert(typeof errorMsg === "string" ? errorMsg : JSON.stringify(errorMsg));
     }
   };
 
-  if (loading && hospitals.length === 0) {
+  if (loading && allHospitals.length === 0) {
     return (
       <div className="hospital-page">
         <h2>Loading...</h2>
@@ -159,17 +188,20 @@ const HospitalManagement = () => {
 
   return (
     <div className="hospital-page">
-      <button
-        className="add-btn"
-        onClick={openAdd}
-        style={{ marginLeft: "auto", display: "block", marginBottom: "20px" }}
-      >
-        + Add New Hospital
-      </button>
-
       {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
 
       <div className="hospital-table-wrapper">
+        <div className="table-card-header">
+          <button className="add-btn" onClick={openAdd}>
+            + Add New Hospital
+          </button>
+          <span className="expand-icon-btn">
+            <i className="fas fa-expand-arrows-alt"></i>
+          </span>
+        </div>
+
+        <hr className="table-card-divider" />
+
         <div className="table-controls">
           <div className="search-box">
             <i className="fas fa-search"></i>
@@ -183,18 +215,21 @@ const HospitalManagement = () => {
               }}
             />
           </div>
-          <select
-            className="filter-select"
-            value={filterStatus}
-            onChange={(e) => {
-              setFilterStatus(e.target.value);
-              setCurrentPage(1);
-            }}
-          >
-            <option value="All">Filter by Status</option>
-            <option value="Active">Active</option>
-            <option value="Suspended">Suspended</option>
-          </select>
+          <div className="filter-wrapper">
+            <select
+              className="filter-select"
+              value={filterStatus}
+              onChange={(e) => {
+                setFilterStatus(e.target.value);
+                setCurrentPage(1);
+              }}
+            >
+              <option value="All">Filter by Status</option>
+              <option value="Active">Active</option>
+              <option value="Suspended">Suspended</option>
+            </select>
+            <i className="fas fa-filter filter-icon"></i>
+          </div>
         </div>
 
         <table className="hospital-table">
@@ -209,7 +244,7 @@ const HospitalManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {hospitals.map((hospital, index) => (
+            {paginatedHospitals.map((hospital, index) => (
               <tr key={hospital.id}>
                 <td>{hospital.id}</td>
                 <td>{hospital.name}</td>

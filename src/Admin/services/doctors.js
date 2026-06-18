@@ -31,3 +31,9 @@ export const deleteDoctor = async (id) => {
   const response = await axiosInstance.delete(`${BASE_URL}/${id}`);
   return response.data;
 };
+
+// TOGGLE STATUS (Active/Inactive)
+export const toggleDoctorStatus = async (doctorId) => {
+  const response = await axiosInstance.patch(`${BASE_URL}/toggle-status/${doctorId}`);
+  return response.data;
+};

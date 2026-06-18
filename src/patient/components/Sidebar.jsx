@@ -19,10 +19,10 @@ const Sidebar = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // Perform logout logic here
         setIsLogoutModalOpen(false);
         navigate('/');
     };
+
     const navLinks = [
         { name: 'Dashboard', path: '/patient/dashboard', icon: <HomeIcon className="sidebar-icon" /> },
         { name: 'Profile', path: '/patient/profile', icon: <UserIcon className="sidebar-icon" /> },
@@ -49,9 +49,9 @@ const Sidebar = () => {
                 ))}
             </ul>
 
-            <div className="sidebar-footer">
-                <button className="sidebar-logout" onClick={() => setIsLogoutModalOpen(true)} style={{ width: '100%', border: 'none', background: 'transparent', cursor: 'pointer' }}>
-                    <ArrowRightOnRectangleIcon className="sidebar-icon" />
+            <div className="sidebar-footer" style={{ padding: '0 16px' }}>
+                <button className="sidebar-logout" onClick={() => setIsLogoutModalOpen(true)} style={{ width: '100%', border: 'none', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '15px', padding: '12px 15px', borderRadius: '8px' }}>
+                    <ArrowRightOnRectangleIcon className="sidebar-icon" style={{ width: '20px', height: '20px' }} />
                     Logout
                 </button>
             </div>

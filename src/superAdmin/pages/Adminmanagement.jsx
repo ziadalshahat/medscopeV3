@@ -3,11 +3,13 @@ import "../styles/Adminmanagement.css";
 import {
   getAdmins,
   createAdmin,
+  updateAdmin,
+  toggleAdminStatus,
   getAllHospitals,
 } from "../services/superAdminApi";
 
 const AdminManagement = () => {
-  const [admins, setAdmins] = useState([]);
+  const [allAdmins, setAllAdmins] = useState([]);
   const [hospitals, setHospitals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -15,7 +17,6 @@ const AdminManagement = () => {
   const [search, setSearch] = useState("");
   const [filterHospital, setFilterHospital] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
 
   const [modalStep, setModalStep] = useState(null); // null | "form" | "success"
   const [editIndex, setEditIndex] = useState(null);
@@ -30,6 +31,27 @@ const AdminManagement = () => {
   const [saving, setSaving] = useState(false);
 
   const pageSize = 7;
+
+  // ========== Derived Data (Filtered & Paginated) ==========
+  const filteredAdmins = allAdmins.filter((admin) => {
+    const matchesSearch =
+      !search ||
+      (admin.name || "").toLowerCase().includes(search.toLowerCase()) ||
+      (admin.email || "").toLowerCase().includes(search.toLowerCase()) ||
+      (admin.employeeId || "").toLowerCase().includes(search.toLowerCase()) ||
+      (admin.hospitalName || "").toLowerCase().includes(search.toLowerCase());
+
+    const matchesHospital =
+      filterHospital === "All" || admin.hospitalName === filterHospital;
+
+    return matchesSearch && matchesHospital;
+  });
+
+  const totalPages = Math.ceil(filteredAdmins.length / pageSize) || 1;
+  const paginatedAdmins = filteredAdmins.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   // ========== Fetch Hospitals for dropdown ==========
   useEffect(() => {
@@ -50,22 +72,11 @@ const AdminManagement = () => {
       setLoading(true);
       setError("");
 
-      const params = {
-        Page: currentPage,
-        PageSize: pageSize,
-      };
-
-      if (search) params.Search = search;
-      if (filterHospital !== "All") {
-        const hospital = hospitals.find((h) => h.name === filterHospital);
-        if (hospital) params.HospitalId = hospital.id;
-      }
-
-      const response = await getAdmins(params);
+      // Fetch all admins (up to 1000) to support client-side filtering
+      const response = await getAdmins({ Page: 1, PageSize: 1000 });
       const result = response.data;
 
-      setAdmins(result.data || []);
-      setTotalPages(result.totalPages || 1);
+      setAllAdmins(result.data || []);
     } catch (err) {
       console.error("Error fetching admins:", err);
       setError("Failed to load admins");
@@ -76,7 +87,7 @@ const AdminManagement = () => {
 
   useEffect(() => {
     fetchAdmins();
-  }, [currentPage, search, filterHospital]);
+  }, []);
 
   // ========== Hospital options for filter ==========
   const hospitalOptions = ["All", ...hospitals.map((h) => h.name)];
@@ -96,13 +107,14 @@ const AdminManagement = () => {
 
   const openEdit = (index) => {
     setEditIndex(index);
-    const admin = admins[index];
+    const admin = paginatedAdmins[index];
     const nameParts = (admin.name || "").split(" ");
+    const matchedHospital = hospitals.find((h) => h.name === admin.hospitalName);
     setFormData({
       firstName: nameParts[0] || "",
       lastName: nameParts.slice(1).join(" ") || "",
       email: admin.email || "",
-      hospitalId: "",
+      hospitalId: matchedHospital ? matchedHospital.id : "",
       password: "",
     });
     setModalStep("form");
@@ -113,9 +125,19 @@ const AdminManagement = () => {
       setSaving(true);
 
       if (editIndex !== null) {
-        // Edit not supported in backend - close modal
-        alert("Edit admin is not supported yet from the API");
+        // Edit existing admin
+        const admin = paginatedAdmins[editIndex];
+        await updateAdmin(admin.id, {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          hospitalId: parseInt(formData.hospitalId),
+          isActive: admin.status === "Active",
+          phoneNumber: "",
+          department: "",
+        });
         setModalStep(null);
+        await fetchAdmins();
       } else {
         // Create new admin
         await createAdmin({
@@ -133,7 +155,9 @@ const AdminManagement = () => {
     } catch (err) {
       console.error("Error saving admin:", err);
       const errorMsg =
+        (err.response?.data?.errors ? Object.values(err.response.data.errors).flat().join(", ") : null) ||
         err.response?.data?.message ||
+        err.response?.data?.title ||
         err.response?.data ||
         "Failed to save admin";
       alert(typeof errorMsg === "string" ? errorMsg : JSON.stringify(errorMsg));
@@ -142,7 +166,23 @@ const AdminManagement = () => {
     }
   };
 
-  if (loading && admins.length === 0) {
+  const handleToggleStatus = async (id) => {
+    try {
+      await toggleAdminStatus(id);
+      await fetchAdmins();
+    } catch (err) {
+      console.error("Error toggling admin status:", err);
+      const errorMsg =
+        (err.response?.data?.errors ? Object.values(err.response.data.errors).flat().join(", ") : null) ||
+        err.response?.data?.message ||
+        err.response?.data?.title ||
+        err.response?.data ||
+        "Failed to toggle status";
+      alert(typeof errorMsg === "string" ? errorMsg : JSON.stringify(errorMsg));
+    }
+  };
+
+  if (loading && allAdmins.length === 0) {
     return (
       <div className="admin-page">
         <h2>Loading...</h2>
@@ -152,19 +192,20 @@ const AdminManagement = () => {
 
   return (
     <div className="admin-page">
-      <div className="admin-header">
-        <button
-          className="add-btn"
-          onClick={openAdd}
-          style={{ marginLeft: "auto", display: "block" }}
-        >
-          + Create New Admin
-        </button>
-      </div>
-
       {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
 
       <div className="admin-table-wrapper">
+        <div className="table-card-header">
+          <button className="add-btn" onClick={openAdd}>
+            + Create New Admin
+          </button>
+          <span className="expand-icon-btn">
+            <i className="fas fa-expand-arrows-alt"></i>
+          </span>
+        </div>
+
+        <hr className="table-card-divider" />
+
         <div className="table-controls">
           <div className="search-box">
             <i className="fas fa-search"></i>
@@ -178,20 +219,23 @@ const AdminManagement = () => {
               }}
             />
           </div>
-          <select
-            className="filter-select"
-            value={filterHospital}
-            onChange={(e) => {
-              setFilterHospital(e.target.value);
-              setCurrentPage(1);
-            }}
-          >
-            {hospitalOptions.map((h) => (
-              <option key={h} value={h}>
-                {h === "All" ? "Filter by Hospital" : h}
-              </option>
-            ))}
-          </select>
+          <div className="filter-wrapper">
+            <select
+              className="filter-select"
+              value={filterHospital}
+              onChange={(e) => {
+                setFilterHospital(e.target.value);
+                setCurrentPage(1);
+              }}
+            >
+              {hospitalOptions.map((h) => (
+                <option key={h} value={h}>
+                  {h === "All" ? "Filter by Hospital" : h}
+                </option>
+              ))}
+            </select>
+            <i className="fas fa-filter filter-icon"></i>
+          </div>
         </div>
 
         <table className="admin-table">
@@ -207,7 +251,7 @@ const AdminManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {admins.map((admin, index) => (
+            {paginatedAdmins.map((admin, index) => (
               <tr key={admin.id || index}>
                 <td className="emp-id">{admin.employeeId}</td>
                 <td>{admin.name}</td>
@@ -228,19 +272,9 @@ const AdminManagement = () => {
                 <td className="actions-cell">
                   <button
                     className="action-btn ban-btn"
-                    onClick={() =>
-                      alert("Toggle status not supported yet from the API")
-                    }
+                    onClick={() => handleToggleStatus(admin.id)}
                   >
                     <i className="fas fa-ban"></i>
-                  </button>
-                  <button
-                    className="action-btn reset-btn"
-                    onClick={() =>
-                      alert(`Password reset sent for ${admin.employeeId}`)
-                    }
-                  >
-                    <i className="fas fa-sync-alt"></i>
                   </button>
                   <button
                     className="action-btn edit-btn"
@@ -351,19 +385,21 @@ const AdminManagement = () => {
                     ))}
                   </select>
                 </div>
-                <div className="new-form-field">
-                  <label>
-                    <i className="fas fa-lock" style={{ color: "#c0392b" }}></i>{" "}
-                    Password *
-                  </label>
-                  <input
-                    type="password"
-                    value={formData.password}
-                    onChange={(e) =>
-                      setFormData({ ...formData, password: e.target.value })
-                    }
-                  />
-                </div>
+                {editIndex === null && (
+                  <div className="new-form-field">
+                    <label>
+                      <i className="fas fa-lock" style={{ color: "#c0392b" }}></i>{" "}
+                      Password *
+                    </label>
+                    <input
+                      type="password"
+                      value={formData.password}
+                      onChange={(e) =>
+                        setFormData({ ...formData, password: e.target.value })
+                      }
+                    />
+                  </div>
+                )}
                 <div className="new-modal-btns">
                   <button
                     className="new-save-btn"
@@ -389,7 +425,7 @@ const AdminManagement = () => {
                 <i className="fas fa-check"></i>
               </div>
               <h3>Admin created successfully</h3>
-              <p>Temporary password: {tempPassword} (sent via email)</p>
+              <p>Temporary password: {tempPassword}</p>
               <div className="new-modal-btns">
                 <button className="new-save-btn" onClick={openAdd}>
                   Add Another

@@ -16,10 +16,17 @@ function Chatbot() {
     return () => window.removeEventListener("logout", handleLogout);
   }, []);
 
-  useEffect(() => {
-    if (!isLoggedIn || location.pathname.includes("smart-assistant")) {
+    // لو صفحة Smart Assistant متعملش حاجة
+    if (location.pathname.includes("smart-assistant") || location.pathname.includes("assistant")) {
       removeChatbot();
       return;
+    }
+
+    // يقفل الشات لو مفتوح عشان مايفضلش واخد مساحة لما يغير الصفحة
+    if (window.chatbase && typeof window.chatbase === "function") {
+      try {
+        window.chatbase("close");
+      } catch (e) {}
     }
 
     if (window.chatbase) return;
@@ -51,14 +58,21 @@ function Chatbot() {
     `;
     document.body.appendChild(script);
 
-  }, [location.pathname, isLoggedIn]);
+  }, [location.pathname]);
+
+  // Global cleanup when leaving the patient portal
+  useEffect(() => {
+    return () => removeChatbot();
+  }, []);
 
   return null;
 }
 
-function removeChatbot() {
+function removeChatbot(){
+
+  // يمسح كل عناصر Chatbase بس بيسيب الـ iframe بتاع صفحة Smart Assistant
   const elements = document.querySelectorAll(
-    "iframe, [id*='chatbase'], [class*='chatbase']"
+    "iframe:not([src*='chatbot-iframe']), [id*='chatbase'], [class*='chatbase']"
   );
   elements.forEach(el => el.remove());
   delete window.chatbase;

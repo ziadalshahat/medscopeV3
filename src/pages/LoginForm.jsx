@@ -16,6 +16,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [fadeOut, setFadeOut] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [redirectUrl, setRedirectUrl] = useState("/home");
 
   const handleInputChange = (setter) => (e) => {
     setter(e.target.value);
@@ -58,10 +59,24 @@ const Login = () => {
         role: data.role
       }));
 
+      // Determine redirect path based on role
+      const role = data.role ? data.role.toLowerCase() : "";
+      let targetPath = "/home";
+      if (role === "superadmin") {
+        targetPath = "/super-admin";
+      } else if (role === "admin" || role === "hospitaladmin") {
+        targetPath = "/admin";
+      } else if (role === "doctor") {
+        targetPath = "/doctor";
+      } else if (role === "patient") {
+        targetPath = "/patient";
+      }
+
+      setRedirectUrl(targetPath);
       setSuccessMessage("Login successful! Redirecting...");
 
       setTimeout(() => {
-        navigate("/home");
+        navigate(targetPath);
       }, 1500);
 
     } else {
@@ -156,7 +171,7 @@ const Login = () => {
         message={successMessage}
         onClose={() => {
           setSuccessMessage("");
-          navigate("/patient");
+          navigate(redirectUrl);
         }}
         autoDismiss={2500}
       />

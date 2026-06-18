@@ -1,200 +1,246 @@
-.add-doctor-page{
+/* ==========================================================================
+   ADD DOCTOR PAGE — Centered card matching mockup design
+   ========================================================================== */
 
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-background:#f3f6f9;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+/* ── Page wrapper ── */
+.nd-page {
+  min-height: 100vh;
+  background-color: #d0e7f5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 24px 60px;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 
-.doctor-card{
-
-width:700px;
-background:#e9f1f6;
-padding:40px;
-border-radius:15px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-
+/* ── Card ── */
+.nd-modal-card {
+  background: #eef5fb;
+  border-radius: 18px;
+  border: 1.5px solid #c2d8ea;
+  box-shadow: 0 4px 24px rgba(0, 79, 120, 0.08);
+  width: 100%;
+  max-width: 720px;
+  padding: 32px 36px 32px;
+  box-sizing: border-box;
 }
 
-.title{
-
-text-align:center;
-color:#1e4f73;
-margin-bottom:25px;
-
+/* ── Breadcrumb ── */
+.nd-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #5b7990;
+  cursor: pointer;
+  margin-bottom: 18px;
+  transition: color 0.15s;
+  user-select: none;
 }
 
-.title i{
-
-margin-right:8px;
-
+.nd-breadcrumb:hover {
+  color: #004F78;
 }
 
-.form-grid{
-
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-
+.nd-breadcrumb-icon {
+  font-size: 13px;
 }
 
-.form-group{
-
-display:flex;
-flex-direction:column;
-
+/* ── Title ── */
+.nd-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #003d5c;
+  text-align: center;
+  margin: 0 0 28px;
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
-.form-group label{
-
-font-size:13px;
-color:#004f78;
-margin-bottom:5px;
-
+.nd-title-icon {
+  font-size: 24px;
+  color: #004F78;
 }
 
-.form-group input,
-.form-group select{
-
-padding:8px;
-border-radius:8px;
-border:none;
-background:#f5f8fb;
-
+/* ── Form ── */
+.nd-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-.form-buttons{
-
-display:flex;
-justify-content:flex-end;
-gap:15px;
-margin-top:25px;
-
+/* ── Row (2 columns) ── */
+.nd-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
 }
 
-.cancel-btn{
-
-background:#1e4f73;
-color:white;
-border:none;
-padding:8px 20px;
-border-radius:20px;
-cursor:pointer;
-
+/* ── Field ── */
+.nd-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.add-btn{
-
-background:#9ec4dd;
-border:none;
-padding:8px 20px;
-border-radius:20px;
-cursor:pointer;
-
+/* ── Labels ── */
+.nd-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #3a6070;
 }
 
-/* POPUP */
-
-.popup-overlay{
-
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.3);
-display:flex;
-justify-content:center;
-align-items:center;
-
+.nd-req {
+  color: #c0392b;
+  margin-left: 1px;
 }
 
-.popup{
-
-background:#e9f1f6;
-padding:40px;
-border-radius:15px;
-text-align:center;
-width:500px;
-
+/* ── Text input ── */
+.nd-input {
+  height: 40px;
+  padding: 0 12px;
+  border: 1.5px solid #bcd5e6;
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: #003d5c;
+  background: #f5fafd;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+  width: 100%;
 }
 
-.success-icon{
-
-width:50px;
-height:50px;
-border-radius:50%;
-background:#1e4f73;
-display:flex;
-align-items:center;
-justify-content:center;
-margin:auto;
-margin-bottom:15px;
-
+.nd-input:focus {
+  border-color: #004F78;
+  box-shadow: 0 0 0 3px rgba(0, 79, 120, 0.08);
+  background: #fff;
 }
 
-.success-icon i{
-
-color:white;
-
+.nd-input-error {
+  border-color: #d96c6c !important;
 }
 
-.popup h3{
-
-color:#1e4f73;
-margin-bottom:25px;
-
+/* ── Error message ── */
+.nd-error-msg {
+  font-size: 11px;
+  color: #c0392b;
+  font-weight: 600;
+  margin-top: 2px;
 }
 
-.popup-buttons{
-
-display:flex;
-justify-content:center;
-gap:20px;
-
+/* ── Select wrapper ── */
+.nd-select-wrap {
+  position: relative;
+  width: 100%;
 }
 
-.add-another{
-
-background:#1e4f73;
-color:white;
-border:none;
-padding:8px 20px;
-border-radius:20px;
-
+.nd-select {
+  width: 100%;
+  height: 40px;
+  padding: 0 32px 0 12px;
+  border: 1.5px solid #bcd5e6;
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: #003d5c;
+  background: #f5fafd;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
 }
 
-.back-btn{
-
-background:#c8d6e2;
-border:none;
-padding:8px 20px;
-border-radius:20px;
-
-}
-@media (max-width:900px){
-
-.new-doctor-form{
-grid-template-columns:1fr;
+.nd-select:focus {
+  border-color: #004F78;
+  box-shadow: 0 0 0 3px rgba(0, 79, 120, 0.08);
+  background: #fff;
 }
 
-.form-actions{
-flex-direction:column;
-gap:10px;
+.nd-select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: #8fa3b3;
+  pointer-events: none;
 }
 
+/* ── Action buttons ── */
+.nd-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1.5px solid #d0e2ee;
 }
 
-@media (max-width:600px){
-
-.new-doctor-container{
-padding:20px;
+.nd-btn-cancel {
+  padding: 9px 24px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: #5b7990;
+  border: 1.5px solid #bcd5e6;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.15s, color 0.15s;
 }
 
-.form-input{
-font-size:14px;
+.nd-btn-cancel:hover {
+  background: #eef3f7;
+  color: #003d5c;
 }
 
+.nd-btn-save {
+  padding: 9px 24px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #004F78;
+  color: #ffffff;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.15s;
+}
+
+.nd-btn-save:hover:not(:disabled) {
+  background: #003a58;
+}
+
+.nd-btn-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Responsive ── */
+@media (max-width: 620px) {
+  .nd-page {
+    padding: 20px 12px 40px;
+  }
+
+  .nd-modal-card {
+    padding: 20px 18px 24px;
+  }
+
+  .nd-row {
+    grid-template-columns: 1fr;
+  }
+
+  .nd-title {
+    font-size: 20px;
+  }
 }

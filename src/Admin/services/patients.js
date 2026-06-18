@@ -14,6 +14,10 @@ export const getPatientById = (id) => {
 export const deletePatient = (id) => {
   return axiosInstance.delete(`/admin/patients/${id}`);
 };
+// update
+export const updatePatient = (id, data) => {
+  return axiosInstance.put(`/admin/patients/${id}`, data);
+};
 // 📊 patients chart
 export const getPatientsChart = (params) => {
   return axiosInstance.get("/admin/patients-chart", { params });

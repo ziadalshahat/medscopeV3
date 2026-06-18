@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getNotes } from '../services/notesService';
 import Loader from '../../components/Loader';
-import Chatbot from "../components/Chatbot";
+
 
 const Notes = () => {
     const [notes, setNotes] = useState([]);
@@ -31,7 +31,7 @@ const Notes = () => {
 
     return (
         <>
-        <Chatbot/>
+
         <div>
             <h2 className="mb-4">Notes</h2>
             

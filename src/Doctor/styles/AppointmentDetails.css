@@ -88,3 +88,50 @@
 }
 
 .ad-record-btn:hover { opacity: 0.9; }
+
+/* ================= DARK MODE ================= */
+html.dark .ad-page {
+  background: var(--bg-color) !important;
+}
+
+html.dark .ad-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+html.dark .ad-header {
+  border-bottom: 1px solid var(--border-color);
+}
+
+html.dark .ad-header h2 {
+  color: #2ea8df;
+}
+
+html.dark .ad-label {
+  color: #2ea8df;
+}
+
+html.dark .ad-item p {
+  color: var(--text-color);
+}
+
+html.dark .ad-close-btn {
+  background: #1f2937;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .ad-close-btn:hover {
+  background: #374151;
+}
+
+html.dark .ad-record-btn {
+  background: #2ea8df;
+  color: #ffffff;
+}
+
+html.dark .ad-record-btn:hover {
+  background: #238ebd;
+}
+

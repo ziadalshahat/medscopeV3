@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 
@@ -155,21 +155,19 @@ const Sidebar = () => {
 
             {/* Logout */}
 
-            <div className="sidebar-footer">
-
-
+            <div className="sidebar-footer" style={{ padding: '10px 15px' }}>
                 <Link 
                     to="/"
                     className="logout-btn"
+                    style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '12px 15px', borderRadius: '8px', width: '100%' }}
                 >
 
-                    <i className="fas fa-sign-out-alt nav-icon"></i>
+                    <i className="fas fa-sign-out-alt nav-icon" style={{ width: '20px', fontSize: '16px' }}></i>
 
                     Logout
 
 
                 </Link>
-
 
             </div>
 

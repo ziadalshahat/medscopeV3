@@ -18,11 +18,15 @@ import Notes from './pages/Notes';
 import MultiHospital from './pages/MultiHospital';
 import SmartAssistant from './pages/SmartAssistant';
 import './styles/PatientLayout.css';
-import { usePatient } from "../../src/patient/context/PatientContext";
+import { usePatient } from "./context/PatientContext";
+import Chatbot from './components/Chatbot';
+import ThemeToggle from '../components/ThemeToggle';
+
 // Patient Layout: includes the top Header, Sidebar and the main content area
 const PatientLayout = () => {
     const location = useLocation();
     const { patient } = usePatient();
+
     // Determine Header text based on path
     const getHeaderText = () => {
         if (location.pathname.includes('/profile')) {
@@ -73,6 +77,7 @@ const PatientLayout = () => {
 
     return (
         <div className="patient-layout-wrapper">
+            <Chatbot />
             {/* Sidebar Container (Left) */}
             <div className="patient-sidebar-container">
                 <div className="patient-branding">
@@ -89,6 +94,9 @@ const PatientLayout = () => {
                         <h2>{headerContent.title}</h2>
                         <p>{headerContent.subtitle}</p>
                     </div>  
+                    <div className="patient-header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                        <ThemeToggle style={{ color: '#a4cce4' }} />
+                    </div>
                 </header>
 
                 {/* Page Content */}

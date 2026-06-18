@@ -138,6 +138,31 @@
   color: white;
 }
 
+.signup-btn {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.signup-btn:hover {
+  background: #219a52;
+  transform: translateY(-1px);
+}
+
+.signup-icon {
+  font-size: 13px;
+  color: white;
+}
+
 /* Mobile */
 .mobile-menu-btn {
   display: none;
@@ -246,6 +271,33 @@
   color: white;
 }
 
+.mobile-signup-btn {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.mobile-signup-btn:hover {
+  background: #219a52;
+  transform: translateY(-1px);
+}
+
+.mobile-signup-icon {
+  font-size: 16px;
+  color: white;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .nav-list {
@@ -278,7 +330,8 @@
     gap: 0.75rem;
   }
 
-  .signin-btn {
+  .signin-btn,
+  .signup-btn {
     display: none;
   }
 }

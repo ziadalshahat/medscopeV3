@@ -498,3 +498,160 @@
     flex: 1;
   }
 }
+
+/* ================= DARK MODE ================= */
+html.dark .pt-page {
+  background: var(--bg-color) !important;
+  color: var(--text-color);
+}
+
+html.dark .pt-sidebar {
+  background: #0d111c !important;
+  border-right: 1px solid var(--border-color) !important;
+}
+
+html.dark .pt-nav-item {
+  color: var(--text-muted);
+}
+
+html.dark .pt-nav-item:hover {
+  background: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html.dark .pt-nav-active {
+  background: #1e293b !important;
+  color: #ffffff !important;
+  border-left-color: #2fc0ff;
+}
+
+html.dark .pt-logout {
+  color: var(--text-muted);
+}
+
+html.dark .pt-logout:hover {
+  color: #ffffff;
+}
+
+html.dark .pt-page-title {
+  color: var(--text-color);
+}
+
+html.dark .pt-doctor {
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .pt-doctor-name {
+  color: var(--text-color);
+}
+
+html.dark .pt-doctor-role {
+  color: var(--text-muted);
+}
+
+html.dark .pt-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+html.dark .pt-card-title {
+  color: var(--text-color);
+}
+
+html.dark .pt-card-title-line {
+  background: #2ea8df;
+}
+
+html.dark .pt-search-wrap {
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .pt-search {
+  color: var(--text-color);
+}
+
+html.dark .pt-filter-btn {
+  background: var(--input-bg);
+  border: 2px solid #2ea8df;
+  color: #2ea8df;
+}
+
+html.dark .pt-filter-btn:hover {
+  background: #1e293b;
+}
+
+html.dark .pt-filter-dropdown {
+  background: var(--modal-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+html.dark .pt-filter-option {
+  color: var(--text-color);
+}
+
+html.dark .pt-filter-option:hover {
+  background: #1e293b;
+}
+
+html.dark .pt-filter-selected {
+  background: #1e293b;
+  color: #2ea8df;
+}
+
+html.dark .pt-table thead th {
+  color: #2ea8df;
+  border-bottom: 2px solid var(--border-color);
+}
+
+html.dark .pt-table tbody td {
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+html.dark .pt-icon-record,
+html.dark .pt-icon-edit {
+  background: #1f2937;
+  color: #2ea8df;
+}
+
+html.dark .pt-icon-record:hover,
+html.dark .pt-icon-edit:hover {
+  background: #374151;
+}
+
+html.dark .pt-icon-delete {
+  background: #4a1d1d;
+  color: #f17070;
+}
+
+html.dark .pt-icon-delete:hover {
+  background: #6b2424;
+}
+
+html.dark .pt-page-nav {
+  background: #1f2937;
+  color: var(--text-color);
+}
+
+html.dark .pt-page-nav:hover {
+  background: #374151;
+}
+
+html.dark .pt-page-btn {
+  background: #1f2937;
+  color: var(--text-color);
+}
+
+html.dark .pt-page-btn:hover {
+  background: #374151;
+}
+
+html.dark .pt-page-active {
+  background: #2ea8df !important;
+  color: #ffffff !important;
+}
