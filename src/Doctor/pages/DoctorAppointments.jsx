@@ -291,6 +291,7 @@ const DoctorAppointments = () => {
                             onClick={() =>
                               navigate("/doctor/start-visit", {
                                 state: {
+                                  ...item,
                                   appointmentId: item.id || item.appointmentId,
                                 },
                               })

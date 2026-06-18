@@ -24,8 +24,10 @@ const StartVisit = ({
     .toISOString()
     .split("T")[0];
 
+  // Extract state from navigation — now includes full appointment item data
+  const navState = location.state || {};
   const appointmentId =
-    appointment?.appointmentId || location.state?.appointmentId;
+    appointment?.appointmentId || navState.appointmentId || navState.id;
 
   const [patientData, setPatientData] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(true);
@@ -74,11 +76,15 @@ const StartVisit = ({
         return;
       }
       try {
-        const details = await getAppointmentDetails(appointmentId);
-        const actualData = details?.data || details?.result || details;
-        setPatientData(actualData);
+        const response = await getAppointmentDetails(appointmentId);
+        // Handle possible wrapped responses: { data: {...} } or { result: {...} } or flat object
+        const details = response?.data || response?.result || response;
+        console.log("Visit details response:", response);
+        console.log("Extracted details:", details);
+        setPatientData(details);
       } catch (err) {
         console.error("Failed to load appointment details:", err);
+        // Even if API fails, we still have navState from DoctorAppointments
       } finally {
         setLoadingDetails(false);
       }
@@ -86,17 +92,45 @@ const StartVisit = ({
     fetchPatientData();
   }, [appointmentId]);
 
+  // Helper: resolve patientId from all available sources
+  const resolvePatientId = () => {
+    return (
+      patientData?.patientId ||
+      patientData?.id ||
+      navState?.patientId ||
+      navState?.patient?.patientId ||
+      appointment?.patientId
+    );
+  };
+
+  // Helper: resolve patient display name from all available sources
+  const resolvePatientName = () => {
+    return (
+      patientData?.patientName ||
+      patientData?.patient ||
+      patientData?.fullName ||
+      navState?.patient ||
+      navState?.patientName ||
+      navState?.name ||
+      appointment?.patient ||
+      appointment?.patientName ||
+      "N/A"
+    );
+  };
+
   const handleSubmit = async () => {
     if (!visitNotes.diagnosis.trim() || !visitNotes.treatmentPlan.trim()) {
       alert("Please enter both Diagnosis and Treatment Plan before submitting the visit.");
       return;
     }
 
-    const patientId = patientData?.patientId || patientData?.id;
+    const patientId = resolvePatientId();
     if (!patientId) {
+      console.error("PatientId resolution failed. patientData:", patientData, "navState:", navState);
       alert("Could not retrieve patient ID for this visit. Cannot submit notes.");
       return;
     }
+
 
     try {
       setIsSubmitting(true);
@@ -132,11 +166,6 @@ const StartVisit = ({
     }
   };
 
-  const patient = appointment || location.state || {
-    patient: "John Smith",
-    id: "PT001",
-  };
-
   return (
     <div className="sv-page">
       {/* Header */}
@@ -165,18 +194,11 @@ const StartVisit = ({
             Patient:{" "}
             {loadingDetails
               ? "Loading..."
-              : (patientData?.patientName ||
-                 patientData?.patient ||
-                 patient.patient ||
-                 patient.name ||
-                 "N/A")}{" "}
+              : resolvePatientName()}{" "}
             (ID:{" "}
             {loadingDetails
               ? "..."
-              : (patientData?.patientId ||
-                 patientData?.id ||
-                 patient.id ||
-                 "PT001")})
+              : (resolvePatientId() || "N/A")})
           </div>
         </div>
       </div>
