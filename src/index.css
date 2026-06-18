@@ -1784,3 +1784,57 @@ html.dark .na-breadcrumb:hover,
 html.dark .nd-breadcrumb:hover {
   color: var(--text-color) !important;
 }
+
+/* Multi Hospital View Dark Mode Overrides */
+html.dark .bed-row {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .bed-bar-container {
+  background-color: var(--border-color) !important;
+}
+
+html.dark .bed-label,
+html.dark .bed-count-text {
+  color: var(--text-color) !important;
+}
+
+/* Status Badges Overrides */
+html.dark .doc-status-badge.doc-badge-active,
+html.dark .status-badge.active {
+  background-color: #064e3b !important;
+  color: #a7f3d0 !important;
+  border-color: #047857 !important;
+}
+
+html.dark .doc-status-badge.doc-badge-inactive,
+html.dark .status-badge.suspended {
+  background-color: #7f1d1d !important;
+  color: #fca5a5 !important;
+  border-color: #b91c1c !important;
+}
+
+/* Home Page Card Overrides */
+html.dark .admin-home-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .admin-home-hospital-name,
+html.dark .admin-home-hospital-type,
+html.dark .admin-home-info-item,
+html.dark .admin-home-info-icon,
+html.dark .admin-home-specialties-title,
+html.dark .admin-home-specialty-item {
+  color: var(--text-color) !important;
+  background-color: transparent !important;
+}
+
+html.dark .admin-home-specialty-dot {
+  background-color: var(--text-color) !important;
+}
+
+html.dark .admin-home-hospital-icon-wrapper {
+  background-color: var(--input-bg) !important;
+}
