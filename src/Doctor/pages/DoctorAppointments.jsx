@@ -30,12 +30,10 @@ const DoctorAppointments = () => {
 
         const today = new Date().toISOString().split("T")[0];
 
-        // Fetch page 1 with 100 items to retrieve all appointments at once
         const data = await getUpcomingAppointments(
           today,
-          "Month",
-          1,
-          100
+          activeTab,
+          activePage
         );
 
         if (Array.isArray(data)) {
@@ -56,7 +54,7 @@ const DoctorAppointments = () => {
     };
 
     fetchAppointments();
-  }, []);
+  }, [activeTab, activePage]);
 
   const filteredAppointments = React.useMemo(() => {
     const today = new Date();
@@ -97,27 +95,7 @@ const DoctorAppointments = () => {
     });
   }, [appointments, activeTab]);
 
-  const ITEMS_PER_PAGE = 5;
-
-  const totalPages = Math.max(1, Math.ceil(filteredAppointments.length / ITEMS_PER_PAGE));
-
-  // Reset active page to 1 when tab changes or if activePage exceeds totalPages
-  useEffect(() => {
-    setActivePage(1);
-  }, [activeTab]);
-
-  useEffect(() => {
-    if (activePage > totalPages) {
-      setActivePage(totalPages);
-    }
-  }, [filteredAppointments, totalPages, activePage]);
-
-  const displayedAppointments = React.useMemo(() => {
-    return filteredAppointments.slice(
-      (activePage - 1) * ITEMS_PER_PAGE,
-      activePage * ITEMS_PER_PAGE
-    );
-  }, [filteredAppointments, activePage]);
+  const displayedAppointments = filteredAppointments;
 
   // Step 1: click Logout → open ConfirmModal
   const handleLogoutClick = () => {
@@ -317,7 +295,7 @@ const DoctorAppointments = () => {
             </button>
 
             <div className="da-pages">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              {[1, 2, 3, 4].map((page) => (
                 <button
                   key={page}
                   className={`da-page-btn ${activePage === page ? "da-page-active" : ""}`}
@@ -330,7 +308,7 @@ const DoctorAppointments = () => {
 
             <button
               className="da-page-nav"
-              onClick={() => { if (activePage < totalPages) setActivePage(activePage + 1); }}
+              onClick={() => setActivePage(activePage + 1)}
             >
               Next
             </button>
