@@ -25,6 +25,20 @@ import Chatbot from './components/Chatbot';
 const PatientLayout = () => {
     const location = useLocation();
     const { patient } = usePatient();
+    const [isDark, setIsDark] = React.useState(() => document.documentElement.classList.contains("dark"));
+
+    const toggleTheme = () => {
+        const nextDark = !isDark;
+        setIsDark(nextDark);
+        if (nextDark) {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+        }
+    };
+
     // Determine Header text based on path
     const getHeaderText = () => {
         if (location.pathname.includes('/profile')) {
@@ -92,6 +106,16 @@ const PatientLayout = () => {
                         <h2>{headerContent.title}</h2>
                         <p>{headerContent.subtitle}</p>
                     </div>  
+                    <div className="patient-header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                        <button 
+                            onClick={toggleTheme} 
+                            className="theme-toggle-btn" 
+                            aria-label="Toggle Theme" 
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', color: '#a4cce4', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px' }}
+                        >
+                            <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`}></i>
+                        </button>
+                    </div>
                 </header>
 
                 {/* Page Content */}

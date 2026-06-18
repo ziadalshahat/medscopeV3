@@ -545,3 +545,422 @@ html.dark .auth-error-message {
   border-color: #ef4444 !important;
   color: #fca5a5 !important;
 }
+
+/* Patient Portal Dark Mode Overrides */
+html.dark .patient-layout-wrapper {
+  background-color: var(--bg-color) !important;
+}
+
+html.dark .patient-sidebar-container {
+  background-color: #0d111c !important;
+  border-right: 1px solid var(--border-color) !important;
+}
+
+html.dark .patient-branding {
+  background-color: #090d16 !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .patient-branding h1 {
+  color: var(--text-color) !important;
+}
+
+html.dark .patient-header {
+  background-color: #0d111c !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .patient-header-info h2 {
+  color: var(--text-color) !important;
+}
+
+html.dark .patient-header-info p {
+  color: var(--text-muted) !important;
+}
+
+html.dark .patient-content-scroll {
+  background-color: var(--bg-color) !important;
+}
+
+/* Patient Sidebar Links */
+html.dark .sidebar-nav-link {
+  color: var(--text-muted) !important;
+}
+
+html.dark .sidebar-nav-link:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html.dark .sidebar-nav-link.active {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html.dark .sidebar-logout {
+  color: var(--text-muted) !important;
+}
+
+html.dark .sidebar-logout:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html.dark .sidebar-icon {
+  color: inherit !important;
+}
+
+/* Cards & Containers */
+html.dark .updates-card,
+html.dark .section-card,
+html.dark .profile-card,
+html.dark .appointment-card,
+html.dark .hospital-card,
+html.dark .mh-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow) !important;
+  color: var(--text-color) !important;
+}
+
+/* Dashboard Updates */
+html.dark .updates-header {
+  border-bottom: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .updates-header h3 {
+  color: var(--text-color) !important;
+}
+
+html.dark .updates-count {
+  color: var(--text-muted) !important;
+}
+
+html.dark .update-item {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .update-item:last-child {
+  border-bottom: none !important;
+}
+
+html.dark .update-title {
+  color: var(--text-color) !important;
+}
+
+html.dark .update-time {
+  color: var(--text-muted) !important;
+}
+
+html.dark .no-data {
+  color: var(--text-muted) !important;
+}
+
+/* Quick Action Cards */
+html.dark .action-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+html.dark .action-card .action-icon-wrapper {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .action-appointments {
+  border-left: 4px solid #0081c7 !important;
+}
+html.dark .action-reports {
+  border-left: 4px solid #10b981 !important;
+}
+html.dark .action-book {
+  border-left: 4px solid #f59e0b !important;
+}
+html.dark .action-assistant {
+  border-left: 4px solid #8b5cf6 !important;
+}
+
+html.dark .action-text h4 {
+  color: var(--text-color) !important;
+}
+
+html.dark .action-text p {
+  color: var(--text-muted) !important;
+}
+
+/* Lists and section headers */
+html.dark .section-header {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .section-header h3 {
+  color: var(--text-color) !important;
+}
+
+html.dark .section-link {
+  color: #0081c7 !important;
+}
+
+html.dark .section-link:hover {
+  color: #00a0f0 !important;
+}
+
+html.dark .list-item {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .list-item:last-child {
+  border-bottom: none !important;
+}
+
+html.dark .item-details h4 {
+  color: var(--text-color) !important;
+}
+
+html.dark .item-subtitle,
+html.dark .item-date {
+  color: var(--text-muted) !important;
+}
+
+/* Badges */
+html.dark .badge-confirmed,
+html.dark .badge-ready,
+html.dark .appt-badge.confirmed {
+  background-color: #064e3b !important;
+  color: #a7f3d0 !important;
+}
+
+html.dark .appt-badge.pending {
+  background-color: #78350f !important;
+  color: #fde68a !important;
+}
+
+html.dark .appt-badge.cancelled {
+  background-color: #7f1d1d !important;
+  color: #fca5a5 !important;
+}
+
+/* Profile Details */
+html.dark .profile-card-header {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .profile-card-header h3 {
+  color: var(--text-color) !important;
+}
+
+html.dark .info-item {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .info-label {
+  color: var(--text-muted) !important;
+}
+
+html.dark .info-value {
+  color: var(--text-color) !important;
+}
+
+html.dark .account-box {
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .account-box-label {
+  color: var(--text-muted) !important;
+}
+
+html.dark .account-box-value {
+  color: var(--text-color) !important;
+}
+
+html.dark .notification-heading {
+  color: var(--text-color) !important;
+}
+
+html.dark .setting-item {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .setting-label {
+  color: var(--text-color) !important;
+}
+
+html.dark .danger-text {
+  color: #f87171 !important;
+}
+
+/* Appointments Tab & Header controls */
+html.dark .appointments-action-bar {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .tab-link {
+  color: var(--text-muted) !important;
+}
+
+html.dark .tab-link:hover {
+  color: var(--text-color) !important;
+}
+
+html.dark .tab-link.active {
+  color: #0081c7 !important;
+  border-bottom-color: #0081c7 !important;
+}
+
+/* Appointment Cards */
+html.dark .appt-datetime {
+  background-color: var(--input-bg) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .datetime-row {
+  color: var(--text-color) !important;
+}
+
+html.dark .doctor-name {
+  color: var(--text-color) !important;
+}
+
+html.dark .doctor-specialty {
+  color: var(--text-muted) !important;
+}
+
+html.dark .appt-footer {
+  border-top: 1px solid var(--border-color) !important;
+}
+
+html.dark .btn-cancel-appt {
+  color: #f87171 !important;
+}
+
+html.dark .btn-cancel-appt:hover {
+  background-color: #2d191b !important;
+}
+
+/* Blood Bank Page */
+html.dark .bb-notice {
+  background-color: #1e293b !important;
+  border-left-color: #0081c7 !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .bb-notice strong {
+  color: #0081c7 !important;
+}
+
+html.dark .bb-input {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .bb-select {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .hospital-header {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .hospital-name {
+  color: var(--text-color) !important;
+}
+
+html.dark .hospital-detail {
+  color: var(--text-muted) !important;
+}
+
+html.dark .blood-section-title {
+  color: var(--text-color) !important;
+}
+
+html.dark .blood-type-card {
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .blood-type-label {
+  color: var(--text-muted) !important;
+}
+
+html.dark .blood-type-units {
+  color: var(--text-color) !important;
+}
+
+html.dark .status-badge.low {
+  background-color: #7f1d1d !important;
+  color: #fca5a5 !important;
+}
+
+html.dark .status-badge.medium {
+  background-color: #78350f !important;
+  color: #fde68a !important;
+}
+
+html.dark .status-badge.high {
+  background-color: #064e3b !important;
+  color: #a7f3d0 !important;
+}
+
+/* Multi-Hospital View */
+html.dark .mh-last-updated {
+  color: var(--text-muted) !important;
+}
+
+html.dark .mh-refresh-btn {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .mh-refresh-btn:hover {
+  background-color: #1e293b !important;
+}
+
+html.dark .mh-card-header {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .mh-icon {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .mh-hospital-name {
+  color: var(--text-color) !important;
+}
+
+html.dark .mh-bed-row {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .mh-bed-row:last-child {
+  border-bottom: none !important;
+}
+
+html.dark .mh-bed-label {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .mh-bed-count {
+  color: var(--text-color) !important;
+}
+
+html.dark .mh-progress-track {
+  background-color: var(--input-bg) !important;
+}
+
+html.dark .mh-progress-fill {
+  background-color: #0081c7 !important;
+}
+
+html.dark .mh-availability-text {
+  color: var(--text-muted) !important;
+}
