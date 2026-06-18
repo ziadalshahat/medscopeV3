@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 
@@ -9,6 +9,19 @@ import { faClinicMedical } from "@fortawesome/free-solid-svg-icons";
 const Sidebar = () => {
 
     const location = useLocation();
+    const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
+
+    const toggleTheme = () => {
+        const nextDark = !isDark;
+        setIsDark(nextDark);
+        if (nextDark) {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+        }
+    };
 
 
     const menuItems = [
@@ -155,15 +168,23 @@ const Sidebar = () => {
 
             {/* Logout */}
 
-            <div className="sidebar-footer">
-
+            <div className="sidebar-footer" style={{ display: 'flex', flexDirection: 'column', gap: '5px', padding: '10px 15px' }}>
+                <button 
+                    onClick={toggleTheme} 
+                    className="theme-toggle-btn"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '15px', color: '#688c9f', padding: '12px 15px', width: '100%', fontFamily: 'inherit', fontSize: '14px', borderRadius: '8px', transition: 'background-color 0.2s' }}
+                >
+                    <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`} style={{ width: '20px', fontSize: '16px' }}></i>
+                    <span>{isDark ? "Light Mode" : "Dark Mode"}</span>
+                </button>
 
                 <Link 
                     to="/"
                     className="logout-btn"
+                    style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '12px 15px', borderRadius: '8px', width: '100%' }}
                 >
 
-                    <i className="fas fa-sign-out-alt nav-icon"></i>
+                    <i className="fas fa-sign-out-alt nav-icon" style={{ width: '20px', fontSize: '16px' }}></i>
 
                     Logout
 

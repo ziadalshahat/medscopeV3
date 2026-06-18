@@ -16,7 +16,20 @@ import '../styles/Profile.css'; // For modal styles
 
 const Sidebar = () => {
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+    const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
     const navigate = useNavigate();
+
+    const toggleTheme = () => {
+        const nextDark = !isDark;
+        setIsDark(nextDark);
+        if (nextDark) {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+        }
+    };
 
     const handleLogout = () => {
         // Perform logout logic here
@@ -49,9 +62,18 @@ const Sidebar = () => {
                 ))}
             </ul>
 
-            <div className="sidebar-footer">
-                <button className="sidebar-logout" onClick={() => setIsLogoutModalOpen(true)} style={{ width: '100%', border: 'none', background: 'transparent', cursor: 'pointer' }}>
-                    <ArrowRightOnRectangleIcon className="sidebar-icon" />
+            <div className="sidebar-footer" style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                <button 
+                    onClick={toggleTheme} 
+                    className="theme-toggle-btn"
+                    style={{ border: 'none', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '15px', color: '#688c9f', padding: '12px 15px', width: '100%', fontFamily: 'inherit', fontSize: '14px', borderRadius: '8px', transition: 'background-color 0.2s' }}
+                >
+                    <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`} style={{ width: '20px', fontSize: '16px' }}></i>
+                    <span>{isDark ? "Light Mode" : "Dark Mode"}</span>
+                </button>
+
+                <button className="sidebar-logout" onClick={() => setIsLogoutModalOpen(true)} style={{ width: '100%', border: 'none', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '15px', padding: '12px 15px', borderRadius: '8px' }}>
+                    <ArrowRightOnRectangleIcon className="sidebar-icon" style={{ width: '20px', height: '20px' }} />
                     Logout
                 </button>
             </div>

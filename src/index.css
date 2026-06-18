@@ -60,3 +60,162 @@ img {
 ::-webkit-scrollbar-thumb:hover {
     background: #004f78;
 }
+
+/* ================= Dark Mode variables & overrides ================= */
+:root {
+  --bg-color: #e1eff8;
+  --text-color: #2c3e50;
+  --text-muted: #7f8c8d;
+  --card-bg: #ffffff;
+  --card-header-bg: #f5f9fc;
+  --border-color: #d1e2ee;
+  --input-bg: #ffffff;
+  --table-header-bg: #eef5fa;
+  --table-row-hover: #f5faff;
+  --modal-bg: #ffffff;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+html.dark {
+  --bg-color: #0b0f19;
+  --text-color: #e6ebf5;
+  --text-muted: #94a3b8;
+  --card-bg: #111827;
+  --card-header-bg: #1f2937;
+  --border-color: #374151;
+  --input-bg: #1f2937;
+  --table-header-bg: #1f2937;
+  --table-row-hover: #1e293b;
+  --modal-bg: #111827;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Global Selectors applying variables in dark mode */
+html.dark body {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+}
+
+/* Sidebar and Header overrides in Dark Mode */
+html.dark .super-sidebar, 
+html.dark .pt-sidebar,
+html.dark .doc-sidebar,
+html.dark .admin-sidebar,
+html.dark .sidebar,
+html.dark .doc-sidebar-block,
+html.dark .pt-sidebar-top {
+  background-color: #0d111c !important;
+  border-right: 1px solid var(--border-color) !important;
+}
+
+html.dark .super-header,
+html.dark .pt-topbar,
+html.dark .doc-header-block,
+html.dark .admin-header-block,
+html.dark .header {
+  background-color: #0d111c !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .super-user-name,
+html.dark .profile-name,
+html.dark .profile-details span {
+  color: var(--text-color) !important;
+}
+
+/* Page titles and text overrides */
+html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark h5, html.dark h6,
+html.dark .admin-table th, html.dark .hospital-table th, html.dark .doc-table th, html.dark .pt-table th,
+html.dark .super-header-title, html.dark .settings-title, html.dark .pt-page-title, html.dark .doc-page-title,
+html.dark .card-title, html.dark .table-card-header, html.dark .new-modal-topbar span {
+  color: var(--text-color) !important;
+}
+
+html.dark p, html.dark span, html.dark td, html.dark li, html.dark label,
+html.dark .super-header-subtitle, html.dark .settings-subtitle, html.dark .readonly {
+  color: var(--text-color) !important;
+}
+
+/* Cards & Modals */
+html.dark .admin-table-wrapper,
+html.dark .hospital-table-wrapper,
+html.dark .doc-card-wrapper,
+html.dark .doc-card,
+html.dark .pt-card,
+html.dark .settings-card,
+html.dark .admin-patients-card,
+html.dark .admin-patients-card-wrapper,
+html.dark .pt-card-header,
+html.dark .new-modal-body {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .new-modal,
+html.dark .new-success-modal,
+html.dark .confirm-modal-content,
+html.dark .success-modal-content,
+html.dark .edit-modal-content,
+html.dark .modal-content,
+html.dark .modal-overlay {
+  background-color: var(--modal-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+/* Input elements */
+html.dark input,
+html.dark select,
+html.dark textarea,
+html.dark .search-box input,
+html.dark .doc-search-input,
+html.dark .pt-search,
+html.dark .new-form-field input,
+html.dark .new-form-field select,
+html.dark .new-form-field textarea {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+/* Table overrides */
+html.dark table,
+html.dark .admin-table,
+html.dark .hospital-table,
+html.dark .doc-table,
+html.dark .pt-table,
+html.dark .admin-patients-table {
+  background-color: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border-collapse: collapse;
+}
+
+html.dark tr {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark tr:hover {
+  background-color: var(--table-row-hover) !important;
+}
+
+html.dark th {
+  background-color: var(--table-header-bg) !important;
+  color: var(--text-color) !important;
+  border-bottom: 2px solid var(--border-color) !important;
+}
+
+html.dark td {
+  color: var(--text-color) !important;
+}
+
+/* Public landing/landing page specific dark overrides */
+html.dark .hero-section,
+html.dark .partners-section,
+html.dark .features-section,
+html.dark .tools-section,
+html.dark .footer {
+  background-color: #0b0f19 !important;
+  color: var(--text-color) !important;
+}

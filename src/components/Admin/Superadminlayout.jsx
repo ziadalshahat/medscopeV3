@@ -27,6 +27,20 @@ const SuperAdminLayout = () => {
   const [userName, setUserName] = useState("Gina");
   const [userRole, setUserRole] = useState("Super Admin");
 
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
+
+  const toggleTheme = () => {
+    const nextDark = !isDark;
+    setIsDark(nextDark);
+    if (nextDark) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -110,7 +124,16 @@ const SuperAdminLayout = () => {
             <h2 className="super-header-title">{current.title}</h2>
             <p className="super-header-subtitle">{current.subtitle}</p>
           </div>
-          <div className="super-header-right">
+          <div className="super-header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            {/* Theme Toggle Button */}
+            <button 
+              onClick={toggleTheme} 
+              className="theme-toggle-btn" 
+              aria-label="Toggle Theme" 
+              style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', color: '#004f78', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px' }}
+            >
+              <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`}></i>
+            </button>
 
             {/* Notification Bell */}
             <div className="notif-wrapper" ref={notifRef}>
