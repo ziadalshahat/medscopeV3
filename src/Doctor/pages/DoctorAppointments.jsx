@@ -38,6 +38,8 @@ const DoctorAppointments = () => {
 
         if (Array.isArray(data)) {
           setAppointments(data);
+        } else if (data.data && Array.isArray(data.data)) {
+          setAppointments(data.data);
         } else if (data.items) {
           setAppointments(data.items);
         } else {
