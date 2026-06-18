@@ -267,3 +267,67 @@
     transform: translateX(-50%) translateY(0);
   }
 }
+
+/* ================= DARK MODE ================= */
+html.dark .sv-page {
+  background: var(--bg-color) !important;
+  color: var(--text-color);
+}
+
+html.dark .sv-header {
+  background: #0d111c !important;
+  border-bottom: 1px solid var(--border-color);
+}
+
+html.dark .sv-back-btn {
+  background: #1f2937;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+html.dark .sv-back-btn:hover {
+  background: #374151;
+}
+
+html.dark .sv-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+html.dark .sv-card-title {
+  color: var(--text-color);
+}
+
+html.dark .sv-label {
+  color: var(--text-color);
+}
+
+html.dark .sv-input,
+html.dark .sv-textarea,
+html.dark .sv-select {
+  background: #1f2937;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .sv-input:focus,
+html.dark .sv-textarea:focus,
+html.dark .sv-select:focus {
+  background: #1f2937;
+  box-shadow: 0 0 0 2px rgba(46, 168, 223, 0.2);
+}
+
+html.dark .sv-input::placeholder,
+html.dark .sv-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+html.dark .sv-add-btn {
+  background: #2ea8df;
+  color: #ffffff;
+}
+
+html.dark .sv-add-btn:hover {
+  background: #238ebd;
+}

@@ -172,3 +172,60 @@
     width: 100%;
   }
 }
+
+/* ================= DARK MODE ================= */
+html.dark .ep-page {
+  background: var(--bg-color) !important;
+}
+
+html.dark .ep-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+html.dark .ep-breadcrumb {
+  color: #2ea8df;
+}
+
+html.dark .ep-title {
+  color: var(--text-color);
+}
+
+html.dark .ep-label {
+  color: var(--text-color);
+}
+
+html.dark .ep-input {
+  background: #1f2937;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .ep-input:focus {
+  background: #1f2937;
+  box-shadow: 0 0 0 2px rgba(46, 168, 223, 0.2);
+}
+
+html.dark .ep-input::placeholder {
+  color: var(--text-muted);
+}
+
+html.dark .ep-cancel-btn {
+  background: #1f2937;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .ep-cancel-btn:hover {
+  background: #374151;
+}
+
+html.dark .ep-save-btn {
+  background: #2ea8df;
+  color: #ffffff;
+}
+
+html.dark .ep-save-btn:hover {
+  background: #238ebd;
+}

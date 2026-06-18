@@ -280,3 +280,108 @@
     font-size: 13px;
   }
 }
+
+/* ================= DARK MODE ================= */
+html.dark .dwh-page {
+  background: var(--bg-color) !important;
+  color: var(--text-color);
+}
+
+html.dark .dwh-back-btn {
+  color: #2ea8df;
+}
+
+html.dark .dwh-page-title {
+  color: var(--text-color);
+}
+
+html.dark .dwh-subtitle {
+  color: var(--text-muted);
+}
+
+html.dark .dwh-duration-card,
+html.dark .dwh-day-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .dwh-duration-label,
+html.dark .dwh-day-name {
+  color: var(--text-color);
+}
+
+html.dark .dwh-duration-btn {
+  background: #1f2937;
+  color: var(--text-muted);
+}
+
+html.dark .dwh-duration-btn.active {
+  background: #2ea8df;
+  color: #ffffff;
+}
+
+html.dark .dwh-duration-btn:hover:not(.active) {
+  background: #374151;
+  color: #ffffff;
+}
+
+html.dark .dwh-checkbox {
+  border: 2px solid #2ea8df;
+  background: #1f2937;
+}
+
+html.dark .dwh-checkbox:checked {
+  background: #2ea8df;
+  border-color: #2ea8df;
+}
+
+html.dark .dwh-time-btn {
+  background: #2ea8df;
+  color: #ffffff;
+}
+
+html.dark .dwh-time-btn:disabled {
+  background: #1f2937;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .dwh-time-btn:not(:disabled):hover {
+  background: #238ebd;
+}
+
+html.dark .dwh-time-input {
+  background: #2ea8df;
+  color: #ffffff;
+}
+
+html.dark .dwh-time-input:disabled {
+  background: #1f2937;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .dwh-save-btn {
+  background: #2ea8df;
+  color: #ffffff;
+}
+
+html.dark .dwh-save-btn:hover {
+  background: #238ebd;
+}
+
+html.dark .dwh-save-btn:disabled {
+  background: #1f2937;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  opacity: 0.6;
+}
+
+html.dark .dwh-message {
+  background: rgba(28, 123, 86, 0.15);
+  color: #3ad393;
+}
+
+html.dark .dwh-loading {
+  color: var(--text-color);
+}

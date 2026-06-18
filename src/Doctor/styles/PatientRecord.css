@@ -572,3 +572,195 @@
   .pr-tabs-row { grid-template-columns: 1fr; }
   .pr-note-form-actions { flex-direction: column; }
 }
+
+/* ================= DARK MODE ================= */
+html.dark .pr-topbar,
+html.dark .pr-subheader-bar {
+  background: #0d111c !important;
+  border-bottom: 1px solid var(--border-color);
+}
+
+html.dark .pr-sub-details-btn {
+  background: #1f2937;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+html.dark .pr-sub-details-btn:hover {
+  background: #374151;
+}
+
+html.dark .pr-info-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .pr-patient-name {
+  color: var(--text-color);
+}
+
+html.dark .pr-patient-id {
+  color: var(--text-muted);
+}
+
+html.dark .pr-blood-badge {
+  background: #2ea8df;
+  color: #ffffff;
+}
+
+html.dark .pr-info-row {
+  background: #1f2937;
+}
+
+html.dark .pr-info-field {
+  border-right: 1px solid var(--border-color);
+}
+
+html.dark .pr-field-label {
+  color: var(--text-muted);
+}
+
+html.dark .pr-field-value {
+  color: var(--text-color);
+}
+
+html.dark .pr-stat-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .pr-stat-title {
+  color: var(--text-muted);
+}
+
+html.dark .pr-stat-num {
+  color: var(--text-color);
+}
+
+html.dark .pr-tabs-row {
+  background: #1f2937;
+}
+
+html.dark .pr-tab-btn {
+  color: var(--text-muted);
+}
+
+html.dark .pr-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+html.dark .pr-tab-active {
+  background: #374151;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+html.dark .pr-section-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .pr-section-title {
+  color: #2ea8df;
+}
+
+html.dark .pr-entry {
+  border-bottom: 1px solid var(--border-color);
+}
+
+html.dark .pr-entry-name {
+  color: var(--text-color);
+}
+
+html.dark .pr-entry-sub,
+html.dark .pr-entry-notes {
+  color: var(--text-muted);
+}
+
+html.dark .pr-add-note-btn {
+  background: #2ea8df;
+  color: #ffffff;
+}
+
+html.dark .pr-add-note-btn:hover {
+  background: #238ebd;
+}
+
+html.dark .pr-add-note-form {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .pr-form-input,
+html.dark .pr-form-textarea {
+  background: #1f2937;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .pr-save-note-btn {
+  background: #2ea8df;
+  color: #ffffff;
+}
+
+html.dark .pr-save-note-btn:hover {
+  background: #238ebd;
+}
+
+html.dark .pr-clear-btn {
+  background: #1f2937;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .pr-clear-btn:hover {
+  background: #374151;
+}
+
+html.dark .pr-note-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .pr-note-date {
+  color: var(--text-color);
+}
+
+html.dark .pr-note-edit-btn {
+  background: #2ea8df;
+  color: #ffffff;
+}
+
+html.dark .pr-note-edit-btn:hover {
+  background: #238ebd;
+}
+
+html.dark .pr-note-field-label {
+  color: var(--text-muted);
+}
+
+html.dark .pr-note-field-value {
+  color: var(--text-color);
+}
+
+html.dark .pr-empty-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .pr-empty-card h2 {
+  color: var(--text-color);
+}
+
+html.dark .pr-empty-card p {
+  color: var(--text-muted);
+}
+
+html.dark .pr-empty-btn {
+  background: #2ea8df;
+  color: #ffffff;
+}
+
+html.dark .pr-empty-btn:hover {
+  background: #238ebd;
+}
