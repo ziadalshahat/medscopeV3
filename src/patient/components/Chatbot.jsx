@@ -68,9 +68,9 @@ function Chatbot() {
 
 function removeChatbot(){
 
-  // يمسح كل عناصر Chatbase
+  // يمسح كل عناصر Chatbase بس بيسيب الـ iframe بتاع صفحة Smart Assistant
   const elements = document.querySelectorAll(
-    "iframe, [id*='chatbase'], [class*='chatbase']"
+    "iframe:not([src*='chatbot-iframe']), [id*='chatbase'], [class*='chatbase']"
   );
 
   elements.forEach(el => {
