@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import "../styles/StartVisit.css";
@@ -9,6 +9,9 @@ import {
   addMedication,
   addAllergy,
 } from "../services/startVisitApi";
+import { getAppointmentDetails } from "../services/AppointmentDetails";
+import { addPatientNote } from "../services/patientNotesApi";
+import { completeAppointment } from "../../Admin/services/appointments";
 
 const StartVisit = ({
   appointment,
@@ -23,6 +26,9 @@ const StartVisit = ({
 
   const appointmentId =
     appointment?.appointmentId || location.state?.appointmentId;
+
+  const [patientData, setPatientData] = useState(null);
+  const [loadingDetails, setLoadingDetails] = useState(true);
 
   const [chronic, setChronic] =
     useState({
@@ -51,21 +57,78 @@ const StartVisit = ({
       reaction: "",
     });
 
+  const [visitNotes, setVisitNotes] = useState({
+    diagnosis: "",
+    treatmentPlan: "",
+    followUp: "",
+  });
+
   const [submitted, setSubmitted] =
     useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = () => {
-    setSubmitted(true);
-
-    setTimeout(() => {
-      setSubmitted(false);
-
-      if (onNavigate) {
-        onNavigate("appointments");
-      } else {
-        navigate(-1);
+  useEffect(() => {
+    const fetchPatientData = async () => {
+      if (!appointmentId) {
+        setLoadingDetails(false);
+        return;
       }
-    }, 1500);
+      try {
+        const details = await getAppointmentDetails(appointmentId);
+        setPatientData(details);
+      } catch (err) {
+        console.error("Failed to load appointment details:", err);
+      } finally {
+        setLoadingDetails(false);
+      }
+    };
+    fetchPatientData();
+  }, [appointmentId]);
+
+  const handleSubmit = async () => {
+    if (!visitNotes.diagnosis.trim() || !visitNotes.treatmentPlan.trim()) {
+      alert("Please enter both Diagnosis and Treatment Plan before submitting the visit.");
+      return;
+    }
+
+    const patientId = patientData?.patientId || patientData?.id;
+    if (!patientId) {
+      alert("Could not retrieve patient ID for this visit. Cannot submit notes.");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      // 1. Save visit note/record
+      await addPatientNote(patientId, {
+        date: today,
+        diagnosis: visitNotes.diagnosis,
+        treatmentPlan: visitNotes.treatmentPlan,
+        followUp: visitNotes.followUp,
+      });
+
+      // 2. Complete appointment
+      try {
+        await completeAppointment(appointmentId);
+      } catch (apptErr) {
+        console.warn("Could not mark appointment as completed on backend:", apptErr);
+      }
+
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        if (onNavigate) {
+          onNavigate("appointments");
+        } else {
+          navigate(-1);
+        }
+      }, 1500);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to submit visit notes: " + (error.response?.data?.message || error.response?.data || error.message));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const patient = appointment || location.state || {
@@ -99,10 +162,20 @@ const StartVisit = ({
 
           <div className="sv-header-sub">
             Patient:{" "}
-            {patient.patient ||
-              patient.name}{" "}
+            {loadingDetails
+              ? "Loading..."
+              : (patientData?.patientName ||
+                 patientData?.patient ||
+                 patient.patient ||
+                 patient.name ||
+                 "N/A")}{" "}
             (ID:{" "}
-            {patient.id || "PT001"})
+            {loadingDetails
+              ? "..."
+              : (patientData?.patientId ||
+                 patientData?.id ||
+                 patient.id ||
+                 "PT001")})
           </div>
         </div>
       </div>
@@ -192,9 +265,10 @@ const StartVisit = ({
                   await addChronicDisease(
                     appointmentId,
                     {
+                      name: chronic.disease,
+                      disease: chronic.disease,
                       date: chronic.date,
-                      disease:
-                        chronic.disease,
+                      diagnosedDate: chronic.date
                     }
                   );
 
@@ -207,7 +281,8 @@ const StartVisit = ({
                     disease: "",
                   });
                 } catch (error) {
-                  console.log(error);
+                  console.error(error);
+                  alert("Failed to add chronic disease: " + (error.response?.data?.message || error.response?.data || error.message));
                 }
               }}
             >
@@ -296,11 +371,11 @@ const StartVisit = ({
                   await addSurgery(
                     appointmentId,
                     {
+                      name: surgical.surgery,
+                      surgery: surgical.surgery,
                       date: surgical.date,
-                      surgery:
-                        surgical.surgery,
-                      notes:
-                        surgical.notes,
+                      surgeryDate: surgical.date,
+                      notes: surgical.notes,
                     }
                   );
 
@@ -314,7 +389,8 @@ const StartVisit = ({
                     notes: "",
                   });
                 } catch (error) {
-                  console.log(error);
+                  console.error(error);
+                  alert("Failed to add surgical history: " + (error.response?.data?.message || error.response?.data || error.message));
                 }
               }}
             >
@@ -412,12 +488,12 @@ const StartVisit = ({
                   await addMedication(
                     appointmentId,
                     {
-                      date:
-                        medications.date,
-                      medication:
-                        medications.medication,
-                      frequency:
-                        medications.frequency,
+                      name: medications.medication,
+                      medication: medications.medication,
+                      frequency: medications.frequency,
+                      date: medications.date,
+                      started: medications.date,
+                      startDate: medications.date,
                     }
                   );
 
@@ -431,7 +507,8 @@ const StartVisit = ({
                     frequency: "",
                   });
                 } catch (error) {
-                  console.log(error);
+                  console.error(error);
+                  alert("Failed to add medication: " + (error.response?.data?.message || error.response?.data || error.message));
                 }
               }}
             >
@@ -540,12 +617,10 @@ const StartVisit = ({
                   await addAllergy(
                     appointmentId,
                     {
-                      date:
-                        allergies.date,
-                      allergy:
-                        allergies.allergy,
-                      reaction:
-                        allergies.reaction,
+                      name: allergies.allergy,
+                      allergy: allergies.allergy,
+                      reaction: allergies.reaction,
+                      date: allergies.date,
                     }
                   );
 
@@ -559,7 +634,8 @@ const StartVisit = ({
                     reaction: "",
                   });
                 } catch (error) {
-                  console.log(error);
+                  console.error(error);
+                  alert("Failed to add allergy: " + (error.response?.data?.message || error.response?.data || error.message));
                 }
               }}
             >
@@ -568,12 +644,82 @@ const StartVisit = ({
           </div>
         </div>
 
+        {/* Visit Summary / Notes */}
+        <div className="sv-card">
+          <div className="sv-card-title">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#0a5c8a"
+              strokeWidth="2"
+              width="16"
+              height="16"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14,2 14,8 20,8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
+            Visit Summary & Notes
+          </div>
+
+          <label className="sv-label">
+            Diagnosis <span className="sv-req">*</span>
+          </label>
+          <textarea
+            className="sv-textarea"
+            placeholder="Enter diagnosis details..."
+            value={visitNotes.diagnosis}
+            onChange={(e) =>
+              setVisitNotes((prev) => ({
+                ...prev,
+                diagnosis: e.target.value,
+              }))
+            }
+          />
+
+          <label className="sv-label">
+            Treatment Plan <span className="sv-req">*</span>
+          </label>
+          <textarea
+            className="sv-textarea"
+            placeholder="Enter treatment plan details..."
+            value={visitNotes.treatmentPlan}
+            onChange={(e) =>
+              setVisitNotes((prev) => ({
+                ...prev,
+                treatmentPlan: e.target.value,
+              }))
+            }
+          />
+
+          <label className="sv-label">
+            Follow-up
+          </label>
+          <input
+            type="text"
+            className="sv-input"
+            placeholder="e.g. Next week, in 2 months..."
+            value={visitNotes.followUp}
+            onChange={(e) =>
+              setVisitNotes((prev) => ({
+                ...prev,
+                followUp: e.target.value,
+              }))
+            }
+          />
+        </div>
+
         <div className="sv-submit-row">
           <button
             className="sv-submit-btn"
             onClick={handleSubmit}
+            disabled={isSubmitting}
+            style={{ opacity: isSubmitting ? 0.7 : 1, cursor: isSubmitting ? "not-allowed" : "pointer" }}
           >
-            {submitted
+            {isSubmitting
+              ? "Submitting..."
+              : submitted
               ? "Submitted ✓"
               : "Submit"}
           </button>
