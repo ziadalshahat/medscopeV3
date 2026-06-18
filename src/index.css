@@ -964,3 +964,93 @@ html.dark .mh-progress-fill {
 html.dark .mh-availability-text {
   color: var(--text-muted) !important;
 }
+
+/* Settings Item overrides */
+html.dark .setting-item {
+  background-color: var(--input-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .setting-item:hover {
+  background-color: #1e293b !important;
+}
+
+html.dark .setting-label {
+  color: var(--text-color) !important;
+}
+
+/* Empty State cards */
+html.dark .btn-empty-state {
+  background-color: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-muted) !important;
+}
+
+/* Patient Record Page (Medical History) */
+html.dark .mh-patient-card,
+html.dark .mh-summary-card,
+html.dark .mh-section-card {
+  background-color: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .mh-patient-name-container h2 {
+  color: var(--text-color) !important;
+}
+
+html.dark .mh-patient-id,
+html.dark .mh-patient-id strong {
+  color: var(--text-muted) !important;
+}
+
+html.dark .mh-detail-label {
+  color: #0081c7 !important;
+}
+
+html.dark .mh-detail-value {
+  color: var(--text-color) !important;
+}
+
+html.dark .mh-summary-header {
+  color: #0081c7 !important;
+}
+
+html.dark .mh-summary-count {
+  color: var(--text-color) !important;
+}
+
+html.dark .mh-tabs-container {
+  background-color: var(--input-bg) !important;
+}
+
+html.dark .mh-tab {
+  color: var(--text-muted) !important;
+}
+
+html.dark .mh-tab.active {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html.dark .mh-section-title {
+  color: var(--text-color) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+html.dark .mh-list-item {
+  border-bottom-color: var(--border-color) !important;
+}
+
+html.dark .mh-item-name {
+  color: #0081c7 !important;
+}
+
+html.dark .mh-item-detail {
+  color: var(--text-muted) !important;
+}
+
+html.dark .mh-med-pill {
+  background-color: #0081c7 !important;
+  color: #ffffff !important;
+}
