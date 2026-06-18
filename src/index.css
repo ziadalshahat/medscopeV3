@@ -1058,3 +1058,239 @@ html.dark .mh-med-pill {
 html.dark .dashboard-container {
   background-color: var(--bg-color) !important;
 }
+
+/* Patient Booking Flow Dark Mode Overrides */
+html.dark .hospital-selection-container,
+html.dark .booking-layout,
+html.dark .book-new-container {
+  background-color: var(--bg-color) !important;
+}
+
+html.dark .book-form-card,
+html.dark .datetime-card,
+html.dark .review-container,
+html.dark .summary-card-inner,
+html.dark .success-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .booking-title,
+html.dark .hospital-title,
+html.dark .book-title,
+html.dark .review-header {
+  color: var(--text-color) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+html.dark .booking-subtitle,
+html.dark .hospital-location {
+  color: var(--text-muted) !important;
+}
+
+/* Stepper */
+html.dark .step-number {
+  background-color: var(--input-bg) !important;
+  color: var(--text-muted) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .step-label {
+  color: var(--text-muted) !important;
+}
+
+html.dark .stepper-step.active .step-number,
+html.dark .stepper-step.completed .step-number {
+  background-color: #0081c7 !important;
+  border-color: #0081c7 !important;
+  color: #ffffff !important;
+}
+
+html.dark .stepper-step.active .step-label,
+html.dark .stepper-step.completed .step-label {
+  color: var(--text-color) !important;
+}
+
+html.dark .step-connector {
+  background-color: var(--border-color) !important;
+}
+
+/* Specialty Page */
+html.dark .specialty-search-input {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .specialty-search-input:focus {
+  background-color: var(--input-bg) !important;
+  border-color: #0081c7 !important;
+}
+
+html.dark .specialty-card {
+  background-color: var(--input-bg) !important;
+  border: 2px solid transparent !important;
+}
+
+html.dark .specialty-card:hover {
+  background-color: #1e293b !important;
+}
+
+html.dark .specialty-card.selected {
+  background-color: #1e293b !important;
+  border-color: #0081c7 !important;
+}
+
+html.dark .specialty-name,
+html.dark .specialty-icon {
+  color: var(--text-color) !important;
+}
+
+/* Doctor Selection Page */
+html.dark .doctor-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .doctor-card:hover {
+  background-color: #1e293b !important;
+}
+
+html.dark .doctor-name-title {
+  color: var(--text-color) !important;
+}
+
+html.dark .doctor-card-specialty {
+  color: #0081c7 !important;
+}
+
+html.dark .doctor-bio {
+  color: var(--text-muted) !important;
+}
+
+html.dark .doctor-rating {
+  color: var(--text-muted) !important;
+}
+
+html.dark .btn-view-schedule {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .btn-view-schedule:hover {
+  background-color: #1e293b !important;
+}
+
+/* Date Time Selection Page */
+html.dark .calendar-month,
+html.dark .calendar-nav-btn,
+html.dark .calendar-day-header,
+html.dark .time-slots-header {
+  color: var(--text-color) !important;
+}
+
+html.dark .calendar-day-btn {
+  color: var(--text-muted) !important;
+}
+
+html.dark .calendar-day-btn:hover:not(.disabled) {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html.dark .calendar-day-btn.active {
+  background-color: #0081c7 !important;
+  color: #ffffff !important;
+}
+
+html.dark .calendar-day-btn.disabled {
+  color: #374151 !important;
+}
+
+html.dark .time-slot-btn-large {
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .time-slot-btn-large:hover {
+  background-color: #1e293b !important;
+  border-color: #0081c7 !important;
+}
+
+html.dark .time-slot-btn-large.selected {
+  background-color: #0081c7 !important;
+  color: #ffffff !important;
+  border-color: #0081c7 !important;
+}
+
+html.dark .location-note {
+  color: var(--text-muted) !important;
+}
+
+html.dark .location-note svg {
+  color: #0081c7 !important;
+}
+
+/* Review Confirm Page */
+html.dark .review-label {
+  color: var(--text-color) !important;
+}
+
+html.dark .review-input,
+html.dark .review-textarea,
+html.dark .review-select {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .review-input:focus,
+html.dark .review-textarea:focus,
+html.dark .review-select:focus {
+  background-color: var(--input-bg) !important;
+  border-color: #0081c7 !important;
+}
+
+html.dark .review-input-readonly {
+  background-color: #1f2937 !important;
+  color: var(--text-muted) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .summary-card-inner h3 {
+  color: #ef4444 !important;
+}
+
+html.dark .summary-doc-details h4 {
+  color: var(--text-color) !important;
+}
+
+html.dark .summary-doc-details p {
+  color: var(--text-muted) !important;
+}
+
+html.dark .summary-dt-row {
+  color: var(--text-color) !important;
+}
+
+html.dark .summary-dt-row svg {
+  color: #0081c7 !important;
+}
+
+html.dark .summary-dt-row.time-row svg {
+  color: #ef4444 !important;
+}
+
+html.dark .success-card h2 {
+  color: var(--text-color) !important;
+}
+
+html.dark .success-card p {
+  color: var(--text-muted) !important;
+}
+
+html.dark .redirect-text {
+  color: #0081c7 !important;
+}
