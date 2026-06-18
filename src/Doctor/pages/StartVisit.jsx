@@ -71,6 +71,13 @@ const StartVisit = ({
     useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Toast notification state
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+  const showToast = (message, type = "success") => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast({ show: false, message: "", type: "success" }), 3000);
+  };
+
   useEffect(() => {
     const fetchPatientData = async () => {
       if (!appointmentId) {
@@ -324,9 +331,7 @@ const StartVisit = ({
                     }
                   );
 
-                  alert(
-                    "Chronic disease added successfully"
-                  );
+                  showToast("Chronic disease added successfully");
 
                   setChronic({
                     date: today,
@@ -334,7 +339,7 @@ const StartVisit = ({
                   });
                 } catch (error) {
                   console.error(error);
-                  alert("Failed to add chronic disease: " + (error.response?.data?.message || error.response?.data || error.message));
+                  showToast("Failed to add chronic disease: " + (error.response?.data?.message || error.response?.data || error.message), "error");
                 }
               }}
             >
@@ -429,9 +434,7 @@ const StartVisit = ({
                     }
                   );
 
-                  alert(
-                    "Surgery added successfully"
-                  );
+                  showToast("Surgery added successfully");
 
                   setSurgical({
                     date: today,
@@ -440,7 +443,7 @@ const StartVisit = ({
                   });
                 } catch (error) {
                   console.error(error);
-                  alert("Failed to add surgical history: " + (error.response?.data?.message || error.response?.data || error.message));
+                  showToast("Failed to add surgical history: " + (error.response?.data?.message || error.response?.data || error.message), "error");
                 }
               }}
             >
@@ -544,9 +547,7 @@ const StartVisit = ({
                     }
                   );
 
-                  alert(
-                    "Medication added successfully"
-                  );
+                  showToast("Medication added successfully");
 
                   setMedications({
                     date: today,
@@ -555,7 +556,7 @@ const StartVisit = ({
                   });
                 } catch (error) {
                   console.error(error);
-                  alert("Failed to add medication: " + (error.response?.data?.message || error.response?.data || error.message));
+                  showToast("Failed to add medication: " + (error.response?.data?.message || error.response?.data || error.message), "error");
                 }
               }}
             >
@@ -670,9 +671,7 @@ const StartVisit = ({
                     }
                   );
 
-                  alert(
-                    "Allergy added successfully"
-                  );
+                  showToast("Allergy added successfully");
 
                   setAllergies({
                     date: today,
@@ -681,7 +680,7 @@ const StartVisit = ({
                   });
                 } catch (error) {
                   console.error(error);
-                  alert("Failed to add allergy: " + (error.response?.data?.message || error.response?.data || error.message));
+                  showToast("Failed to add allergy: " + (error.response?.data?.message || error.response?.data || error.message), "error");
                 }
               }}
             >
@@ -690,6 +689,14 @@ const StartVisit = ({
           </div>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      {toast.show && (
+        <div className={`sv-toast ${toast.type === "error" ? "sv-toast-error" : "sv-toast-success"}`}>
+          <span>{toast.type === "error" ? "❌" : "✅"}</span>
+          <span>{toast.message}</span>
+        </div>
+      )}
     </div>
   );
 };
