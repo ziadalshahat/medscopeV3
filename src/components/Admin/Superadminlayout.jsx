@@ -79,13 +79,30 @@ const SuperAdminLayout = () => {
       <aside className="super-sidebar">
         <div className="super-sidebar-header" style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <img 
-              src="/ChatGPT Image Sep 29, 2025, 03_40_38 PM.png" 
-              alt="MedScope Logo" 
-              style={{ width: "35px", height: "35px", borderRadius: "50%", objectFit: "cover" }} 
-            />
+            <div style={{
+              width: "35px",
+              height: "35px",
+              background: "linear-gradient(145deg, #ffffff, #7aacc8)",
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}>
+              <img 
+                src="/ChatGPT Image Sep 29, 2025, 03_40_38 PM.png" 
+                alt="MedScope Logo" 
+                style={{ width: "22px", height: "22px", objectFit: "contain" }} 
+              />
+            </div>
             <div style={{ display: "flex", flexDirection: "column", lineHeight: "1.2" }}>
-              <span style={{ fontSize: "18px", fontWeight: "700", color: "#ffffff" }}>MedScope</span>
+              <span style={{ 
+                fontSize: "18px", 
+                fontWeight: "700", 
+                background: "linear-gradient(110deg, #0a8cd8, #3ae8b6)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text"
+              }}>MedScope</span>
               <span style={{ fontSize: "10px", color: "#a8c8e0" }}>Healthcare Excellence</span>
             </div>
           </div>
