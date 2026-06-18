@@ -14,6 +14,7 @@ const HospitalManagement = () => {
   const [error, setError] = useState("");
 
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -32,6 +33,17 @@ const HospitalManagement = () => {
 
   const pageSize = 7;
 
+  // ========== Debounce Search ==========
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [search]);
+
   // ========== Fetch Hospitals ==========
   const fetchHospitals = async () => {
     try {
@@ -43,7 +55,7 @@ const HospitalManagement = () => {
         PageSize: pageSize,
       };
 
-      if (search) params.Search = search;
+      if (debouncedSearch) params.Search = debouncedSearch;
       if (filterStatus === "Active") params.IsActive = true;
       else if (filterStatus === "Suspended") params.IsActive = false;
 
@@ -62,7 +74,7 @@ const HospitalManagement = () => {
 
   useEffect(() => {
     fetchHospitals();
-  }, [currentPage, search, filterStatus]);
+  }, [currentPage, debouncedSearch, filterStatus]);
 
   // ========== Modal Handlers ==========
   const openAdd = () => {

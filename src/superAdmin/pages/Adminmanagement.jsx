@@ -15,6 +15,7 @@ const AdminManagement = () => {
   const [error, setError] = useState("");
 
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [filterHospital, setFilterHospital] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -32,6 +33,17 @@ const AdminManagement = () => {
   const [saving, setSaving] = useState(false);
 
   const pageSize = 7;
+
+  // ========== Debounce Search ==========
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [search]);
 
   // ========== Fetch Hospitals for dropdown ==========
   useEffect(() => {
@@ -57,7 +69,7 @@ const AdminManagement = () => {
         PageSize: pageSize,
       };
 
-      if (search) params.Search = search;
+      if (debouncedSearch) params.Search = debouncedSearch;
       if (filterHospital !== "All") {
         const hospital = hospitals.find((h) => h.name === filterHospital);
         if (hospital) params.HospitalId = hospital.id;
@@ -78,7 +90,7 @@ const AdminManagement = () => {
 
   useEffect(() => {
     fetchAdmins();
-  }, [currentPage, search, filterHospital]);
+  }, [currentPage, debouncedSearch, filterHospital]);
 
   // ========== Hospital options for filter ==========
   const hospitalOptions = ["All", ...hospitals.map((h) => h.name)];
