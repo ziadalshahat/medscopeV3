@@ -708,11 +708,9 @@ html.dark .section-link:hover {
 }
 
 html.dark .list-item {
-  border-bottom: 1px solid var(--border-color) !important;
-}
-
-html.dark .list-item:last-child {
-  border-bottom: none !important;
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
 }
 
 html.dark .item-details h4 {
