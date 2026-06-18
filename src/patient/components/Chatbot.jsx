@@ -3,9 +3,11 @@ import { useLocation } from "react-router-dom";
 
 function Chatbot() {
   const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("token")
+  );
 
-  // اسمع لحدث الـ logout
+  // Listen for logout event
   useEffect(() => {
     const handleLogout = () => {
       setIsLoggedIn(false);
@@ -13,11 +15,21 @@ function Chatbot() {
     };
 
     window.addEventListener("logout", handleLogout);
-    return () => window.removeEventListener("logout", handleLogout);
+
+    return () => {
+      window.removeEventListener("logout", handleLogout);
+    };
   }, []);
 
-    // لو صفحة Smart Assistant متعملش حاجة
-    if (location.pathname.includes("smart-assistant") || location.pathname.includes("assistant")) {
+  // Load Chatbase
+  useEffect(() => {
+    if (!isLoggedIn) return;
+
+    // Don't show chatbot inside assistant page
+    if (
+      location.pathname.includes("smart-assistant") ||
+      location.pathname.includes("assistant")
+    ) {
       removeChatbot();
       return;
     }
@@ -32,38 +44,45 @@ function Chatbot() {
     if (window.chatbase) return;
 
     const script = document.createElement("script");
+
     script.innerHTML = `
       (function(){
-        if(!window.chatbase||window.chatbase("getState")!=="initialized"){
-          window.chatbase=(...arguments)=>{
-            if(!window.chatbase.q){window.chatbase.q=[]}
-            window.chatbase.q.push(arguments)
-          };
-          window.chatbase=new Proxy(window.chatbase,{
-            get(target,prop){
-              if(prop==="q"){return target.q}
-              return(...args)=>target(prop,...args)
+        if(!window.chatbase || window.chatbase("getState") !== "initialized"){
+          window.chatbase = (...arguments) => {
+            if(!window.chatbase.q){
+              window.chatbase.q = [];
             }
-          })
+            window.chatbase.q.push(arguments);
+          };
+
+          window.chatbase = new Proxy(window.chatbase,{
+            get(target,prop){
+              if(prop === "q"){
+                return target.q;
+              }
+              return (...args) => target(prop,...args);
+            }
+          });
         }
-        const onLoad=function(){
-          const script=document.createElement("script");
-          script.src="https://www.chatbase.co/embed.min.js";
-          script.id="R6TLm3ER5j0XAJ46ll2wO";
-          script.domain="www.chatbase.co";
+
+        const onLoad = function(){
+          const script = document.createElement("script");
+          script.src = "https://www.chatbase.co/embed.min.js";
+          script.id = "R6TLm3ER5j0XAJ46ll2wO";
+          script.domain = "www.chatbase.co";
           document.body.appendChild(script);
         };
+
         onLoad();
       })();
     `;
+
     document.body.appendChild(script);
 
-  }, [location.pathname]);
-
-  // Global cleanup when leaving the patient portal
-  useEffect(() => {
-    return () => removeChatbot();
-  }, []);
+    return () => {
+      removeChatbot();
+    };
+  }, [location.pathname, isLoggedIn]);
 
   return null;
 }
@@ -74,7 +93,9 @@ function removeChatbot(){
   const elements = document.querySelectorAll(
     "iframe:not([src*='chatbot-iframe']), [id*='chatbase'], [class*='chatbase']"
   );
-  elements.forEach(el => el.remove());
+
+  elements.forEach((el) => el.remove());
+
   delete window.chatbase;
 }
 
