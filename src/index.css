@@ -1595,3 +1595,192 @@ html.dark .dwh-time-label {
 html.dark .dwh-checkbox {
   accent-color: #004f78 !important;
 }
+
+/* ==========================================================================
+   Admin Portal Dark Mode Overrides
+   ========================================================================== */
+html.dark .dashboard-container,
+html.dark .admin-bed-page,
+html.dark .blood-container,
+html.dark .multi-page,
+html.dark .admin-appt-container,
+html.dark .admin-patients-container,
+html.dark .admin-home-container,
+html.dark .na-page,
+html.dark .nd-page {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .stats-cards-wrapper,
+html.dark .chart-card,
+html.dark .admin-bed-card-wrapper,
+html.dark .admin-appt-card,
+html.dark .admin-patients-card,
+html.dark .na-modal-card,
+html.dark .nd-modal-card,
+html.dark .hospital-card,
+html.dark .admin-appt-card-wrapper {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .stat-card,
+html.dark .admin-bed-card,
+html.dark .blood-card,
+html.dark .quantity-control {
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .stat-card-content h4,
+html.dark .stat-card-content h2,
+html.dark .stat-card .stat-icon,
+html.dark .admin-bed-ward-name,
+html.dark .admin-bed-count-text,
+html.dark .blood-label,
+html.dark .quantity-number,
+html.dark .btn-decrease,
+html.dark .btn-increase {
+  color: var(--text-color) !important;
+}
+
+html.dark .btn-decrease,
+html.dark .btn-increase {
+  border-color: var(--border-color) !important;
+}
+
+html.dark .dashboard-profile-area,
+html.dark .admin-bed-profile-area,
+html.dark .admin-appt-profile-area,
+html.dark .multi-profile-area,
+html.dark .doc-profile-area,
+html.dark .admin-home-profile-area {
+  background: transparent !important;
+}
+
+html.dark .dashboard-profile-area .profile-name,
+html.dark .admin-bed-profile-area .profile-name,
+html.dark .admin-appt-profile-area .profile-name,
+html.dark .multi-profile-area .profile-name,
+html.dark .doc-profile-area .profile-name,
+html.dark .admin-home-profile-area .profile-name,
+html.dark .dashboard-title,
+html.dark .admin-bed-page-title,
+html.dark .admin-appt-title,
+html.dark .multi-page-title,
+html.dark .admin-patients-title,
+html.dark .admin-home-title {
+  color: var(--text-color) !important;
+}
+
+html.dark .notification-bell-container {
+  background-color: var(--input-bg) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .pie-legend-name,
+html.dark .pie-legend-value,
+html.dark .pie-legend-item,
+html.dark .bar-legend-item,
+html.dark .chart-total-label,
+html.dark .chart-card select {
+  color: var(--text-color) !important;
+}
+
+html.dark .chart-card select {
+  background-color: var(--input-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .admin-appt-table,
+html.dark .admin-patients-table,
+html.dark .admin-appt-table th,
+html.dark .admin-patients-table th,
+html.dark .admin-appt-table td,
+html.dark .admin-patients-table td {
+  border-color: var(--border-color) !important;
+}
+
+html.dark .admin-appt-table th,
+html.dark .admin-patients-table th {
+  background-color: var(--table-header-bg) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .admin-appt-table td,
+html.dark .admin-patients-table td {
+  color: var(--text-color) !important;
+}
+
+html.dark .admin-appt-table tr:hover,
+html.dark .admin-patients-table tr:hover {
+  background-color: var(--table-row-hover) !important;
+}
+
+html.dark .admin-appt-filters {
+  background-color: var(--input-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .admin-appt-filters input {
+  color: var(--text-color) !important;
+}
+
+html.dark .admin-appt-pagination span {
+  color: var(--text-color) !important;
+}
+
+html.dark .page-num-btn {
+  color: var(--text-color) !important;
+}
+
+html.dark .page-num-btn.active {
+  background-color: #004F78 !important;
+  color: #ffffff !important;
+}
+
+/* Forms overrides */
+html.dark .na-input,
+html.dark .nd-input,
+html.dark .na-select,
+html.dark .nd-select,
+html.dark .na-textarea,
+html.dark .nd-textarea,
+html.dark .na-search-wrap {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .na-label,
+html.dark .nd-label,
+html.dark .na-title,
+html.dark .nd-title {
+  color: var(--text-color) !important;
+}
+
+html.dark .na-patient-dropdown,
+html.dark .na-patient-option {
+  background-color: var(--modal-bg) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .na-patient-option:hover {
+  background-color: var(--table-row-hover) !important;
+}
+
+html.dark .na-breadcrumb,
+html.dark .nd-breadcrumb {
+  color: var(--text-muted) !important;
+}
+
+html.dark .na-breadcrumb:hover,
+html.dark .nd-breadcrumb:hover {
+  color: var(--text-color) !important;
+}
