@@ -13,6 +13,8 @@ import { getAppointmentDetails } from "../services/AppointmentDetails";
 import { addPatientNote } from "../services/patientNotesApi";
 import { completeAppointment } from "../../Admin/services/appointments";
 
+import { getPatients } from "../services/patientsApi";
+
 const StartVisit = ({
   appointment,
   onNavigate,
@@ -79,8 +81,8 @@ const StartVisit = ({
         const response = await getAppointmentDetails(appointmentId);
         // Handle possible wrapped responses: { data: {...} } or { result: {...} } or flat object
         const details = response?.data || response?.result || response;
-        console.log("Visit details response:", response);
-        console.log("Extracted details:", details);
+        console.log("Visit details raw response:", JSON.stringify(response));
+        console.log("Extracted details:", JSON.stringify(details));
         setPatientData(details);
       } catch (err) {
         console.error("Failed to load appointment details:", err);
@@ -97,7 +99,9 @@ const StartVisit = ({
     return (
       patientData?.patientId ||
       patientData?.id ||
+      patientData?.patient_id ||
       navState?.patientId ||
+      navState?.patient_id ||
       navState?.patient?.patientId ||
       appointment?.patientId
     );
@@ -124,13 +128,40 @@ const StartVisit = ({
       return;
     }
 
-    const patientId = resolvePatientId();
+    let patientId = resolvePatientId();
+
+    // Fallback: if patientId not found, try fetching from doctor's patients list
     if (!patientId) {
-      console.error("PatientId resolution failed. patientData:", patientData, "navState:", navState);
-      alert("Could not retrieve patient ID for this visit. Cannot submit notes.");
-      return;
+      try {
+        const patientName = resolvePatientName();
+        console.log("PatientId not in state/API, trying getDoctorPatients. Looking for:", patientName);
+        const patientsResponse = await getPatients();
+        const patients = patientsResponse?.data || patientsResponse?.result || patientsResponse;
+        console.log("Doctor patients list:", JSON.stringify(patients));
+
+        if (Array.isArray(patients) && patientName && patientName !== "N/A") {
+          const match = patients.find(
+            (p) =>
+              (p.patientName || p.name || p.fullName || "")
+                .toLowerCase()
+                .trim() === patientName.toLowerCase().trim()
+          );
+          if (match) {
+            patientId = match.patientId || match.id || match.patient_id;
+            console.log("Found patientId via name match:", patientId);
+          }
+        }
+      } catch (err) {
+        console.error("Fallback getDoctorPatients also failed:", err);
+      }
     }
 
+    if (!patientId) {
+      const debugInfo = `patientData keys: ${JSON.stringify(Object.keys(patientData || {}))} | navState keys: ${JSON.stringify(Object.keys(navState))} | patientData: ${JSON.stringify(patientData)}`;
+      console.error("PatientId resolution failed.", debugInfo);
+      alert("Could not retrieve patient ID.\n\nDebug:\n" + debugInfo);
+      return;
+    }
 
     try {
       setIsSubmitting(true);
