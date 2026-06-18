@@ -9,19 +9,6 @@ import { faClinicMedical } from "@fortawesome/free-solid-svg-icons";
 const Sidebar = () => {
 
     const location = useLocation();
-    const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
-
-    const toggleTheme = () => {
-        const nextDark = !isDark;
-        setIsDark(nextDark);
-        if (nextDark) {
-            document.documentElement.classList.add("dark");
-            localStorage.setItem("theme", "dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-        }
-    };
 
 
     const menuItems = [
@@ -168,16 +155,7 @@ const Sidebar = () => {
 
             {/* Logout */}
 
-            <div className="sidebar-footer" style={{ display: 'flex', flexDirection: 'column', gap: '5px', padding: '10px 15px' }}>
-                <button 
-                    onClick={toggleTheme} 
-                    className="theme-toggle-btn"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '15px', color: '#688c9f', padding: '12px 15px', width: '100%', fontFamily: 'inherit', fontSize: '14px', borderRadius: '8px', transition: 'background-color 0.2s' }}
-                >
-                    <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`} style={{ width: '20px', fontSize: '16px' }}></i>
-                    <span>{isDark ? "Light Mode" : "Dark Mode"}</span>
-                </button>
-
+            <div className="sidebar-footer" style={{ padding: '10px 15px' }}>
                 <Link 
                     to="/"
                     className="logout-btn"
@@ -190,7 +168,6 @@ const Sidebar = () => {
 
 
                 </Link>
-
 
             </div>
 

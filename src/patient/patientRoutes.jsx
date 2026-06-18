@@ -18,26 +18,14 @@ import Notes from './pages/Notes';
 import MultiHospital from './pages/MultiHospital';
 import SmartAssistant from './pages/SmartAssistant';
 import './styles/PatientLayout.css';
-import { usePatient } from "../../src/patient/context/PatientContext";
+import { usePatient } from "./context/PatientContext";
 import Chatbot from './components/Chatbot';
+import ThemeToggle from '../components/ThemeToggle';
 
 // Patient Layout: includes the top Header, Sidebar and the main content area
 const PatientLayout = () => {
     const location = useLocation();
     const { patient } = usePatient();
-    const [isDark, setIsDark] = React.useState(() => document.documentElement.classList.contains("dark"));
-
-    const toggleTheme = () => {
-        const nextDark = !isDark;
-        setIsDark(nextDark);
-        if (nextDark) {
-            document.documentElement.classList.add("dark");
-            localStorage.setItem("theme", "dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-        }
-    };
 
     // Determine Header text based on path
     const getHeaderText = () => {
@@ -107,14 +95,7 @@ const PatientLayout = () => {
                         <p>{headerContent.subtitle}</p>
                     </div>  
                     <div className="patient-header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                        <button 
-                            onClick={toggleTheme} 
-                            className="theme-toggle-btn" 
-                            aria-label="Toggle Theme" 
-                            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', color: '#a4cce4', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px' }}
-                        >
-                            <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`}></i>
-                        </button>
+                        <ThemeToggle style={{ color: '#a4cce4' }} />
                     </div>
                 </header>
 

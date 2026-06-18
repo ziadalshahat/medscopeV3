@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import "./Superadminlayout.css";
+import ThemeToggle from "../ThemeToggle";
 
 const pageInfo = {
   "/super-admin/hospitals": { title: "Hospital Management", subtitle: "Manage your personal information and settings" },
@@ -26,20 +27,6 @@ const SuperAdminLayout = () => {
 
   const [userName, setUserName] = useState("Gina");
   const [userRole, setUserRole] = useState("Super Admin");
-
-  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
-
-  const toggleTheme = () => {
-    const nextDark = !isDark;
-    setIsDark(nextDark);
-    if (nextDark) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  };
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -126,14 +113,7 @@ const SuperAdminLayout = () => {
           </div>
           <div className="super-header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             {/* Theme Toggle Button */}
-            <button 
-              onClick={toggleTheme} 
-              className="theme-toggle-btn" 
-              aria-label="Toggle Theme" 
-              style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', color: '#004f78', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px' }}
-            >
-              <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`}></i>
-            </button>
+            <ThemeToggle style={{ color: '#004f78' }} />
 
             {/* User Info */}
             <div className="super-user-info">

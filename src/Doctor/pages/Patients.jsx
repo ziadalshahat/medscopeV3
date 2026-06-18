@@ -6,6 +6,7 @@ import { deletePatient } from "../services/deletePatientApi";
 import Loader from "../../components/Loader";
 import ConfirmModal from "../../components/ConfirmModal";
 import SuccessModal from "../../components/SuccessModal";
+import ThemeToggle from "../../components/ThemeToggle";
 
 const Patients = () => {
   const navigate = useNavigate();
@@ -26,19 +27,7 @@ const Patients = () => {
   // SuccessModal state
   const [successMessage, setSuccessMessage] = useState("");
 
-  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
 
-  const toggleTheme = () => {
-    const nextDark = !isDark;
-    setIsDark(nextDark);
-    if (nextDark) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  };
 
   useEffect(() => {
     const fetchPatients = async () => {
@@ -176,14 +165,7 @@ const Patients = () => {
       <main className="pt-main">
         <div className="pt-topbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h1 className="pt-page-title">Patients</h1>
-          <button 
-              onClick={toggleTheme} 
-              className="theme-toggle-btn" 
-              aria-label="Toggle Theme" 
-              style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', color: 'inherit', padding: '8px' }}
-          >
-              <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`}></i>
-          </button>
+          <ThemeToggle />
         </div>
 
         <div className="pt-card">

@@ -5,6 +5,7 @@ import { getUpcomingAppointments } from "../services/doctorAppointmentsApi";
 import Loader from "../../components/Loader";
 import ConfirmModal from "../../components/ConfirmModal";
 import SuccessModal from "../../components/SuccessModal";
+import ThemeToggle from "../../components/ThemeToggle";
 
 const DoctorAppointments = () => {
   const [activeTab, setActiveTab] = useState("Day");
@@ -20,19 +21,7 @@ const DoctorAppointments = () => {
   // SuccessModal — ready for future use
   const [successMessage, setSuccessMessage] = useState("");
 
-  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
 
-  const toggleTheme = () => {
-    const nextDark = !isDark;
-    setIsDark(nextDark);
-    if (nextDark) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  };
 
   const navigate = useNavigate();
 
@@ -199,14 +188,7 @@ const DoctorAppointments = () => {
             <h1 className="da-page-title">Appointments</h1>
             <p className="da-subtitle">Manage all upcoming patient appointments</p>
           </div>
-          <button 
-              onClick={toggleTheme} 
-              className="theme-toggle-btn" 
-              aria-label="Toggle Theme" 
-              style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', color: 'inherit', padding: '8px' }}
-          >
-              <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`}></i>
-          </button>
+          <ThemeToggle />
         </div>
 
         {/* Card */}

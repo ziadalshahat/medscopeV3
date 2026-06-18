@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Home.css";
+import ThemeToggle from "../../components/ThemeToggle";
 import { getDashboardSummary } from "../services/dashboard";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -44,6 +45,7 @@ const Home = () => {
         <h2 className="admin-home-title">Home</h2>
         
         <div className="admin-home-profile-area">
+          <ThemeToggle />
           <div className="notification-bell-container">
             <FontAwesomeIcon icon={faBell} className="bell-icon" />
             <span className="bell-badge"></span>

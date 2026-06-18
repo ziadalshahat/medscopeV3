@@ -1,25 +1,13 @@
 import React, { useState } from "react";
 import "./Header.css";
 import { useNavigate, useLocation } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 
 const Header = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
     const logoImage = "/ChatGPT Image Sep 29, 2025, 03_40_38 PM.png";
-
-    const toggleTheme = () => {
-        const nextDark = !isDark;
-        setIsDark(nextDark);
-        if (nextDark) {
-            document.documentElement.classList.add("dark");
-            localStorage.setItem("theme", "dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-        }
-    };
 
     const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
     const closeMobileMenu = () => setIsMobileMenuOpen(false);
@@ -69,9 +57,7 @@ const Header = () => {
 
                 {/* Right Section */}
                 <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <button onClick={toggleTheme} className="theme-toggle-btn" aria-label="Toggle Theme" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', color: 'inherit', padding: '8px' }}>
-                        <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`}></i>
-                    </button>
+                    <ThemeToggle />
                     {(isLandingPage || isSignupPage) && (
                         <button className="signin-btn" onClick={() => { navigate("/login"); closeMobileMenu(); }}>
                             <i className="fas fa-user signin-icon"></i>

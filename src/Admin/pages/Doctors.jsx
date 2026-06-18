@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "../styles/Doctors.css";
+import ThemeToggle from "../../components/ThemeToggle";
 import { getDoctors, toggleDoctorStatus } from "../services/doctors";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -154,6 +155,7 @@ const Doctors = () => {
       <div className="doc-header-block">
         <h2 className="doc-page-title">Doctors Management</h2>
         <div className="doc-profile-area">
+          <ThemeToggle />
           <div className="notification-bell-container">
             <FontAwesomeIcon icon={faBell} className="bell-icon" />
             <span className="bell-badge"></span>
