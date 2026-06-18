@@ -135,43 +135,6 @@ const SuperAdminLayout = () => {
               <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`}></i>
             </button>
 
-            {/* Notification Bell */}
-            <div className="notif-wrapper" ref={notifRef}>
-              <div className="notif-bell" onClick={() => setShowNotif((prev) => !prev)}>
-                <i className="fas fa-bell"></i>
-                {unreadCount > 0 && <span className="notif-dot">{unreadCount}</span>}
-              </div>
-
-              {showNotif && (
-                <div className="notif-dropdown">
-                  <div className="notif-dropdown-header">
-                    <span>Notifications</span>
-                    {unreadCount > 0 && (
-                      <button className="mark-all-btn" onClick={markAllRead}>Mark all as read</button>
-                    )}
-                  </div>
-                  <div className="notif-list">
-                    {notifications.map((n) => (
-                      <div
-                        key={n.id}
-                        className={`notif-item ${!n.read ? "unread" : ""}`}
-                        onClick={() => markRead(n.id)}
-                      >
-                        <div className="notif-item-icon">
-                          <i className={n.icon}></i>
-                        </div>
-                        <div className="notif-item-content">
-                          <p className="notif-item-msg">{n.message}</p>
-                          <span className="notif-item-time">{n.time}</span>
-                        </div>
-                        {!n.read && <span className="unread-dot"></span>}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
             {/* User Info */}
             <div className="super-user-info">
               <div className="super-avatar initials-avatar">
