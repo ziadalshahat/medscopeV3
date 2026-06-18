@@ -320,3 +320,36 @@ html.dark .recharts-default-tooltip {
 html.dark .recharts-tooltip-item {
   color: var(--text-color) !important;
 }
+
+/* Search Box Dark Mode Fixes */
+html.dark .search-box,
+html.dark .search-box-wrapper,
+html.dark .doc-search-wrapper,
+html.dark .pt-search-wrap {
+  background-color: var(--input-bg) !important;
+  background: var(--input-bg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .search-box input,
+html.dark .search-box-wrapper input,
+html.dark .doc-search-wrapper input,
+html.dark .pt-search-wrap input,
+html.dark .search-box input:focus,
+html.dark .search-box-wrapper input:focus,
+html.dark .doc-search-wrapper input:focus,
+html.dark .pt-search-wrap input:focus {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .search-box i,
+html.dark .search-box-wrapper .search-icon,
+html.dark .doc-search-wrapper .doc-search-icon,
+html.dark .pt-search-wrap i {
+  color: var(--text-muted) !important;
+}
