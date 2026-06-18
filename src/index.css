@@ -420,3 +420,7 @@ html.dark .feature-card p {
 html.dark .title-divider {
   background-color: var(--text-color) !important;
 }
+
+html.dark .body-diagram-main-image {
+  filter: invert(0.92) hue-rotate(180deg) brightness(0.9) contrast(1.1) !important;
+}
