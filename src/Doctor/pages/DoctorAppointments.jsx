@@ -30,10 +30,12 @@ const DoctorAppointments = () => {
 
         const today = new Date().toISOString().split("T")[0];
 
+        // Fetch page 1 with 100 items to retrieve all appointments at once
         const data = await getUpcomingAppointments(
           today,
-          activeTab,
-          activePage
+          "Month",
+          1,
+          100
         );
 
         if (Array.isArray(data)) {
@@ -54,7 +56,7 @@ const DoctorAppointments = () => {
     };
 
     fetchAppointments();
-  }, [activeTab, activePage]);
+  }, []);
 
   const filteredAppointments = React.useMemo(() => {
     const today = new Date();
@@ -94,6 +96,28 @@ const DoctorAppointments = () => {
       return true;
     });
   }, [appointments, activeTab]);
+
+  const ITEMS_PER_PAGE = 5;
+
+  const totalPages = Math.max(1, Math.ceil(filteredAppointments.length / ITEMS_PER_PAGE));
+
+  // Reset active page to 1 when tab changes or if activePage exceeds totalPages
+  useEffect(() => {
+    setActivePage(1);
+  }, [activeTab]);
+
+  useEffect(() => {
+    if (activePage > totalPages) {
+      setActivePage(totalPages);
+    }
+  }, [filteredAppointments, totalPages, activePage]);
+
+  const displayedAppointments = React.useMemo(() => {
+    return filteredAppointments.slice(
+      (activePage - 1) * ITEMS_PER_PAGE,
+      activePage * ITEMS_PER_PAGE
+    );
+  }, [filteredAppointments, activePage]);
 
   // Step 1: click Logout → open ConfirmModal
   const handleLogoutClick = () => {
@@ -238,7 +262,7 @@ const DoctorAppointments = () => {
                     <td colSpan="6" className="da-empty">No appointments found</td>
                   </tr>
                 ) : (
-                  filteredAppointments.map((item, i) => (
+                  displayedAppointments.map((item, i) => (
                     <tr key={item.id || i}>
                       <td>{item.time || item.appointmentTime || "N/A"}</td>
                       <td>{item.date || item.appointmentDate || "N/A"}</td>
@@ -293,7 +317,7 @@ const DoctorAppointments = () => {
             </button>
 
             <div className="da-pages">
-              {[1, 2, 3, 4].map((page) => (
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button
                   key={page}
                   className={`da-page-btn ${activePage === page ? "da-page-active" : ""}`}
@@ -306,7 +330,7 @@ const DoctorAppointments = () => {
 
             <button
               className="da-page-nav"
-              onClick={() => setActivePage(activePage + 1)}
+              onClick={() => { if (activePage < totalPages) setActivePage(activePage + 1); }}
             >
               Next
             </button>
