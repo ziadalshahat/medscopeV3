@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/DoctorWorkingHours.css";
-import axiosInstance from "../../api/axiosInstance";
+
 import {
   getDoctorWorkingHours,
   updateDoctorWorkingHours,
@@ -56,42 +56,39 @@ const DoctorWorkingHours = () => {
       try {
         setLoading(true);
         const data = await getDoctorWorkingHours();
-        alert("GET Response: " + JSON.stringify(data));
 
         if (data) {
-          const workingDaysArray = Array.isArray(data) 
-            ? data 
-            : (Array.isArray(data.workingDays) ? data.workingDays : []);
+          // Backend returns { appointmentDuration, workingDays: [{day, from, to}] }
+          const workingDaysArray = Array.isArray(data.workingDays)
+            ? data.workingDays
+            : Array.isArray(data)
+            ? data
+            : [];
 
           const normalized = Object.fromEntries(
             dayOrder.map((day) => {
               const entry = workingDaysArray.find(
-                (item) => item.day === day || item.name === day
+                (item) =>
+                  (item.day || item.name || "").toLowerCase() === day.toLowerCase()
               );
               return [
                 day,
                 {
-                  enabled: entry ? (entry.enabled ?? true) : false,
-                  startTime: entry?.from || entry?.startTime || entry?.start || "09:00",
-                  endTime: entry?.to || entry?.endTime || entry?.end || "16:00",
+                  enabled: !!entry,
+                  startTime: entry?.from || entry?.startTime || "09:00",
+                  endTime: entry?.to || entry?.endTime || "16:00",
                 },
               ];
             })
           );
           setSchedule(normalized);
-          
-          const duration = Array.isArray(data) 
-            ? data[0]?.appointmentDuration 
-            : data.appointmentDuration;
-            
-          if (duration) {
-            setAppointmentDuration(duration);
-          }
+
+          const duration = data.appointmentDuration || data[0]?.appointmentDuration;
+          if (duration) setAppointmentDuration(duration);
         }
       } catch (error) {
-        console.error(error);
-        const errData = error.response?.data;
-        alert("GET Error: " + error.message + "\nResponse Data: " + (typeof errData === 'object' ? JSON.stringify(errData) : errData));
+        console.error("Error fetching working hours:", error);
+        setMessage("Failed to load working hours. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -140,23 +137,10 @@ const DoctorWorkingHours = () => {
         endTime: schedule[day].endTime,
       }));
 
-      const payload = {
-        appointmentDuration,
-        workingDays: scheduleArray
-          .filter((item) => item.enabled)
-          .map((item) => ({
-            day: item.day,
-            from: item.startTime,
-            to: item.endTime,
-          })),
-      };
-
-      alert("POST Payload: " + JSON.stringify(payload));
-
-      await axiosInstance.post('/doctor/working-hours', payload);
+      await updateDoctorWorkingHours(scheduleArray, appointmentDuration);
       setMessage("Working hours updated successfully.");
     } catch (error) {
-      alert("POST Error: " + error.message);
+      console.error("Error saving working hours:", error);
       setMessage("Failed to update working hours.");
     } finally {
       setSaving(false);
