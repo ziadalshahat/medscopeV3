@@ -32,7 +32,7 @@ const DoctorAppointments = () => {
 
         const data = await getUpcomingAppointments(
           today,
-          activeTab.toLowerCase(),
+          activeTab,
           activePage
         );
 
