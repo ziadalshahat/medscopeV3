@@ -7,7 +7,7 @@ const Features = () => {
   return (
     <div id="about" className="home-section">
       <div style={{ marginBottom: '20px' }}>
-        <span style={{ backgroundColor: '#e9f2f9', color: '#1c5b7c', padding: '5px 15px', borderRadius: '15px', fontSize: '12px', fontWeight: '600' }}>
+        <span className="home-badge-blue">
           WHAT MEDSCOPE OFFERS
         </span>
       </div>

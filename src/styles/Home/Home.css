@@ -634,6 +634,27 @@
   background-color: #1c5b7c;
 }
 
+.home-badge-blue {
+  background-color: #e9f2f9;
+  color: #1c5b7c;
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.home-badge-white {
+  background-color: #ffffff;
+  color: #1c5b7c;
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #d1e2f3;
+  display: inline-block;
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .hero-content h1 {

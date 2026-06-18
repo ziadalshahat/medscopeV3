@@ -6,7 +6,7 @@ const Partners = () => {
   return (
     <div id="hospitals" className="home-section partners-section">
       <div style={{ marginBottom: '20px' }}>
-        <span style={{ backgroundColor: '#ffffff', color: '#1c5b7c', padding: '5px 15px', borderRadius: '15px', fontSize: '12px', fontWeight: '600', border: '1px solid #d1e2f3' }}>
+        <span className="home-badge-white">
           PARTNERS
         </span>
       </div>
