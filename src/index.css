@@ -1311,3 +1311,287 @@ html.dark .success-card p {
 html.dark .redirect-text {
   color: #0081c7 !important;
 }
+
+/* ==========================================================================
+   Doctor Portal Dark Mode Overrides
+   ========================================================================== */
+html.dark .da-sidebar,
+html.dark .pt-sidebar {
+  background-color: #0d111c !important;
+  border-right: 1px solid var(--border-color) !important;
+}
+
+html.dark .da-logo {
+  background-color: #090d16 !important;
+}
+
+html.dark .da-nav-item,
+html.dark .pt-nav-item {
+  color: var(--text-muted) !important;
+}
+
+html.dark .da-nav-item:hover,
+html.dark .pt-nav-item:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html.dark .da-nav-item.da-nav-active,
+html.dark .pt-nav-item.pt-nav-active {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html.dark .da-logout,
+html.dark .pt-logout {
+  color: var(--text-muted) !important;
+}
+
+html.dark .da-logout:hover,
+html.dark .pt-logout:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html.dark .da-main,
+html.dark .pt-main,
+html.dark .pr-page,
+html.dark .dwh-page {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .da-topbar,
+html.dark .pt-topbar,
+html.dark .pr-topbar,
+html.dark .dwh-topbar {
+  background-color: #0d111c !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .da-page-title,
+html.dark .pt-page-title,
+html.dark .pr-topbar-title,
+html.dark .dwh-page-title {
+  color: var(--text-color) !important;
+}
+
+html.dark .da-subtitle,
+html.dark .pt-subtitle,
+html.dark .pr-topbar-sub,
+html.dark .dwh-subtitle {
+  color: var(--text-muted) !important;
+}
+
+html.dark .da-card,
+html.dark .pt-card,
+html.dark .pr-info-card,
+html.dark .pr-stat-card,
+html.dark .pr-section-card,
+html.dark .pr-note-card,
+html.dark .dwh-duration-card,
+html.dark .dwh-day-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .da-card-header,
+html.dark .pt-card-header,
+html.dark .pr-info-top {
+  border-bottom: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .da-card-title,
+html.dark .pt-card-title,
+html.dark .pr-patient-name {
+  color: var(--text-color) !important;
+}
+
+html.dark .da-card-subtitle,
+html.dark .pt-card-subtitle,
+html.dark .pr-patient-id {
+  color: var(--text-muted) !important;
+}
+
+html.dark .da-table-wrap,
+html.dark .pt-table-wrap {
+  border-color: var(--border-color) !important;
+}
+
+html.dark .da-table,
+html.dark .pt-table {
+  background-color: var(--card-bg) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .da-table th,
+html.dark .pt-table th {
+  background-color: var(--table-header-bg) !important;
+  color: var(--text-color) !important;
+  border-bottom: 2px solid var(--border-color) !important;
+}
+
+html.dark .da-table td,
+html.dark .pt-table td {
+  border-bottom: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .da-table tr:hover,
+html.dark .pt-table tr:hover {
+  background-color: var(--table-row-hover) !important;
+}
+
+html.dark .pt-patient-cell {
+  color: var(--text-color) !important;
+}
+
+html.dark .pr-subheader-bar {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .pr-sub-details-btn {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .pr-sub-details-btn:hover {
+  background-color: var(--table-row-hover) !important;
+}
+
+html.dark .pr-field-value {
+  color: var(--text-color) !important;
+}
+
+html.dark .pr-field-label {
+  color: var(--text-muted) !important;
+}
+
+html.dark .pr-stat-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .pr-stat-title {
+  color: var(--text-color) !important;
+}
+
+html.dark .pr-stat-num {
+  color: var(--text-color) !important;
+}
+
+html.dark .pr-tab-btn {
+  background-color: var(--input-bg) !important;
+  color: var(--text-muted) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .pr-tab-btn:hover,
+html.dark .pr-tab-btn.pr-tab-active {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .pr-entry {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .pr-entry-name {
+  color: var(--text-color) !important;
+}
+
+html.dark .pr-entry-sub {
+  color: var(--text-muted) !important;
+}
+
+html.dark .pr-entry-notes {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border-left: 3px solid var(--border-color) !important;
+}
+
+html.dark .pr-add-note-form {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .pr-form-input,
+html.dark .pr-form-textarea {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .pr-note-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .pr-note-card-header {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+html.dark .pr-note-date {
+  color: var(--text-color) !important;
+}
+
+html.dark .pr-note-field-label {
+  color: var(--text-muted) !important;
+}
+
+html.dark .pr-note-field-value {
+  color: var(--text-color) !important;
+}
+
+html.dark .dwh-duration-label,
+html.dark .dwh-duration-btn {
+  color: var(--text-color) !important;
+}
+
+html.dark .dwh-duration-btn {
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .dwh-duration-btn.active {
+  background-color: #004f78 !important;
+  border-color: #004f78 !important;
+  color: #ffffff !important;
+}
+
+html.dark .dwh-day-name {
+  color: var(--text-color) !important;
+}
+
+html.dark .dwh-time-btn {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .dwh-time-btn:disabled {
+  background-color: #1f2937 !important;
+  color: #4b5563 !important;
+  border-color: #374151 !important;
+}
+
+html.dark .dwh-time-input {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .dwh-time-label {
+  color: var(--text-muted) !important;
+}
+
+html.dark .dwh-checkbox {
+  accent-color: #004f78 !important;
+}

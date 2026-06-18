@@ -20,6 +20,20 @@ const DoctorAppointments = () => {
   // SuccessModal — ready for future use
   const [successMessage, setSuccessMessage] = useState("");
 
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
+
+  const toggleTheme = () => {
+    const nextDark = !isDark;
+    setIsDark(nextDark);
+    if (nextDark) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -180,11 +194,19 @@ const DoctorAppointments = () => {
       {/* Main Content */}
       <main className="da-main">
         {/* Top Header */}
-        <div className="da-topbar">
+        <div className="da-topbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <h1 className="da-page-title">Appointments</h1>
             <p className="da-subtitle">Manage all upcoming patient appointments</p>
           </div>
+          <button 
+              onClick={toggleTheme} 
+              className="theme-toggle-btn" 
+              aria-label="Toggle Theme" 
+              style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', color: 'inherit', padding: '8px' }}
+          >
+              <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`}></i>
+          </button>
         </div>
 
         {/* Card */}

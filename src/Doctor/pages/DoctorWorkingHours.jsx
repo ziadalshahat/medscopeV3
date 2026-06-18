@@ -50,6 +50,19 @@ const DoctorWorkingHours = () => {
   const [message, setMessage] = useState("");
   const [editingDay, setEditingDay] = useState(null);
   const [editingField, setEditingField] = useState(null);
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
+
+  const toggleTheme = () => {
+    const nextDark = !isDark;
+    setIsDark(nextDark);
+    if (nextDark) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
 
   useEffect(() => {
     const fetchSchedule = async () => {
@@ -153,10 +166,18 @@ const DoctorWorkingHours = () => {
 
   return (
     <div className="dwh-page">
-      <div className="dwh-topbar">
+      <div className="dwh-topbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button className="dwh-back-btn" onClick={() => navigate(-1)}>
           <span className="dwh-back-icon">&#8592;</span>
           <span>Appointments</span>
+        </button>
+        <button 
+            onClick={toggleTheme} 
+            className="theme-toggle-btn" 
+            aria-label="Toggle Theme" 
+            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', color: 'inherit', padding: '8px' }}
+        >
+            <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`}></i>
         </button>
       </div>
 

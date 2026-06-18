@@ -67,6 +67,20 @@ const PatientRecord = () => {
     }
   }, [patientIdFromState]);
 
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
+
+  const toggleTheme = () => {
+    const nextDark = !isDark;
+    setIsDark(nextDark);
+    if (nextDark) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
+
   const [activeTab, setActiveTab] = useState("medical");
   const [record, setRecord] = useState(initialRecord);
   const [notes, setNotes] = useState([]);
@@ -155,8 +169,8 @@ const PatientRecord = () => {
       <div className="pt-main">
         <div className="pr-page">
           {/* Topbar */}
-          <div className="pr-topbar">
-            <div className="pr-topbar-left">
+          <div className="pr-topbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <div className="pr-topbar-left" style={{ display: 'flex', alignItems: 'center' }}>
               <div className="pr-stethoscope-circle">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
                   <path d="M4.8 2.4A2.4 2.4 0 1 0 9.6 2.4a2.4 2.4 0 1 0-4.8 0Z" />
@@ -171,6 +185,14 @@ const PatientRecord = () => {
                 <div className="pr-topbar-sub">Dr. Sarah Mitchell</div>
               </div>
             </div>
+            <button 
+                onClick={toggleTheme} 
+                className="theme-toggle-btn" 
+                aria-label="Toggle Theme" 
+                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', color: 'inherit', padding: '8px' }}
+            >
+                <i className={`fas ${isDark ? "fa-sun" : "fa-moon"}`}></i>
+            </button>
           </div>
 
           {/* Subheader */}
