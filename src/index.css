@@ -1054,3 +1054,7 @@ html.dark .mh-med-pill {
   background-color: #0081c7 !important;
   color: #ffffff !important;
 }
+
+html.dark .dashboard-container {
+  background-color: var(--bg-color) !important;
+}
