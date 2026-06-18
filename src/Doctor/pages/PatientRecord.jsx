@@ -74,11 +74,8 @@ const PatientRecord = () => {
   const [showAddNote, setShowAddNote] = useState(false);
   const [editingNote, setEditingNote] = useState(null);
   const [noteForm, setNoteForm] = useState({ date: "", diagnosis: "", treatmentPlan: "", followUp: "" });
-  const [noPatientSelected, setNoPatientSelected] = useState(false);
-
   useEffect(() => {
-    if (!patientId) { setNoPatientSelected(true); setLoading(false); return; }
-    setNoPatientSelected(false);
+    if (!patientId) { setLoading(false); return; }
     const fetchPatientRecord = async () => {
       try {
         setLoading(true);
@@ -150,30 +147,6 @@ const PatientRecord = () => {
   };
 
   if (loading) return <Loader message="Loading patient record..." />;
-
-  if (noPatientSelected) {
-    return (
-      <div className="pt-page">
-        <Sidebar navigate={navigate} />
-        <div className="pt-main">
-          <div className="pr-page">
-            <TopBar />
-            <SubHeader navigate={navigate} />
-            <div className="pr-body">
-              <div className="pr-empty-state">
-                <div className="pr-empty-card">
-                  <div className="pr-empty-icon">📂</div>
-                  <h2>No Patient Selected</h2>
-                  <p>Please select a patient from the patients directory to view their complete medical history, chronic conditions, and clinical notes.</p>
-                  <button className="pr-empty-btn" onClick={() => navigate("/doctor/patients")}>Go to Patients Directory</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="pt-page">
