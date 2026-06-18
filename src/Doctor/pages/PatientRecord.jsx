@@ -157,8 +157,11 @@ const PatientRecord = () => {
         <Sidebar navigate={navigate} />
         <div className="pt-main">
           <div className="pr-page">
-            <TopBar />
-            <SubHeader navigate={navigate} />
+            <div className="pr-topbar">
+              <div className="pr-topbar-left">
+                <div className="pr-topbar-title">Patient Record</div>
+              </div>
+            </div>
             <div className="pr-body">
               <div className="pr-empty-state">
                 <div className="pr-empty-card">
