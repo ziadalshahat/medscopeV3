@@ -37,7 +37,7 @@ const HospitalManagement = () => {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
-    }, 500);
+    }, 1000);
 
     return () => {
       clearTimeout(handler);
