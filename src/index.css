@@ -353,3 +353,70 @@ html.dark .doc-search-wrapper .doc-search-icon,
 html.dark .pt-search-wrap i {
   color: var(--text-muted) !important;
 }
+
+/* Home Page Dark Mode Fixes */
+html.dark .home-page {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .features-section,
+html.dark .body-diagram-section,
+html.dark .management-tools-section,
+html.dark .home-section {
+  background-color: var(--bg-color) !important;
+}
+
+html.dark .partners-section {
+  background-color: #0d111c !important;
+}
+
+html.dark .specialty-label-card {
+  background: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .specialty-card-icon {
+  background: var(--input-bg) !important;
+}
+
+html.dark .specialty-card-name {
+  color: var(--text-color) !important;
+}
+
+html.dark .platform-services-badge {
+  background-color: #1e293b !important;
+  color: #a8c8e0 !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .sub-tool-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+html.dark .sub-tool-card h3 {
+  color: var(--text-color) !important;
+}
+
+html.dark .sub-tool-features span {
+  color: #94a3b8 !important;
+}
+
+html.dark .sub-tool-icon {
+  background-color: #004f78 !important;
+}
+
+html.dark .home-section-title,
+html.dark .feature-card h3 {
+  color: var(--text-color) !important;
+}
+html.dark .home-section-subtitle,
+html.dark .feature-card p {
+  color: var(--text-muted) !important;
+}
+
+html.dark .title-divider {
+  background-color: var(--text-color) !important;
+}
