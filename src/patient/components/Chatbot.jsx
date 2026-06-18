@@ -1,23 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 function Chatbot() {
   const location = useLocation();
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+
+  // اسمع لحدث الـ logout
+  useEffect(() => {
+    const handleLogout = () => {
+      setIsLoggedIn(false);
+      removeChatbot();
+    };
+
+    window.addEventListener("logout", handleLogout);
+    return () => window.removeEventListener("logout", handleLogout);
+  }, []);
 
   useEffect(() => {
-
-    // لو صفحة Smart Assistant متعملش حاجة
-    if (location.pathname.includes("smart-assistant")) {
+    if (!isLoggedIn || location.pathname.includes("smart-assistant")) {
       removeChatbot();
       return;
     }
 
-
     if (window.chatbase) return;
 
-
     const script = document.createElement("script");
-
     script.innerHTML = `
       (function(){
         if(!window.chatbase||window.chatbase("getState")!=="initialized"){
@@ -25,7 +32,6 @@ function Chatbot() {
             if(!window.chatbase.q){window.chatbase.q=[]}
             window.chatbase.q.push(arguments)
           };
-
           window.chatbase=new Proxy(window.chatbase,{
             get(target,prop){
               if(prop==="q"){return target.q}
@@ -33,7 +39,6 @@ function Chatbot() {
             }
           })
         }
-
         const onLoad=function(){
           const script=document.createElement("script");
           script.src="https://www.chatbase.co/embed.min.js";
@@ -41,40 +46,22 @@ function Chatbot() {
           script.domain="www.chatbase.co";
           document.body.appendChild(script);
         };
-
         onLoad();
-
       })();
     `;
-
-
     document.body.appendChild(script);
 
-
-  }, [location.pathname]);
-
+  }, [location.pathname, isLoggedIn]);
 
   return null;
 }
 
-
-
-function removeChatbot(){
-
-  // يمسح كل عناصر Chatbase
+function removeChatbot() {
   const elements = document.querySelectorAll(
     "iframe, [id*='chatbase'], [class*='chatbase']"
   );
-
-  elements.forEach(el => {
-    el.remove();
-  });
-
-
-  // يمسح المتغير
+  elements.forEach(el => el.remove());
   delete window.chatbase;
-
 }
-
 
 export default Chatbot;

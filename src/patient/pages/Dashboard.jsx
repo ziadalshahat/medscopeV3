@@ -39,9 +39,12 @@ const Dashboard = () => {
 
   }, []);
 
+  console.log(dashboardData?.updates);
+
   if (loading) {
     return <Loader message="Loading Your Dashboard..." />
   }
+  console.log(dashboardData);
 
   return (
 <>
@@ -63,13 +66,13 @@ const Dashboard = () => {
         </div>
 
         <div className="updates-list">
-
+          {console.log(dashboardData.updates)}
           {dashboardData.updates.length === 0 ? (
             <p className="no-data">No updates available</p>
           ) : (
             dashboardData.updates.map((update, index) => (
               <div key={index} className="update-item">
-                <p className="update-title">{update.title}</p>
+                <p className="update-title">{update.message}</p>
                 <p className="update-time">{update.time}</p>
               </div>
             ))
