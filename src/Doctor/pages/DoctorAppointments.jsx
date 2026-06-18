@@ -56,6 +56,45 @@ const DoctorAppointments = () => {
     fetchAppointments();
   }, [activeTab, activePage]);
 
+  const filteredAppointments = React.useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Get end of current week (Saturday)
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    endOfWeek.setHours(23, 59, 59, 999);
+
+    // Get end of current month
+    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    endOfMonth.setHours(23, 59, 59, 999);
+
+    return appointments.filter((item) => {
+      const itemDateStr = item.date || item.appointmentDate;
+      if (!itemDateStr) return false;
+
+      const apptDate = new Date(itemDateStr);
+      apptDate.setHours(0, 0, 0, 0);
+
+      // Only today and future appointments
+      if (apptDate < today) {
+        return false;
+      }
+
+      if (activeTab === "Day") {
+        return apptDate.getTime() === today.getTime();
+      } else if (activeTab === "Week") {
+        return apptDate >= today && apptDate <= endOfWeek;
+      } else if (activeTab === "Month") {
+        return apptDate >= today && apptDate <= endOfMonth;
+      }
+
+      return true;
+    });
+  }, [appointments, activeTab]);
+
   // Step 1: click Logout → open ConfirmModal
   const handleLogoutClick = () => {
     setShowLogoutConfirm(true);
@@ -194,12 +233,12 @@ const DoctorAppointments = () => {
                   <tr>
                     <td colSpan="6" className="da-error">{error}</td>
                   </tr>
-                ) : appointments.length === 0 && !loading ? (
+                ) : filteredAppointments.length === 0 && !loading ? (
                   <tr>
                     <td colSpan="6" className="da-empty">No appointments found</td>
                   </tr>
                 ) : (
-                  appointments.map((item, i) => (
+                  filteredAppointments.map((item, i) => (
                     <tr key={item.id || i}>
                       <td>{item.time || item.appointmentTime || "N/A"}</td>
                       <td>{item.date || item.appointmentDate || "N/A"}</td>
