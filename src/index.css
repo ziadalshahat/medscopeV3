@@ -104,8 +104,56 @@ html.dark .admin-sidebar,
 html.dark .sidebar,
 html.dark .doc-sidebar-block,
 html.dark .pt-sidebar-top {
-  background-color: #0d111c !important;
+  background: #0d111c !important;
   border-right: 1px solid var(--border-color) !important;
+}
+
+html.dark .super-sidebar-header {
+  background: #090d16 !important;
+}
+
+html.dark .super-nav-item,
+html.dark .sidebar-nav a,
+html.dark .sidebar-nav span,
+html.dark .pt-nav-item,
+html.dark .pt-nav-item span,
+html.dark .logout-btn,
+html.dark .logout-btn span {
+  color: #94a3b8 !important;
+}
+
+html.dark .super-nav-item:hover,
+html.dark .sidebar-nav li:hover,
+html.dark .sidebar-nav li:hover a,
+html.dark .sidebar-nav li:hover span,
+html.dark .pt-nav-item:hover,
+html.dark .pt-nav-item:hover span,
+html.dark .logout-btn:hover,
+html.dark .logout-btn:hover span {
+  background: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html.dark .super-nav-item.active,
+html.dark .sidebar-nav li.active,
+html.dark .sidebar-nav li.active a,
+html.dark .sidebar-nav li.active span,
+html.dark .pt-nav-item.pt-nav-active,
+html.dark .pt-nav-item.pt-nav-active span {
+  background: #1e293b !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+html.dark .super-right,
+html.dark .admin-layout,
+html.dark .admin-content,
+html.dark .pt-main,
+html.dark .pt-page,
+html.dark .doc-page,
+html.dark .settings-page {
+  background: var(--bg-color) !important;
+  color: var(--text-color) !important;
 }
 
 html.dark .super-header,
@@ -158,11 +206,14 @@ html.dark .new-success-modal,
 html.dark .confirm-modal-content,
 html.dark .success-modal-content,
 html.dark .edit-modal-content,
-html.dark .modal-content,
-html.dark .modal-overlay {
+html.dark .modal-content {
   background-color: var(--modal-bg) !important;
   color: var(--text-color) !important;
   border: 1px solid var(--border-color) !important;
+}
+
+html.dark .modal-overlay {
+  background: rgba(0, 0, 0, 0.7) !important;
 }
 
 /* Input elements */
@@ -174,7 +225,11 @@ html.dark .doc-search-input,
 html.dark .pt-search,
 html.dark .new-form-field input,
 html.dark .new-form-field select,
-html.dark .new-form-field textarea {
+html.dark .new-form-field textarea,
+html.dark .filter-select,
+html.dark .doc-filter-select,
+html.dark .gender-select-filter,
+html.dark .action-select {
   background-color: var(--input-bg) !important;
   color: var(--text-color) !important;
   border: 1px solid var(--border-color) !important;
