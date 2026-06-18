@@ -49,6 +49,20 @@ const Patients = () => {
     return matchSearch && matchGender;
   });
 
+  const ITEMS_PER_PAGE = 5;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+
+  useEffect(() => {
+    setActivePage(1);
+  }, [search, filterGender]);
+
+  const displayedPatients = React.useMemo(() => {
+    return filtered.slice(
+      (activePage - 1) * ITEMS_PER_PAGE,
+      activePage * ITEMS_PER_PAGE
+    );
+  }, [filtered, activePage]);
+
   // Step 1: click Delete → store patient + open ConfirmModal
   const handleDeleteClick = (patient) => {
     setPatientToDelete(patient);
@@ -206,7 +220,7 @@ const Patients = () => {
               </thead>
 
               <tbody>
-                {filtered.map((p, index) => (
+                {displayedPatients.map((p, index) => (
                   <tr key={p.patientId || index}>
                     <td>
                       <div className="pt-patient-cell">
@@ -276,9 +290,14 @@ const Patients = () => {
 
           {/* Pagination */}
           <div className="pt-pagination">
-            <button className="pt-page-nav">Previous</button>
+            <button
+              className="pt-page-nav"
+              onClick={() => { if (activePage > 1) setActivePage(activePage - 1); }}
+            >
+              Previous
+            </button>
             <div className="pt-page-nums">
-              {[1, 2, 3, 4].map((n) => (
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
                 <button
                   key={n}
                   className={`pt-page-btn ${activePage === n ? "pt-page-active" : ""}`}
@@ -288,7 +307,12 @@ const Patients = () => {
                 </button>
               ))}
             </div>
-            <button className="pt-page-nav">Next</button>
+            <button
+              className="pt-page-nav"
+              onClick={() => { if (activePage < totalPages) setActivePage(activePage + 1); }}
+            >
+              Next
+            </button>
           </div>
         </div>
       </main>
