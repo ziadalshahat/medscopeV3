@@ -15,6 +15,7 @@ import {
 import Loader from "../../components/Loader";
 import ConfirmModal from "../../components/ConfirmModal";
 import SuccessModal from "../../components/SuccessModal";
+import ThemeToggle from "../../components/ThemeToggle";
 
 const PAGE_SIZE = 10;
 
@@ -194,6 +195,7 @@ const Appointments = () => {
       <div className="admin-appt-header-block">
         <h2 className="admin-appt-title">Appointments</h2>
         <div className="admin-appt-profile-area">
+          <ThemeToggle />
           <div className="notification-bell-container">
             <FontAwesomeIcon icon={faBell} className="bell-icon" />
             <span className="bell-badge"></span>

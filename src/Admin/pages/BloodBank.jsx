@@ -3,11 +3,19 @@ import "../styles/BloodBank.css";
 import { getBloodBank, increaseBlood, decreaseBlood } from "../services/bloodBank";
 import toast from "react-hot-toast";
 import Loader from "../../components/Loader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import ThemeToggle from "../../components/ThemeToggle";
 
 const BloodBank = () => {
   const [bloodData, setBloodData] = useState([]);
   const [loadingIds, setLoadingIds] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  // Retrieve user details from localStorage
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const userName = user.fullName || "Admin";
+  const userRole = user.role || "Admin";
 
   useEffect(() => {
     fetchBlood();
@@ -88,9 +96,21 @@ const BloodBank = () => {
     <div className="blood-container">
       {loading && <Loader message="Loading blood bank inventory..." />}
 
-      <h1 className="blood-title">
-        🩸 Blood Bank
-      </h1>
+      {/* Top Profile Header */}
+      <div className="admin-bed-header-block">
+        <h2 className="admin-bed-page-title">🩸 Blood Bank</h2>
+        <div className="admin-bed-profile-area">
+          <ThemeToggle />
+          <div className="notification-bell-container">
+            <FontAwesomeIcon icon={faBell} className="bell-icon" />
+            <span className="bell-badge"></span>
+          </div>
+          <div className="admin-bed-profile-details">
+            <span className="profile-name">{userName}</span>
+            <span className="profile-role">{userRole}</span>
+          </div>
+        </div>
+      </div>
 
       <div className="blood-grid">
         {bloodData.map((blood) => {

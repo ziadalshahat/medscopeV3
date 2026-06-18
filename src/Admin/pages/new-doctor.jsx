@@ -10,6 +10,7 @@ import axiosInstance from "../../api/axiosInstance";
 import Loader from "../../components/Loader";
 import ConfirmModal from "../../components/ConfirmModal";
 import SuccessModal from "../../components/SuccessModal";
+import ThemeToggle from "../../components/ThemeToggle";
 
 const NewDoctor = () => {
   const navigate = useNavigate();
@@ -194,10 +195,13 @@ const NewDoctor = () => {
         </div>
 
         {/* Title */}
-        <h2 className="nd-title">
-          <FontAwesomeIcon icon={faUserDoctor} className="nd-title-icon" />
-          Add Doctor
-        </h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+          <h2 className="nd-title" style={{ margin: 0 }}>
+            <FontAwesomeIcon icon={faUserDoctor} className="nd-title-icon" />
+            Add Doctor
+          </h2>
+          <ThemeToggle />
+        </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} noValidate className="nd-form">

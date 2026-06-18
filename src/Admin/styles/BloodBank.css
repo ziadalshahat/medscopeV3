@@ -197,3 +197,77 @@
     gap: 14px;
   }
 }
+
+/* Header styling matching BedManagement */
+.admin-bed-header-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.admin-bed-page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #004F78;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.admin-bed-profile-area {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.admin-bed-profile-details {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.admin-bed-profile-details .profile-name {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #004F78;
+  line-height: 1.2;
+}
+
+.admin-bed-profile-details .profile-role {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8fa3b3;
+  margin-top: 2px;
+}
+
+.notification-bell-container {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: #ffffff;
+  border-radius: 50%;
+  border: 1px solid #e2edf5;
+  box-shadow: 0 2px 8px rgba(0, 79, 120, 0.04);
+  color: #004F78;
+  transition: background 0.15s, color 0.15s;
+}
+
+.notification-bell-container:hover {
+  background: #f0f7fc;
+  color: #00334e;
+}
+
+.bell-badge {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  background-color: #e74c3c;
+  border-radius: 50%;
+  border: 1.5px solid #ffffff;
+}

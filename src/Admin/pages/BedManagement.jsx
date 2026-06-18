@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faBed, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import Loader from "../../components/Loader";
+import ThemeToggle from "../../components/ThemeToggle";
 
 const BedManagement = () => {
   const [beds, setBeds] = useState([]);
@@ -108,6 +109,7 @@ const BedManagement = () => {
       <div className="admin-bed-header-block">
         <h2 className="admin-bed-page-title">Bed Management</h2>
         <div className="admin-bed-profile-area">
+          <ThemeToggle />
           <div className="notification-bell-container">
             <FontAwesomeIcon icon={faBell} className="bell-icon" />
             <span className="bell-badge"></span>

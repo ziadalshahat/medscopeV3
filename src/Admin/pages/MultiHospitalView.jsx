@@ -4,6 +4,7 @@ import { getMultiHospitalBeds } from "../services/hospitalService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faHospital } from "@fortawesome/free-solid-svg-icons";
 import Loader from "../../components/Loader";
+import ThemeToggle from "../../components/ThemeToggle";
 
 const MultiHospitalView = () => {
   const [hospitals, setHospitals] = useState([]);
@@ -63,6 +64,7 @@ const MultiHospitalView = () => {
       <div className="multi-header-block">
         <h2 className="multi-page-title">Multi-Hospital View</h2>
         <div className="multi-profile-area">
+          <ThemeToggle />
           <div className="notification-bell-container">
             <FontAwesomeIcon icon={faBell} className="bell-icon" />
             <span className="bell-badge"></span>

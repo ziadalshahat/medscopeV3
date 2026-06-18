@@ -9,6 +9,7 @@ import axiosInstance from "../../api/axiosInstance";
 import Loader from "../../components/Loader";
 import ConfirmModal from "../../components/ConfirmModal";
 import SuccessModal from "../../components/SuccessModal";
+import ThemeToggle from "../../components/ThemeToggle";
 
 const NewAppointment = () => {
   const navigate = useNavigate();
@@ -277,7 +278,10 @@ const NewAppointment = () => {
         </div>
 
         {/* Title */}
-        <h2 className="na-title">New Appointment</h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+          <h2 className="na-title" style={{ margin: 0 }}>New Appointment</h2>
+          <ThemeToggle />
+        </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} noValidate className="na-form">
