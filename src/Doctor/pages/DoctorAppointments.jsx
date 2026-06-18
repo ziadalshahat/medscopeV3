@@ -149,7 +149,14 @@ const DoctorAppointments = () => {
           <div className="da-card-header">
             <div>
               <h2 className="da-card-title">Upcoming Appointments</h2>
-              <p className="da-card-subtitle">Friday, December 5, 2024</p>
+              <p className="da-card-subtitle">
+                {new Date().toLocaleDateString("en-US", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
             </div>
           </div>
 
