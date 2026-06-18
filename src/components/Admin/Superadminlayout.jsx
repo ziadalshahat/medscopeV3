@@ -140,7 +140,7 @@ const SuperAdminLayout = () => {
           </div>
           <div className="super-header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             {/* Theme Toggle Button */}
-            <ThemeToggle style={{ color: '#004f78' }} />
+            <ThemeToggle style={{ color: '#ffffff' }} />
 
             {/* User Info */}
             <div className="super-user-info">
