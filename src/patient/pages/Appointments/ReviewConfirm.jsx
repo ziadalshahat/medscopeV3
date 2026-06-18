@@ -36,9 +36,11 @@ const ReviewConfirm = () => {
 
     // ── Visit type options ─────────────────────────────────────────────────────
     const VISIT_TYPE_OPTIONS = [
-        { label: 'Clinic Visit', value: 'Clinic' },
-        { label: 'Online Consultation', value: 'Online' },
-        { label: 'Home Visit', value: 'HomeVisit' }
+        { label: 'Consultation', value: 'Consultation' },
+        { label: 'Follow-up', value: 'Follow-up' },
+        { label: 'Emergency', value: 'Emergency' },
+        { label: 'Surgry', value: 'surgry' }
+
     ];
 
     // ── Fetch patient profile on mount ─────────────────────────────────────────
