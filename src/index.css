@@ -274,3 +274,49 @@ html.dark .footer {
   background-color: #0b0f19 !important;
   color: var(--text-color) !important;
 }
+
+/* Settings Page Dark Mode Fixes */
+html.dark .settings-card,
+html.dark .reports-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+html.dark .info-field p,
+html.dark .info-field p.readonly,
+html.dark .notif-item {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+html.dark .toggle {
+  background-color: var(--input-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+html.dark .toggle.on {
+  background-color: #004f78 !important;
+  border-color: #004f78 !important;
+}
+
+/* Recharts Dark Mode SVG Fixes */
+html.dark g.recharts-cartesian-axis-tick text {
+  fill: var(--text-color) !important;
+}
+
+html.dark line.recharts-cartesian-grid-horizontal,
+html.dark line.recharts-cartesian-grid-vertical {
+  stroke: var(--border-color) !important;
+}
+
+html.dark .recharts-default-tooltip {
+  background-color: var(--modal-bg) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+html.dark .recharts-tooltip-item {
+  color: var(--text-color) !important;
+}
