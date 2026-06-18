@@ -9,16 +9,14 @@ import {
 } from "../services/superAdminApi";
 
 const AdminManagement = () => {
-  const [admins, setAdmins] = useState([]);
+  const [allAdmins, setAllAdmins] = useState([]);
   const [hospitals, setHospitals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [filterHospital, setFilterHospital] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
 
   const [modalStep, setModalStep] = useState(null); // null | "form" | "success"
   const [editIndex, setEditIndex] = useState(null);
@@ -34,16 +32,26 @@ const AdminManagement = () => {
 
   const pageSize = 7;
 
-  // ========== Debounce Search ==========
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 1000);
+  // ========== Derived Data (Filtered & Paginated) ==========
+  const filteredAdmins = allAdmins.filter((admin) => {
+    const matchesSearch =
+      !search ||
+      (admin.name || "").toLowerCase().includes(search.toLowerCase()) ||
+      (admin.email || "").toLowerCase().includes(search.toLowerCase()) ||
+      (admin.employeeId || "").toLowerCase().includes(search.toLowerCase()) ||
+      (admin.hospitalName || "").toLowerCase().includes(search.toLowerCase());
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [search]);
+    const matchesHospital =
+      filterHospital === "All" || admin.hospitalName === filterHospital;
+
+    return matchesSearch && matchesHospital;
+  });
+
+  const totalPages = Math.ceil(filteredAdmins.length / pageSize) || 1;
+  const paginatedAdmins = filteredAdmins.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   // ========== Fetch Hospitals for dropdown ==========
   useEffect(() => {
@@ -64,22 +72,11 @@ const AdminManagement = () => {
       setLoading(true);
       setError("");
 
-      const params = {
-        Page: currentPage,
-        PageSize: pageSize,
-      };
-
-      if (debouncedSearch) params.Search = debouncedSearch;
-      if (filterHospital !== "All") {
-        const hospital = hospitals.find((h) => h.name === filterHospital);
-        if (hospital) params.HospitalId = hospital.id;
-      }
-
-      const response = await getAdmins(params);
+      // Fetch all admins (up to 1000) to support client-side filtering
+      const response = await getAdmins({ Page: 1, PageSize: 1000 });
       const result = response.data;
 
-      setAdmins(result.data || []);
-      setTotalPages(result.totalPages || 1);
+      setAllAdmins(result.data || []);
     } catch (err) {
       console.error("Error fetching admins:", err);
       setError("Failed to load admins");
@@ -90,7 +87,7 @@ const AdminManagement = () => {
 
   useEffect(() => {
     fetchAdmins();
-  }, [currentPage, debouncedSearch, filterHospital]);
+  }, []);
 
   // ========== Hospital options for filter ==========
   const hospitalOptions = ["All", ...hospitals.map((h) => h.name)];
@@ -110,7 +107,7 @@ const AdminManagement = () => {
 
   const openEdit = (index) => {
     setEditIndex(index);
-    const admin = admins[index];
+    const admin = paginatedAdmins[index];
     const nameParts = (admin.name || "").split(" ");
     const matchedHospital = hospitals.find((h) => h.name === admin.hospitalName);
     setFormData({
@@ -129,7 +126,7 @@ const AdminManagement = () => {
 
       if (editIndex !== null) {
         // Edit existing admin
-        const admin = admins[editIndex];
+        const admin = paginatedAdmins[editIndex];
         await updateAdmin(admin.id, {
           firstName: formData.firstName,
           lastName: formData.lastName,
@@ -185,7 +182,7 @@ const AdminManagement = () => {
     }
   };
 
-  if (loading && admins.length === 0) {
+  if (loading && allAdmins.length === 0) {
     return (
       <div className="admin-page">
         <h2>Loading...</h2>
@@ -254,7 +251,7 @@ const AdminManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {admins.map((admin, index) => (
+            {paginatedAdmins.map((admin, index) => (
               <tr key={admin.id || index}>
                 <td className="emp-id">{admin.employeeId}</td>
                 <td>{admin.name}</td>

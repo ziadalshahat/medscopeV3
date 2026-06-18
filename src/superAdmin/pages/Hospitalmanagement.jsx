@@ -9,15 +9,13 @@ import {
 } from "../services/superAdminApi";
 
 const HospitalManagement = () => {
-  const [hospitals, setHospitals] = useState([]);
+  const [allHospitals, setAllHospitals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
 
   const [modalStep, setModalStep] = useState(null); // null | "form" | "success"
   const [editIndex, setEditIndex] = useState(null);
@@ -33,16 +31,25 @@ const HospitalManagement = () => {
 
   const pageSize = 7;
 
-  // ========== Debounce Search ==========
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 1000);
+  // ========== Derived Data (Filtered & Paginated) ==========
+  const filteredHospitals = allHospitals.filter((hospital) => {
+    const matchesSearch =
+      !search ||
+      (hospital.name || "").toLowerCase().includes(search.toLowerCase()) ||
+      (hospital.city || "").toLowerCase().includes(search.toLowerCase()) ||
+      (hospital.address || "").toLowerCase().includes(search.toLowerCase());
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [search]);
+    const matchesStatus =
+      filterStatus === "All" || hospital.status === filterStatus;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  const totalPages = Math.ceil(filteredHospitals.length / pageSize) || 1;
+  const paginatedHospitals = filteredHospitals.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   // ========== Fetch Hospitals ==========
   const fetchHospitals = async () => {
@@ -50,20 +57,11 @@ const HospitalManagement = () => {
       setLoading(true);
       setError("");
 
-      const params = {
-        Page: currentPage,
-        PageSize: pageSize,
-      };
-
-      if (debouncedSearch) params.Search = debouncedSearch;
-      if (filterStatus === "Active") params.IsActive = true;
-      else if (filterStatus === "Suspended") params.IsActive = false;
-
-      const response = await getHospitals(params);
+      // Fetch all hospitals (up to 1000) to support client-side filtering
+      const response = await getHospitals({ Page: 1, PageSize: 1000 });
       const result = response.data;
 
-      setHospitals(result.data || []);
-      setTotalPages(result.totalPages || 1);
+      setAllHospitals(result.data || []);
     } catch (err) {
       console.error("Error fetching hospitals:", err);
       setError("Failed to load hospitals");
@@ -74,7 +72,7 @@ const HospitalManagement = () => {
 
   useEffect(() => {
     fetchHospitals();
-  }, [currentPage, debouncedSearch, filterStatus]);
+  }, []);
 
   // ========== Modal Handlers ==========
   const openAdd = () => {
@@ -85,7 +83,7 @@ const HospitalManagement = () => {
 
   const openEdit = (index) => {
     setEditIndex(index);
-    const h = hospitals[index];
+    const h = paginatedHospitals[index];
     setFormData({
       name: h.name || "",
       city: h.city || "",
@@ -102,7 +100,7 @@ const HospitalManagement = () => {
 
       if (editIndex !== null) {
         // Edit existing hospital
-        const hospital = hospitals[editIndex];
+        const hospital = paginatedHospitals[editIndex];
         await updateHospital(hospital.id, {
           name: formData.name,
           city: formData.city,
@@ -180,7 +178,7 @@ const HospitalManagement = () => {
     }
   };
 
-  if (loading && hospitals.length === 0) {
+  if (loading && allHospitals.length === 0) {
     return (
       <div className="hospital-page">
         <h2>Loading...</h2>
@@ -246,7 +244,7 @@ const HospitalManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {hospitals.map((hospital, index) => (
+            {paginatedHospitals.map((hospital, index) => (
               <tr key={hospital.id}>
                 <td>{hospital.id}</td>
                 <td>{hospital.name}</td>
