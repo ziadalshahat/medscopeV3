@@ -7,11 +7,17 @@ function Chatbot() {
   useEffect(() => {
 
     // لو صفحة Smart Assistant متعملش حاجة
-    if (location.pathname.includes("smart-assistant")) {
+    if (location.pathname.includes("smart-assistant") || location.pathname.includes("assistant")) {
       removeChatbot();
       return;
     }
 
+    // يقفل الشات لو مفتوح عشان مايفضلش واخد مساحة لما يغير الصفحة
+    if (window.chatbase && typeof window.chatbase === "function") {
+      try {
+        window.chatbase("close");
+      } catch (e) {}
+    }
 
     if (window.chatbase) return;
 
