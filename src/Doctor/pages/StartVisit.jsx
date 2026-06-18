@@ -75,7 +75,8 @@ const StartVisit = ({
       }
       try {
         const details = await getAppointmentDetails(appointmentId);
-        setPatientData(details);
+        const actualData = details?.data || details?.result || details;
+        setPatientData(actualData);
       } catch (err) {
         console.error("Failed to load appointment details:", err);
       } finally {
@@ -265,10 +266,8 @@ const StartVisit = ({
                   await addChronicDisease(
                     appointmentId,
                     {
-                      name: chronic.disease,
-                      disease: chronic.disease,
+                      diseaseName: chronic.disease,
                       date: chronic.date,
-                      diagnosedDate: chronic.date
                     }
                   );
 
@@ -371,11 +370,9 @@ const StartVisit = ({
                   await addSurgery(
                     appointmentId,
                     {
-                      name: surgical.surgery,
                       surgery: surgical.surgery,
-                      date: surgical.date,
-                      surgeryDate: surgical.date,
                       notes: surgical.notes,
+                      date: surgical.date,
                     }
                   );
 
@@ -489,11 +486,8 @@ const StartVisit = ({
                     appointmentId,
                     {
                       name: medications.medication,
-                      medication: medications.medication,
                       frequency: medications.frequency,
                       date: medications.date,
-                      started: medications.date,
-                      startDate: medications.date,
                     }
                   );
 
@@ -617,8 +611,7 @@ const StartVisit = ({
                   await addAllergy(
                     appointmentId,
                     {
-                      name: allergies.allergy,
-                      allergy: allergies.allergy,
+                      allergyName: allergies.allergy,
                       reaction: allergies.reaction,
                       date: allergies.date,
                     }
