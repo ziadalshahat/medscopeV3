@@ -50,14 +50,15 @@ function Chatbot() {
 
     document.body.appendChild(script);
 
-
   }, [location.pathname]);
 
+  // Global cleanup when leaving the patient portal
+  useEffect(() => {
+    return () => removeChatbot();
+  }, []);
 
   return null;
 }
-
-
 
 function removeChatbot(){
 
