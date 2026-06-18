@@ -34,6 +34,13 @@ function Chatbot() {
       return;
     }
 
+    // يقفل الشات لو مفتوح عشان مايفضلش واخد مساحة لما يغير الصفحة
+    if (window.chatbase && typeof window.chatbase === "function") {
+      try {
+        window.chatbase("close");
+      } catch (e) {}
+    }
+
     if (window.chatbase) return;
 
     const script = document.createElement("script");
@@ -80,9 +87,11 @@ function Chatbot() {
   return null;
 }
 
-function removeChatbot() {
+function removeChatbot(){
+
+  // يمسح كل عناصر Chatbase بس بيسيب الـ iframe بتاع صفحة Smart Assistant
   const elements = document.querySelectorAll(
-    "iframe, [id*='chatbase'], [class*='chatbase']"
+    "iframe:not([src*='chatbot-iframe']), [id*='chatbase'], [class*='chatbase']"
   );
 
   elements.forEach((el) => el.remove());

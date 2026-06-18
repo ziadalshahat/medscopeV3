@@ -74,7 +74,13 @@ const Reports = () => {
   }, [selectedMonth]);
 
   // ========== Derived Data ==========
-  const userGrowthData = reportData?.userGrowth || [];
+  const userGrowthData = (reportData?.userGrowth || []).filter((item) => {
+    if (!item.date) return false;
+    const dateParts = item.date.split("-");
+    if (dateParts.length < 2) return false;
+    const itemMonth = parseInt(dateParts[1], 10);
+    return itemMonth === selectedMonth;
+  });
   const totalPages = Math.ceil(userGrowthData.length / DAYS_PER_PAGE) || 1;
   const paginatedData = userGrowthData.slice(
     (growthPage - 1) * DAYS_PER_PAGE,

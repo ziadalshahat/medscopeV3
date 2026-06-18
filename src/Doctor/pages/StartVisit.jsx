@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import "../styles/StartVisit.css";
@@ -9,6 +9,11 @@ import {
   addMedication,
   addAllergy,
 } from "../services/startVisitApi";
+import { getAppointmentDetails } from "../services/AppointmentDetails";
+import { addPatientNote } from "../services/patientNotesApi";
+import { completeAppointment } from "../../Admin/services/appointments";
+
+import { getPatients } from "../services/patientsApi";
 
 const StartVisit = ({
   appointment,
@@ -21,8 +26,13 @@ const StartVisit = ({
     .toISOString()
     .split("T")[0];
 
+  // Extract state from navigation — now includes full appointment item data
+  const navState = location.state || {};
   const appointmentId =
-    appointment?.appointmentId || location.state?.appointmentId;
+    appointment?.appointmentId || navState.appointmentId || navState.id;
+
+  const [patientData, setPatientData] = useState(null);
+  const [loadingDetails, setLoadingDetails] = useState(true);
 
   const [chronic, setChronic] =
     useState({
@@ -51,26 +61,147 @@ const StartVisit = ({
       reaction: "",
     });
 
+  const [visitNotes, setVisitNotes] = useState({
+    diagnosis: "",
+    treatmentPlan: "",
+    followUp: "",
+  });
+
   const [submitted, setSubmitted] =
     useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = () => {
-    setSubmitted(true);
-
-    setTimeout(() => {
-      setSubmitted(false);
-
-      if (onNavigate) {
-        onNavigate("appointments");
-      } else {
-        navigate(-1);
-      }
-    }, 1500);
+  // Toast notification state
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+  const showToast = (message, type = "success") => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast({ show: false, message: "", type: "success" }), 3000);
   };
 
-  const patient = appointment || location.state || {
-    patient: "John Smith",
-    id: "PT001",
+  useEffect(() => {
+    const fetchPatientData = async () => {
+      if (!appointmentId) {
+        setLoadingDetails(false);
+        return;
+      }
+      try {
+        const response = await getAppointmentDetails(appointmentId);
+        // Handle possible wrapped responses: { data: {...} } or { result: {...} } or flat object
+        const details = response?.data || response?.result || response;
+        console.log("Visit details raw response:", JSON.stringify(response));
+        console.log("Extracted details:", JSON.stringify(details));
+        setPatientData(details);
+      } catch (err) {
+        console.error("Failed to load appointment details:", err);
+        // Even if API fails, we still have navState from DoctorAppointments
+      } finally {
+        setLoadingDetails(false);
+      }
+    };
+    fetchPatientData();
+  }, [appointmentId]);
+
+  // Helper: resolve patientId from all available sources
+  const resolvePatientId = () => {
+    return (
+      patientData?.patientId ||
+      patientData?.id ||
+      patientData?.patient_id ||
+      navState?.patientId ||
+      navState?.patient_id ||
+      navState?.patient?.patientId ||
+      appointment?.patientId
+    );
+  };
+
+  // Helper: resolve patient display name from all available sources
+  const resolvePatientName = () => {
+    return (
+      patientData?.patientName ||
+      patientData?.patient ||
+      patientData?.fullName ||
+      navState?.patient ||
+      navState?.patientName ||
+      navState?.name ||
+      appointment?.patient ||
+      appointment?.patientName ||
+      "N/A"
+    );
+  };
+
+  const handleSubmit = async () => {
+    if (!visitNotes.diagnosis.trim() || !visitNotes.treatmentPlan.trim()) {
+      alert("Please enter both Diagnosis and Treatment Plan before submitting the visit.");
+      return;
+    }
+
+    let patientId = resolvePatientId();
+
+    // Fallback: if patientId not found, try fetching from doctor's patients list
+    if (!patientId) {
+      try {
+        const patientName = resolvePatientName();
+        console.log("PatientId not in state/API, trying getDoctorPatients. Looking for:", patientName);
+        const patientsResponse = await getPatients();
+        const patients = patientsResponse?.data || patientsResponse?.result || patientsResponse;
+        console.log("Doctor patients list:", JSON.stringify(patients));
+
+        if (Array.isArray(patients) && patientName && patientName !== "N/A") {
+          const match = patients.find(
+            (p) =>
+              (p.patientName || p.name || p.fullName || "")
+                .toLowerCase()
+                .trim() === patientName.toLowerCase().trim()
+          );
+          if (match) {
+            patientId = match.patientId || match.id || match.patient_id;
+            console.log("Found patientId via name match:", patientId);
+          }
+        }
+      } catch (err) {
+        console.error("Fallback getDoctorPatients also failed:", err);
+      }
+    }
+
+    if (!patientId) {
+      const debugInfo = `patientData keys: ${JSON.stringify(Object.keys(patientData || {}))} | navState keys: ${JSON.stringify(Object.keys(navState))} | patientData: ${JSON.stringify(patientData)}`;
+      console.error("PatientId resolution failed.", debugInfo);
+      alert("Could not retrieve patient ID.\n\nDebug:\n" + debugInfo);
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      // 1. Save visit note/record
+      await addPatientNote(patientId, {
+        date: today,
+        diagnosis: visitNotes.diagnosis,
+        treatmentPlan: visitNotes.treatmentPlan,
+        followUp: visitNotes.followUp,
+      });
+
+      // 2. Complete appointment
+      try {
+        await completeAppointment(appointmentId);
+      } catch (apptErr) {
+        console.warn("Could not mark appointment as completed on backend:", apptErr);
+      }
+
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        if (onNavigate) {
+          onNavigate("appointments");
+        } else {
+          navigate(-1);
+        }
+      }, 1500);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to submit visit notes: " + (error.response?.data?.message || error.response?.data || error.message));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -99,10 +230,13 @@ const StartVisit = ({
 
           <div className="sv-header-sub">
             Patient:{" "}
-            {patient.patient ||
-              patient.name}{" "}
+            {loadingDetails
+              ? "Loading..."
+              : resolvePatientName()}{" "}
             (ID:{" "}
-            {patient.id || "PT001"})
+            {loadingDetails
+              ? "..."
+              : (resolvePatientId() || "N/A")})
           </div>
         </div>
       </div>
@@ -192,22 +326,20 @@ const StartVisit = ({
                   await addChronicDisease(
                     appointmentId,
                     {
+                      diseaseName: chronic.disease,
                       date: chronic.date,
-                      disease:
-                        chronic.disease,
                     }
                   );
 
-                  alert(
-                    "Chronic disease added successfully"
-                  );
+                  showToast("Chronic disease added successfully");
 
                   setChronic({
                     date: today,
                     disease: "",
                   });
                 } catch (error) {
-                  console.log(error);
+                  console.error(error);
+                  showToast("Failed to add chronic disease: " + (error.response?.data?.message || error.response?.data || error.message), "error");
                 }
               }}
             >
@@ -296,17 +428,13 @@ const StartVisit = ({
                   await addSurgery(
                     appointmentId,
                     {
+                      surgery: surgical.surgery,
+                      notes: surgical.notes,
                       date: surgical.date,
-                      surgery:
-                        surgical.surgery,
-                      notes:
-                        surgical.notes,
                     }
                   );
 
-                  alert(
-                    "Surgery added successfully"
-                  );
+                  showToast("Surgery added successfully");
 
                   setSurgical({
                     date: today,
@@ -314,7 +442,8 @@ const StartVisit = ({
                     notes: "",
                   });
                 } catch (error) {
-                  console.log(error);
+                  console.error(error);
+                  showToast("Failed to add surgical history: " + (error.response?.data?.message || error.response?.data || error.message), "error");
                 }
               }}
             >
@@ -412,18 +541,13 @@ const StartVisit = ({
                   await addMedication(
                     appointmentId,
                     {
-                      date:
-                        medications.date,
-                      medication:
-                        medications.medication,
-                      frequency:
-                        medications.frequency,
+                      name: medications.medication,
+                      frequency: medications.frequency,
+                      date: medications.date,
                     }
                   );
 
-                  alert(
-                    "Medication added successfully"
-                  );
+                  showToast("Medication added successfully");
 
                   setMedications({
                     date: today,
@@ -431,7 +555,8 @@ const StartVisit = ({
                     frequency: "",
                   });
                 } catch (error) {
-                  console.log(error);
+                  console.error(error);
+                  showToast("Failed to add medication: " + (error.response?.data?.message || error.response?.data || error.message), "error");
                 }
               }}
             >
@@ -540,18 +665,13 @@ const StartVisit = ({
                   await addAllergy(
                     appointmentId,
                     {
-                      date:
-                        allergies.date,
-                      allergy:
-                        allergies.allergy,
-                      reaction:
-                        allergies.reaction,
+                      allergyName: allergies.allergy,
+                      reaction: allergies.reaction,
+                      date: allergies.date,
                     }
                   );
 
-                  alert(
-                    "Allergy added successfully"
-                  );
+                  showToast("Allergy added successfully");
 
                   setAllergies({
                     date: today,
@@ -559,7 +679,8 @@ const StartVisit = ({
                     reaction: "",
                   });
                 } catch (error) {
-                  console.log(error);
+                  console.error(error);
+                  showToast("Failed to add allergy: " + (error.response?.data?.message || error.response?.data || error.message), "error");
                 }
               }}
             >
@@ -567,18 +688,15 @@ const StartVisit = ({
             </button>
           </div>
         </div>
-
-        <div className="sv-submit-row">
-          <button
-            className="sv-submit-btn"
-            onClick={handleSubmit}
-          >
-            {submitted
-              ? "Submitted ✓"
-              : "Submit"}
-          </button>
-        </div>
       </div>
+
+      {/* Toast Notification */}
+      {toast.show && (
+        <div className={`sv-toast ${toast.type === "error" ? "sv-toast-error" : "sv-toast-success"}`}>
+          <span>{toast.type === "error" ? "❌" : "✅"}</span>
+          <span>{toast.message}</span>
+        </div>
+      )}
     </div>
   );
 };

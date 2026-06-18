@@ -14,7 +14,6 @@ import "../styles/Dashboard.css";
 import { getDashboardData } from "../services/dashboardService";
 import Loader from "../../components/Loader";
 
-import Chatbot from "../components/Chatbot";
 const Dashboard = () => {
 
   const [dashboardData, setDashboardData] = useState(null);
@@ -49,7 +48,6 @@ const Dashboard = () => {
   return (
 <>
 
-  <Chatbot />
       <div className="dashboard-container">
 
       {/* Updates */}

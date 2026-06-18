@@ -412,3 +412,136 @@
     justify-content: center;
   }
 }
+
+/* ================= DARK MODE ================= */
+html.dark .da-page {
+  background: var(--bg-color) !important;
+  color: var(--text-color);
+}
+
+html.dark .da-sidebar {
+  background: #0d111c !important;
+  border-right: 1px solid var(--border-color) !important;
+}
+
+html.dark .da-nav-item {
+  color: var(--text-muted);
+}
+
+html.dark .da-nav-item:hover {
+  background: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html.dark .da-nav-active {
+  background: #1e293b !important;
+  color: #ffffff !important;
+  border-left-color: #2fc0ff;
+}
+
+html.dark .da-logout {
+  color: var(--text-muted);
+}
+
+html.dark .da-logout:hover {
+  color: #ffffff;
+}
+
+html.dark .da-page-title {
+  color: var(--text-color);
+}
+
+html.dark .da-subtitle {
+  color: var(--text-muted);
+}
+
+html.dark .da-profile {
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+}
+
+html.dark .da-profile h4 {
+  color: var(--text-color);
+}
+
+html.dark .da-profile span {
+  color: var(--text-muted);
+}
+
+html.dark .da-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+html.dark .da-card-title {
+  color: var(--text-color);
+}
+
+html.dark .da-card-subtitle {
+  color: var(--text-muted);
+}
+
+html.dark .da-tab {
+  background: #1f2937;
+  color: var(--text-muted);
+}
+
+html.dark .da-tab:hover {
+  background: #374151;
+  color: #ffffff;
+}
+
+html.dark .da-tab-active {
+  background: #374151 !important;
+  color: #ffffff !important;
+}
+
+html.dark .da-table th {
+  color: #2ea8df;
+  border-bottom: 2px solid var(--border-color);
+}
+
+html.dark .da-table td {
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+html.dark .da-visit-badge {
+  background: rgba(46, 168, 223, 0.1);
+  color: #2ea8df;
+}
+
+html.dark .da-btn-visit {
+  background: #1f2937;
+  color: #2ea8df;
+  border: 1px solid var(--border-color);
+}
+
+html.dark .da-btn-visit:hover {
+  background: #374151;
+}
+
+html.dark .da-page-nav {
+  background: #1f2937;
+  color: var(--text-color);
+}
+
+html.dark .da-page-nav:hover {
+  background: #374151;
+}
+
+html.dark .da-page-btn {
+  background: #1f2937;
+  color: var(--text-color);
+}
+
+html.dark .da-page-btn:hover {
+  background: #374151;
+}
+
+html.dark .da-page-active {
+  background: #2ea8df !important;
+  color: #ffffff !important;
+}

@@ -92,9 +92,12 @@ const SelectDateTime = () => {
             setSlotsLoading(true);
             const data = await appointmentService.getAvailableSlots(doctorId, formattedDate);
             // Handle different possible response formats
-            const slotsList = Array.isArray(data)
-                ? data.map(s => typeof s === 'string' ? s : (s.time || s.Time || s.slot || '')).filter(Boolean)
-                : [];
+            let slotsList = [];
+            if (Array.isArray(data)) {
+                slotsList = data.map(s => typeof s === 'string' ? s : (s.time || s.Time || s.slot || '')).filter(Boolean);
+            } else if (data && data.availableTimes && Array.isArray(data.availableTimes)) {
+                slotsList = data.availableTimes.map(s => typeof s === 'string' ? s : (s.time || s.Time || s.slot || '')).filter(Boolean);
+            }
                 
             setCurrentSlots(slotsList);
         } catch (err) {

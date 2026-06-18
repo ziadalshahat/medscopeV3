@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
-import "./SuperAdminLayout.css";
+import "./Superadminlayout.css";
+import ThemeToggle from "../ThemeToggle";
 
 const pageInfo = {
-  "/super-admin/hospitals": { title: "Hospital Management", subtitle: "Manage and monitor all hospitals" },
+  "/super-admin/hospitals": { title: "Hospital Management", subtitle: "Manage your personal information and settings" },
   "/super-admin/admins":    { title: "Admin Management", subtitle: "Manage your personal information and settings" },
   "/super-admin/reports":   { title: "Reports & Analytics", subtitle: "Manage your personal information and settings" },
   "/super-admin/settings":  { title: "Settings", subtitle: "Manage your personal information and settings" },
@@ -23,6 +24,24 @@ const SuperAdminLayout = () => {
   const [showNotif, setShowNotif] = useState(false);
   const [notifications, setNotifications] = useState(initialNotifications);
   const notifRef = useRef(null);
+
+  const [userName, setUserName] = useState("Gina");
+  const [userRole, setUserRole] = useState("Super Admin");
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const parsed = JSON.parse(storedUser);
+        if (parsed.fullName) setUserName(parsed.fullName);
+        if (parsed.role) {
+          setUserRole(parsed.role === "SuperAdmin" ? "Super Admin" : parsed.role);
+        }
+      } catch (e) {
+        console.error("Error parsing user from localStorage:", e);
+      }
+    }
+  }, []);
 
   const current = pageInfo[location.pathname] || { title: "", subtitle: "" };
   const unreadCount = notifications.filter((n) => !n.read).length;
@@ -59,7 +78,34 @@ const SuperAdminLayout = () => {
       {/* Sidebar */}
       <aside className="super-sidebar">
         <div className="super-sidebar-header">
-          <h2>Super Admin</h2>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div style={{
+              width: "35px",
+              height: "35px",
+              background: "linear-gradient(145deg, #ffffff, #7aacc8)",
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}>
+              <img 
+                src="/ChatGPT Image Sep 29, 2025, 03_40_38 PM.png" 
+                alt="MedScope Logo" 
+                style={{ width: "22px", height: "22px", objectFit: "contain" }} 
+              />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", lineHeight: "1.2" }}>
+              <span style={{ 
+                fontSize: "18px", 
+                fontWeight: "700", 
+                background: "linear-gradient(110deg, #0a8cd8, #3ae8b6)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text"
+              }}>MedScope</span>
+              <span style={{ fontSize: "10px", color: "#a8c8e0" }}>Healthcare Excellence</span>
+            </div>
+          </div>
         </div>
 
         <nav className="super-sidebar-nav">
@@ -92,51 +138,25 @@ const SuperAdminLayout = () => {
             <h2 className="super-header-title">{current.title}</h2>
             <p className="super-header-subtitle">{current.subtitle}</p>
           </div>
-          <div className="super-header-right">
-
-            {/* Notification Bell */}
-            <div className="notif-wrapper" ref={notifRef}>
-              <div className="notif-bell" onClick={() => setShowNotif((prev) => !prev)}>
-                <i className="fas fa-bell"></i>
-                {unreadCount > 0 && <span className="notif-dot">{unreadCount}</span>}
-              </div>
-
-              {showNotif && (
-                <div className="notif-dropdown">
-                  <div className="notif-dropdown-header">
-                    <span>Notifications</span>
-                    {unreadCount > 0 && (
-                      <button className="mark-all-btn" onClick={markAllRead}>Mark all as read</button>
-                    )}
-                  </div>
-                  <div className="notif-list">
-                    {notifications.map((n) => (
-                      <div
-                        key={n.id}
-                        className={`notif-item ${!n.read ? "unread" : ""}`}
-                        onClick={() => markRead(n.id)}
-                      >
-                        <div className="notif-item-icon">
-                          <i className={n.icon}></i>
-                        </div>
-                        <div className="notif-item-content">
-                          <p className="notif-item-msg">{n.message}</p>
-                          <span className="notif-item-time">{n.time}</span>
-                        </div>
-                        {!n.read && <span className="unread-dot"></span>}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+          <div className="super-header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            {/* Theme Toggle Button */}
+            <ThemeToggle style={{ color: '#ffffff' }} />
 
             {/* User Info */}
             <div className="super-user-info">
-              <img src="/public/sup.jpg" alt="admin" className="super-avatar" />
+              <div className="super-avatar initials-avatar">
+                {(() => {
+                  if (!userName) return "SA";
+                  const parts = userName.trim().split(/\s+/);
+                  if (parts.length > 1) {
+                    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+                  }
+                  return userName.slice(0, 2).toUpperCase();
+                })()}
+              </div>
               <div>
-                <p className="super-user-name">Ahmed</p>
-                <p className="super-user-role">Super Admin</p>
+                <p className="super-user-name">{userName}</p>
+                <p className="super-user-role">{userRole}</p>
               </div>
             </div>
           </div>

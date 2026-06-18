@@ -1,27 +1,17 @@
 .reports-page {
-  padding: 30px;
+  padding: 30px 40px;
 }
 
 .reports-header {
   margin-bottom: 25px;
-}
-
-.reports-title {
-  font-size: 28px;
-  color: #1e4f73;
-  margin-bottom: 5px;
-}
-
-.reports-subtitle {
-  font-size: 14px;
-  color: #7a9bb5;
+  display: none; /* Subtitle and Title are already in Superadminlayout header */
 }
 
 .reports-card {
-  background: #004F781A;
-  border-radius: 15px;
+  background: #cfe0ec;
+  border-radius: 20px;
   padding: 30px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .chart-section {
@@ -30,7 +20,7 @@
 
 .divider {
   height: 1px;
-  background: #d9e5ef;
+  background: #a2bfd6;
   margin: 30px 0;
 }
 
@@ -47,11 +37,6 @@
   font-weight: 600;
 }
 
-.chart-filters {
-  display: flex;
-  gap: 10px;
-}
-
 .chart-filter {
   border: 1px solid #1e4f73;
   border-radius: 20px;
@@ -61,13 +46,14 @@
   background: white;
   cursor: pointer;
   outline: none;
+  font-weight: 500;
 }
 
 .chart-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .total-label {
@@ -104,14 +90,15 @@
 .pie-wrapper {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 40px;
+  margin-top: 15px;
 }
 
 .pie-legend {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-width: 100px;
+  min-width: 120px;
 }
 
 .legend-item {
@@ -135,15 +122,14 @@
   justify-content: flex-end;
   align-items: center;
   gap: 8px;
-  margin-top: 16px;
-  margin-bottom: 8px;
+  margin-top: 20px;
 }
 
 .page-btn {
-  background: transparent;
+  background: #8fa9be;
   border: none;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   font-size: 14px;
   color: #1e4f73;
@@ -155,12 +141,14 @@
 }
 
 .page-btn:hover {
-  background: #d9e5ef;
+  background: #7b97ae;
+  color: white;
 }
 
 .page-btn.active {
-  background: #1e4f73;
+  background: #004f78;
   color: white;
+  font-weight: 600;
 }
 
 .page-btn:disabled {
@@ -169,19 +157,19 @@
 }
 
 .page-btn.nav-btn {
-  background: transparent;
-  border: none;
-  border-radius: 0;
   width: auto;
   height: auto;
-  padding: 0 4px;
-  font-size: 14px;
+  border-radius: 0;
+  padding: 0 10px;
+  background: transparent;
   color: #1e4f73;
+  font-weight: 500;
 }
 
 .page-btn.nav-btn:hover {
   background: transparent;
   text-decoration: underline;
+  color: #004f78;
 }
 
 /* Export buttons */
@@ -194,29 +182,30 @@
 
 .export-btn {
   padding: 10px 24px;
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
   border: none;
   transition: 0.2s;
 }
 
 .export-btn.excel {
-  background: #1e4f73;
+  background: #004f78;
   color: white;
 }
 
 .export-btn.excel:hover {
-  background: #004f78;
+  background: #0b3d5c;
 }
 
 .export-btn.pdf {
-  background: #8FA9BE;
-  color: white;
+  background: #b6cce0;
+  color: #1e4f73;
 }
 
 .export-btn.pdf:hover {
-  background: #6c8ea4;
+  background: #a4bcca;
 }
 
 /* Responsive */
@@ -227,6 +216,7 @@
 
   .pie-wrapper {
     flex-direction: column;
+    gap: 20px;
   }
 
   .chart-top {

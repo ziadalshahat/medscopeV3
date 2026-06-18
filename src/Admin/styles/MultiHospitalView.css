@@ -4,16 +4,82 @@
 
 .multi-page {
   padding: 32px 36px;
-  background-color: #ffffff;
+  background-color: #f4f8fb;
   min-height: 100vh;
   box-sizing: border-box;
 }
 
-.multi-page .page-title {
+/* ===========================
+   TOP HEADER
+   =========================== */
+.multi-header-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  direction: ltr;
+}
+
+.multi-page-title {
   font-size: 26px;
   font-weight: 700;
-  color: #004F78;
-  margin: 0 0 28px 0;
+  color: #1c5b7c;
+  margin: 0;
+}
+
+.multi-profile-area {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.notification-bell-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.bell-icon {
+  color: #8c2a2a;
+  font-size: 24px;
+}
+
+.bell-badge {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background-color: #1c5b7c;
+  border-radius: 50%;
+  border: 2px solid #f4f8fb;
+}
+
+.multi-profile-details {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1c5b7c;
+}
+
+.profile-role {
+  font-size: 12px;
+  color: #1c5b7c;
+  opacity: 0.8;
 }
 
 /* ===========================
@@ -22,11 +88,13 @@
 
 .hospital-card {
   background: #ffffff;
-  border-radius: 18px;
-  border: 1px solid rgba(0, 79, 120, 0.1);
-  box-shadow: 0 6px 24px rgba(0, 79, 120, 0.09);
-  margin-bottom: 24px;
-  overflow: hidden;
+  border-radius: 20px;
+  padding: 30px 40px;
+  margin-bottom: 30px;
+  direction: ltr; /* Force LTR so left is left */
+  text-align: left;
+  border: 1px solid #e1e9f0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 /* ===========================
@@ -36,80 +104,28 @@
 .hospital-header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 20px;
-  padding: 20px 28px;
-  background: linear-gradient(135deg, #004F78 0%, #0077b6 100%);
+  justify-content: flex-start; /* explicitly left */
+  gap: 16px;
+  margin-bottom: 30px;
 }
 
 .hospital-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.15);
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: #1c5b7c;
   color: #ffffff;
-  font-size: 22px;
+  font-size: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  border: 1.5px solid rgba(255, 255, 255, 0.25);
-}
-
-/* Text block next to icon */
-.hospital-header-text {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-start;
 }
 
 .hospital-header h3 {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
-  color: #ffffff;
+  color: #1c5b7c;
   margin: 0;
-  letter-spacing: 0.2px;
-}
-
-/* Stats row */
-.summary {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  margin: 0;
-}
-
-.summary-item {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0 20px;
-  border-right: 1px solid rgba(255, 255, 255, 0.22);
-}
-
-.summary-item:first-child {
-  padding-left: 0;
-}
-
-.summary-item:last-child {
-  border-right: none;
-}
-
-.summary-label {
-  font-size: 10.5px;
-  color: rgba(255, 255, 255, 0.55);
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  margin-bottom: 2px;
-  font-weight: 500;
-}
-
-.summary-value {
-  font-size: 15px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1;
 }
 
 /* ===========================
@@ -117,11 +133,9 @@
    =========================== */
 
 .beds-container {
-  padding: 22px 28px 26px 28px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  background: #F8FBFF;
+  gap: 16px;
 }
 
 /* ===========================
@@ -129,75 +143,52 @@
    =========================== */
 
 .bed-row {
-  background: #ffffff;
-  border-radius: 12px;
-  border: 1px solid rgba(0, 79, 120, 0.08);
-  padding: 14px 18px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  box-shadow: 0 2px 8px rgba(0, 79, 120, 0.04);
-  transition: box-shadow 0.2s;
+  background-color: #f4f8fb;
+  border-radius: 12px;
+  padding: 16px 24px;
 }
 
-.bed-row:hover {
-  box-shadow: 0 4px 14px rgba(0, 79, 120, 0.1);
-}
-
-.bed-label {
+.bed-text-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.bed-label > span:first-child {
-  font-size: 13.5px;
+.bed-label {
+  font-size: 14px;
   font-weight: 600;
-  color: #004F78;
+  color: #1c5b7c;
 }
 
-.bed-count {
-  font-size: 12.5px;
-  font-weight: 600;
-  color: #004F78 !important;
-  background: #EBF5FF;
-  border: 1px solid rgba(0, 79, 120, 0.15);
-  border-radius: 20px;
-  padding: 3px 14px;
-  letter-spacing: 0.2px;
+.bed-count-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1c5b7c;
 }
 
 /* ===========================
    PROGRESS BAR
    =========================== */
 
-.hospital-card .progress-bar {
-  width: 100%;
-  height: 9px;
-  background-color: #EBF5FF;
+.bed-bar-container {
+  background-color: #e1e9f0;
   border-radius: 20px;
+  height: 6px;
+  width: 100%;
+  display: flex;
+  align-items: center;
   overflow: hidden;
+  margin-top: 4px;
 }
 
-.hospital-card .progress {
+.bed-bar-fill {
+  background-color: #1c5b7c;
   height: 100%;
   border-radius: 20px;
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.hospital-card .progress[style*="rgb(76, 175, 80)"],
-.hospital-card .progress[style*="#4CAF50"] {
-  background: linear-gradient(90deg, #2ecc71, #27ae60) !important;
-}
-
-.hospital-card .progress[style*="rgb(255, 193, 7)"],
-.hospital-card .progress[style*="#FFC107"] {
-  background: linear-gradient(90deg, #f9ca24, #f0932b) !important;
-}
-
-.hospital-card .progress[style*="rgb(229, 57, 53)"],
-.hospital-card .progress[style*="#E53935"] {
-  background: linear-gradient(90deg, #e55039, #c0392b) !important;
+  transition: width 0.6s ease;
 }
 
 /* ===========================
@@ -205,7 +196,7 @@
    =========================== */
 
 .multi-page > p {
-  color: rgba(0, 79, 120, 0.5);
+  color: rgba(28, 91, 124, 0.5);
   font-size: 14px;
   margin: 0;
 }
@@ -215,31 +206,7 @@
    =========================== */
 
 @media (max-width: 640px) {
-  .multi-page {
-    padding: 20px 16px;
-  }
-
-  .hospital-header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 18px 20px;
-  }
-
-  .beds-container {
-    padding: 16px 16px 20px 16px;
-  }
-
-  .bed-row {
-    padding: 12px 14px;
-  }
-
-  .summary {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .summary-item {
-    border-right: none;
-    padding: 0;
+  .hospital-card {
+    padding: 20px;
   }
 }
