@@ -3,10 +3,12 @@ import "../styles/Hospitalmanagement.css";
 import { useTranslation } from "react-i18next";
 import {
   getHospitals,
+  getAllHospitals,
   createHospital,
   updateHospital,
   deleteHospital,
   changeHospitalStatus,
+  uploadHospitalImage,
 } from "../services/superAdminApi";
 
 const HospitalManagement = () => {
@@ -30,6 +32,7 @@ const HospitalManagement = () => {
     address: "",
   });
   const [saving, setSaving] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
 
   const pageSize = 7;
 
@@ -80,6 +83,7 @@ const HospitalManagement = () => {
   const openAdd = () => {
     setEditIndex(null);
     setFormData({ name: "", city: "", email: "", phone: "", address: "" });
+    setImageFile(null);
     setModalStep("form");
   };
 
@@ -93,6 +97,7 @@ const HospitalManagement = () => {
       phone: "",
       address: "",
     });
+    setImageFile(null);
     setModalStep("form");
   };
 
@@ -113,6 +118,11 @@ const HospitalManagement = () => {
           hospitalNumber: Math.floor(Math.random() * 900000) + 100000,
           website: "https://medscope.com",
         });
+
+        if (imageFile) {
+          await uploadHospitalImage(hospital.id, imageFile);
+        }
+
         setModalStep(null);
       } else {
         // Create new hospital
@@ -126,6 +136,14 @@ const HospitalManagement = () => {
           hospitalNumber: Math.floor(Math.random() * 900000) + 100000,
           website: "https://medscope.com",
         });
+
+        // Fetch all hospitals to find the one we just created
+        const allRes = await getAllHospitals();
+        const createdHospital = (allRes.data || []).find(h => h.name === formData.name);
+        if (imageFile && createdHospital) {
+          await uploadHospitalImage(createdHospital.id, imageFile);
+        }
+
         setCreatedId(formData.name);
         setModalStep("success");
       }
@@ -372,6 +390,19 @@ const HospitalManagement = () => {
                     />
                   </div>
                 ))}
+                
+                <div className="new-form-field">
+                  <label>
+                    <i className="fas fa-image"></i> {t("hospital.image") || "Hospital Image"}
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImageFile(e.target.files[0])}
+                    style={{ border: 'none', padding: '10px 0' }}
+                  />
+                </div>
+
                 <div className="new-modal-btns">
                   <button
                     className="new-save-btn"
