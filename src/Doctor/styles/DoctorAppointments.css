@@ -1,7 +1,7 @@
 /* ================= PAGE ================= */
 .da-page {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
   background: #eef3f7;
   font-family: "Inter", sans-serif;
@@ -96,7 +96,10 @@
   flex: 1;
   padding: 34px;
   overflow-x: hidden;
+  overflow-y: auto;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ================= TOPBAR ================= */
@@ -391,6 +394,8 @@
 @media (max-width: 768px) {
   .da-page {
     flex-direction: column;
+    height: auto;
+    overflow: visible;
   }
 
   .da-sidebar {
@@ -401,6 +406,7 @@
 
   .da-main {
     padding: 20px;
+    overflow: visible;
   }
 
   .da-topbar {

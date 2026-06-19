@@ -1,7 +1,7 @@
 /* ================= PAGE ================= */
 .pt-page {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
   background: #eef3f7;
   font-family: "Inter", sans-serif;
@@ -112,6 +112,7 @@
   flex: 1;
   padding: 34px;
   overflow-x: hidden;
+  overflow-y: auto;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -468,6 +469,8 @@
 @media (max-width: 768px) {
   .pt-page {
     flex-direction: column;
+    height: auto;
+    overflow: visible;
   }
 
   .pt-sidebar {
@@ -478,6 +481,7 @@
 
   .pt-main {
     padding: 20px;
+    overflow: visible;
   }
 
   .pt-topbar {

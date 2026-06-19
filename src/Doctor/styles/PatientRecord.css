@@ -7,9 +7,10 @@
 /* ================= PAGE ================= */
 .pt-page {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   background: #edf2f6;
   font-family: "Segoe UI", sans-serif;
+  overflow: hidden;
 }
 
 /* ================= SIDEBAR ================= */
@@ -563,8 +564,15 @@
 }
 
 @media (max-width: 900px) {
-  .pt-page { flex-direction: column; }
+  .pt-page {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
   .pt-sidebar { width: 100%; min-width: 100%; height: auto; position: relative; }
+  .pt-main {
+    overflow: visible;
+  }
 }
 
 @media (max-width: 600px) {
