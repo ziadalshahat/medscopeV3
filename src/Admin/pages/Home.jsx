@@ -71,7 +71,7 @@ const Home = () => {
             </div>
             <div className="admin-home-hospital-title-area">
               <h3 className="admin-home-hospital-name">{data.hospitalName}</h3>
-              <p className="admin-home-hospital-type">{data.hospitalType} {t("admin.hospital", "Hospital")}</p>
+              <p className="admin-home-hospital-type">{t("hospital_types." + data.hospitalType.toLowerCase(), data.hospitalType)} {t("admin.hospital", "Hospital")}</p>
             </div>
           </div>
 

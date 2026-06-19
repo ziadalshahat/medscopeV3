@@ -5,6 +5,17 @@ import LanguageDetector from "i18next-browser-languagedetector";
 const resources = {
   en: {
     translation: {
+      "wards": {
+        "icu": "ICU",
+        "emergency": "Emergency",
+        "operating_room": "Operating Room",
+        "operating_room_beds": "Operating Room (OR) Beds",
+        "pediatric": "Pediatric",
+        "general": "General"
+      },
+      "hospital_types": {
+        "general": "General"
+      },
       "footer": {
         "title": "MedScope",
         "empower": "Healthcare Excellence",
@@ -80,6 +91,14 @@ const resources = {
         "back_to_list": "Back to hospitals"
       },
       "admin": {
+        "action": "ACTION",
+        "notes": "Notes",
+        "optional": "Optional",
+        "add_doctor": "Add Doctor",
+        "major_specialty": "Major / Specialty",
+        "adding": "Adding...",
+        "bed_info": "Bed info",
+        "loading_beds": "Loading bed statistics...",
         "patient_age_header": "Patient Age",
         "doctors_management": "Doctors Management",
         "doctors_info": "Doctors info",
@@ -676,6 +695,17 @@ const resources = {
   },
   ar: {
     translation: {
+      "wards": {
+        "icu": "العناية المركزة",
+        "emergency": "الطوارئ",
+        "operating_room": "غرفة العمليات",
+        "operating_room_beds": "أسرة غرفة العمليات",
+        "pediatric": "الأطفال",
+        "general": "العام"
+      },
+      "hospital_types": {
+        "general": "عام"
+      },
       "footer": {
         "title": "ميدسكوب",
         "empower": "التميز في الرعاية الصحية",
@@ -751,6 +781,14 @@ const resources = {
         "back_to_list": "العودة للمستشفيات"
       },
       "admin": {
+        "action": "الإجراء",
+        "notes": "ملاحظات",
+        "optional": "اختياري",
+        "add_doctor": "إضافة طبيب",
+        "major_specialty": "التخصص الرئيسي",
+        "adding": "جاري الإضافة...",
+        "bed_info": "بيانات الأسرة",
+        "loading_beds": "جاري تحميل إحصائيات الأسرة...",
         "patient_age_header": "عمر المريض",
         "doctors_management": "إدارة الأطباء",
         "doctors_info": "بيانات الأطباء",

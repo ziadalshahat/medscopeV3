@@ -295,7 +295,7 @@ const NewAppointment = () => {
             {/* Patient */}
             <div className="na-field" ref={searchRef}>
               <label className="na-label">
-                Patient <span className="na-required">*</span>
+                {t("admin.required_patient", "Patient")} <span className="na-required">*</span>
               </label>
               <div className={`na-search-wrap ${showPatientError ? "na-input-error" : ""} ${form.patientId ? "na-input-selected" : ""}`}>
                 <FontAwesomeIcon icon={faSearch} className="na-search-icon" />
@@ -356,7 +356,7 @@ const NewAppointment = () => {
             {/* Doctor */}
             <div className="na-field">
               <label className="na-label">
-                Doctor <span className="na-required">*</span>
+                {t("admin.required_doctor", "Doctor")} <span className="na-required">*</span>
               </label>
               <div className="na-select-wrap">
                 <select
@@ -386,7 +386,7 @@ const NewAppointment = () => {
             {/* Date */}
             <div className="na-field">
               <label className="na-label">
-                Date & Time <span className="na-required">*</span>
+                {t("admin.required_datetime", "Date & Time")} <span className="na-required">*</span>
               </label>
               <div className="na-select-wrap">
                 <FontAwesomeIcon icon={faCalendar} className="na-date-icon" />
@@ -437,7 +437,7 @@ const NewAppointment = () => {
             {/* Patient Age */}
             <div className="na-field">
               <label className="na-label">
-                Patient Age <span className="na-required">*</span>
+                {t("admin.required_age", "Patient Age")} <span className="na-required">*</span>
               </label>
               <input
                 type="number"
@@ -457,7 +457,7 @@ const NewAppointment = () => {
             {/* Visit Type */}
             <div className="na-field">
               <label className="na-label">
-                Visit Type <span className="na-required">*</span>
+                {t("admin.required_visit_type", "Visit Type")} <span className="na-required">*</span>
               </label>
               <div className="na-select-wrap">
                 <select
@@ -477,7 +477,7 @@ const NewAppointment = () => {
             {/* Notes */}
             <div className="na-field">
               <label className="na-label na-label-optional">
-                Notes <span className="na-optional-tag">(Optional)</span>
+                {t("admin.notes", "Notes")} <span className="na-optional-tag">({t("admin.optional", "Optional")})</span>
               </label>
               <textarea
                 className="na-textarea"
@@ -500,7 +500,7 @@ const NewAppointment = () => {
               className="na-btn-save"
               disabled={loading}
             >
-              {loading ? "Saving..." : "Save Appointment"}
+              {loading ? t("admin.saving", "Saving...") : t("admin.save_appointment", "Save Appointment")}
             </button>
           </div>
 

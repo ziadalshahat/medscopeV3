@@ -106,11 +106,11 @@ const BedManagement = () => {
 
   return (
     <div className="admin-bed-page">
-      {loading && <Loader message="Loading bed statistics..." />}
+      {loading && <Loader message={t("admin.loading_beds", "Loading bed statistics...")} />}
 
       {/* Top Profile Header */}
       <div className="admin-bed-header-block">
-        <h2 className="admin-bed-page-title">Bed Management</h2>
+        <h2 className="admin-bed-page-title">{t("admin.beds", "Bed Management")}</h2>
         <div className="admin-bed-profile-area">
           <LanguageToggle />
           <ThemeToggle />
@@ -129,7 +129,7 @@ const BedManagement = () => {
       <div className="admin-bed-card-wrapper">
         {/* Tabs */}
         <div className="admin-bed-card-header">
-          <div className="admin-bed-tab-active">Bed info</div>
+          <div className="admin-bed-tab-active">{t("admin.bed_info", "Bed info")}</div>
         </div>
 
         {/* Content/Grid */}
@@ -153,7 +153,7 @@ const BedManagement = () => {
                       <div className="admin-bed-icon-circle">
                         <FontAwesomeIcon icon={faBed} className="admin-bed-fa-icon" />
                       </div>
-                      <h3 className="admin-bed-ward-name">{bed.ward}</h3>
+                      <h3 className="admin-bed-ward-name">{t("wards." + bed.ward.toLowerCase().replace(/ beds/g, '').replace(/\(or\)/g, '').replace(/\s+/g, '_').trim(), bed.ward)}</h3>
                     </div>
 
                     {/* Controls & Count */}

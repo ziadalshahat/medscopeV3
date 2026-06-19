@@ -194,15 +194,13 @@ const NewDoctor = () => {
         {/* Breadcrumb */}
         <div className="nd-breadcrumb" onClick={() => navigate("/admin/doctors")}>
           <FontAwesomeIcon icon={faArrowLeft} className="nd-breadcrumb-icon" />
-          <span>Doctors Management</span>
+          <span>{t("admin.doctors_management", "Doctors Management")}</span>
         </div>
 
         {/* Title */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
           <h2 className="nd-title" style={{ margin: 0 }}>
-            <FontAwesomeIcon icon={faUserDoctor} className="nd-title-icon" />
-            Add Doctor
-          </h2>
+            <FontAwesomeIcon icon={faUserDoctor} className="nd-title-icon" />{t("admin.add_doctor", "Add Doctor")}</h2>
           <LanguageToggle />
           <ThemeToggle />
         </div>
@@ -214,7 +212,7 @@ const NewDoctor = () => {
           <div className="nd-row">
             <div className="nd-field">
               <label className="nd-label">
-                Full Name <span className="nd-req">*</span>
+                {t("admin.full_name", "Full Name")} <span className="nd-req">*</span>
               </label>
               <input
                 type="text"
@@ -232,7 +230,7 @@ const NewDoctor = () => {
 
             <div className="nd-field">
               <label className="nd-label">
-                Major / Specialty <span className="nd-req">*</span>
+                {t("admin.major_specialty", "Major / Specialty")} <span className="nd-req">*</span>
               </label>
               <div className="nd-select-wrap">
                 <select
@@ -261,7 +259,7 @@ const NewDoctor = () => {
           <div className="nd-row">
             <div className="nd-field">
               <label className="nd-label">
-                Email Address <span className="nd-req">*</span>
+                {t("admin.email", "Email Address")} <span className="nd-req">*</span>
               </label>
               <input
                 type="email"
@@ -279,7 +277,7 @@ const NewDoctor = () => {
 
             <div className="nd-field">
               <label className="nd-label">
-                Phone Number <span className="nd-req">*</span>
+                {t("admin.phone_number", "Phone Number")} <span className="nd-req">*</span>
               </label>
               <input
                 type="text"
@@ -300,7 +298,7 @@ const NewDoctor = () => {
           <div className="nd-row">
             <div className="nd-field">
               <label className="nd-label">
-                Status <span className="nd-req">*</span>
+                {t("admin.status", "Status")} <span className="nd-req">*</span>
               </label>
               <div className="nd-select-wrap">
                 <select
@@ -311,8 +309,8 @@ const NewDoctor = () => {
                   onBlur={handleBlur}
                 >
                   <option value=""></option>
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
+                  <option value="Active">{t("admin.active", "Active")}</option>
+                  <option value="Inactive">{t("admin.inactive", "Inactive")}</option>
                 </select>
                 <FontAwesomeIcon icon={faChevronDown} className="nd-select-arrow" />
               </div>
@@ -323,7 +321,7 @@ const NewDoctor = () => {
 
             <div className="nd-field">
               <label className="nd-label">
-                Password <span className="nd-req">*</span>
+                {t("admin.password", "Password")} <span className="nd-req">*</span>
               </label>
               <input
                 type="password"
@@ -352,7 +350,7 @@ const NewDoctor = () => {
               className="nd-btn-save"
               disabled={loading}
             >
-              {loading ? "Adding..." : "Add Doctor"}
+              {loading ? t("admin.adding", "Adding...") : t("admin.add_doctor", "Add Doctor")}
             </button>
           </div>
 
