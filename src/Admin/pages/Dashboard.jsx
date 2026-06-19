@@ -19,6 +19,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBed, faUsers, faUserMd, faCalendarCheck, faBell } from "@fortawesome/free-solid-svg-icons";
 
+import { useTranslation } from "react-i18next";
+
 const COLORS = ["#1a4968", "#5e81ac", "#c05f5f", "#a3be8c", "#b48ead", "#ebcb8b"];
 
 // Helper function to normalize doctor names to prevent prefix-based mismatches (e.g. "Dr. Islam Ali" vs "Islam Ali")
@@ -32,6 +34,7 @@ const normalizeDoctorName = (name) => {
 };
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const today = new Date();
 
   // Retrieve user details from localStorage
@@ -279,7 +282,7 @@ const Dashboard = () => {
     <div className="dashboard-container">
       {/* Upper header section with user profile matching design */}
       <div className="dashboard-header-block">
-        <h2 className="dashboard-title">Activity Overview</h2>
+        <h2 className="dashboard-title">{t("admin.activity_overview", "Activity Overview")}</h2>
         
         <div className="dashboard-profile-area">
           <ThemeToggle />
@@ -299,7 +302,7 @@ const Dashboard = () => {
         <div className="stats-cards">
           <div className="stat-card">
             <div className="stat-card-content">
-              <h4>Total Beds</h4>
+              <h4>{t("admin.total_beds", "Total Beds")}</h4>
               <h2>{stats.totalBeds}</h2>
             </div>
             <div className="stat-icon">
@@ -309,7 +312,7 @@ const Dashboard = () => {
 
           <div className="stat-card">
             <div className="stat-card-content">
-              <h4>New Patients</h4>
+              <h4>{t("admin.new_patients", "New Patients")}</h4>
               <h2>{stats.newPatients}</h2>
             </div>
             <div className="stat-icon">
@@ -319,7 +322,7 @@ const Dashboard = () => {
 
           <div className="stat-card">
             <div className="stat-card-content">
-              <h4>Total Doctors</h4>
+              <h4>{t("admin.total_doctors", "Total Doctors")}</h4>
               <h2>{stats.totalDoctors}</h2>
             </div>
             <div className="stat-icon">
@@ -329,7 +332,7 @@ const Dashboard = () => {
 
           <div className="stat-card">
             <div className="stat-card-content">
-              <h4>Appointments</h4>
+              <h4>{t("admin.appointments", "Appointments")}</h4>
               <h2>{stats.appointmentsCount}</h2>
             </div>
             <div className="stat-icon">
@@ -345,17 +348,17 @@ const Dashboard = () => {
         {/* Appointments Distribution by Doctor */}
         <div className="chart-card-transparent pie-chart-card">
           <div className="chart-card-header">
-            <h4>Appointments Distribution by Doctor</h4>
+            <h4>{t("admin.appts_dist", "Appointments Distribution by Doctor")}</h4>
             <div className="chart-selects">
               {/* Day filter */}
               <select
                 value={dashboardDay}
                 onChange={(e) => setDashboardDay(Number(e.target.value))}
               >
-                <option value="0">Day (All)</option>
+                <option value="0">{t("admin.day_all", "Day (All)")}</option>
                 {[...Array(31)].map((_, i) => (
                   <option key={i} value={i + 1}>
-                    Day {i + 1}
+                    {t("admin.day_prefix", "Day")} {i + 1}
                   </option>
                 ))}
               </select>
@@ -370,7 +373,7 @@ const Dashboard = () => {
               >
                 {[...Array(12)].map((_, i) => (
                   <option key={i} value={i + 1}>
-                    Month {i + 1}
+                    {t("admin.month_prefix", "Month")} {i + 1}
                   </option>
                 ))}
               </select>
@@ -419,19 +422,19 @@ const Dashboard = () => {
         <div className="chart-card bar-chart-card">
           <div className="chart-card-header">
             <div className="bar-chart-title-area">
-              <h4>Patients Statistics</h4>
+              <h4>{t("admin.patient_stats", "Patients Statistics")}</h4>
               <div className="bar-chart-subtitle-row">
                 <p className="chart-total-label">
-                  Total No of Patients : <span>{totalPatients}</span>
+                  {t("admin.total_no_patients", "Total No of Patients")} : <span>{totalPatients}</span>
                 </p>
                 <div className="bar-legend">
                   <div className="bar-legend-item">
                     <span className="bar-legend-dot new-patients"></span>
-                    <span>New Patients</span>
+                    <span>{t("admin.new_patients", "New Patients")}</span>
                   </div>
                   <div className="bar-legend-item">
                     <span className="bar-legend-dot old-patients"></span>
-                    <span>Old Patients</span>
+                    <span>{t("admin.old_patients", "Old Patients")}</span>
                   </div>
                 </div>
               </div>
@@ -446,7 +449,7 @@ const Dashboard = () => {
               >
                 {[...Array(12)].map((_, i) => (
                   <option key={i} value={i + 1}>
-                    Month {i + 1}
+                    {t("admin.month_prefix", "Month")} {i + 1}
                   </option>
                 ))}
               </select>

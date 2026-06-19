@@ -102,7 +102,16 @@ const resources = {
         "temp_password": "Temporary password",
         "add_another": "Add Another",
         "back_to_list": "Back to Admins",
-        "search": "Search"
+        "search": "Search",
+        "dashboard": "Dashboard",
+        "home": "Home",
+        "patients": "Patients",
+        "appointments": "Appointments",
+        "doctors": "Doctors",
+        "beds": "Bed Management",
+        "bloodBank": "Blood Bank",
+        "multiHospital": "Multi Hospital View",
+        "logout": "Logout"
       },
       "reports": {
         "user_growth": "User Growth",
@@ -692,7 +701,16 @@ const resources = {
         "temp_password": "كلمة المرور المؤقتة",
         "add_another": "إضافة مدير آخر",
         "back_to_list": "العودة للمدراء",
-        "search": "بحث"
+        "search": "بحث",
+        "dashboard": "لوحة التحكم",
+        "home": "الرئيسية",
+        "patients": "المرضى",
+        "appointments": "المواعيد",
+        "doctors": "الأطباء",
+        "beds": "إدارة الأسرة",
+        "bloodBank": "بنك الدم",
+        "multiHospital": "عرض المستشفيات المتعددة",
+        "logout": "تسجيل الخروج"
       },
       "reports": {
         "user_growth": "نمو المستخدمين",

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import "../styles/Home.css";
 import ThemeToggle from "../../components/ThemeToggle";
 import { getDashboardSummary } from "../services/dashboard";
@@ -16,6 +17,7 @@ import {
 import Loader from "../../components/Loader";
 
 const Home = () => {
+  const { t } = useTranslation();
   const [data, setData] = useState(null);
 
   // Retrieve user details from localStorage
@@ -32,17 +34,17 @@ const Home = () => {
       const res = await getDashboardSummary();
       setData(res.data);
     } catch (err) {
-      toast.error("Failed to load dashboard summary data");
+      toast.error(t("admin.failed_load_summary", "Failed to load dashboard summary data"));
     }
   };
 
-  if (!data) return <Loader message="Loading dashboard summary..." />;
+  if (!data) return <Loader message={t("admin.loading_summary", "Loading dashboard summary...")} />;
 
   return (
     <div className="admin-home-container">
       {/* Top Header Section matching the dashboard layout */}
       <div className="admin-home-header-block">
-        <h2 className="admin-home-title">Home</h2>
+        <h2 className="admin-home-title">{t("admin.home", "Home")}</h2>
         
         <div className="admin-home-profile-area">
           <ThemeToggle />
@@ -67,18 +69,18 @@ const Home = () => {
             </div>
             <div className="admin-home-hospital-title-area">
               <h3 className="admin-home-hospital-name">{data.hospitalName}</h3>
-              <p className="admin-home-hospital-type">{data.hospitalType} Hospital</p>
+              <p className="admin-home-hospital-type">{data.hospitalType} {t("admin.hospital", "Hospital")}</p>
             </div>
           </div>
 
           <div className="admin-home-info-list">
             <div className="admin-home-info-item">
               <FontAwesomeIcon icon={faUserMd} className="admin-home-info-icon" />
-              <span>{data.doctorsCount} Doctors</span>
+              <span>{data.doctorsCount} {t("admin.doctors_suffix", "Doctors")}</span>
             </div>
             <div className="admin-home-info-item">
               <FontAwesomeIcon icon={faClinicMedical} className="admin-home-info-icon" />
-              <span>{data.departmentsCount} Medical Departments</span>
+              <span>{data.departmentsCount} {t("admin.med_departments", "Medical Departments")}</span>
             </div>
             <div className="admin-home-info-item">
               <FontAwesomeIcon icon={faPhone} className="admin-home-info-icon" />
@@ -97,7 +99,7 @@ const Home = () => {
 
         {/* Right Side: Available Specialties */}
         <div className="admin-home-right">
-          <h4 className="admin-home-specialties-title">Available Specialties</h4>
+          <h4 className="admin-home-specialties-title">{t("admin.available_specialties", "Available Specialties")}</h4>
           <div className="admin-home-specialties-grid">
             {data.specialties && data.specialties.length > 0 ? (
               data.specialties.map((spec, index) => (
@@ -107,7 +109,7 @@ const Home = () => {
                 </div>
               ))
             ) : (
-              <p className="no-specialties">No specialties listed</p>
+              <p className="no-specialties">{t("admin.no_specialties", "No specialties listed")}</p>
             )}
           </div>
         </div>

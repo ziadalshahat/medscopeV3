@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import LanguageToggle from "../LanguageToggle";
 import "./Sidebar.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,106 +9,71 @@ import { faClinicMedical } from "@fortawesome/free-solid-svg-icons";
 
 
 const Sidebar = () => {
-
+    const { t } = useTranslation();
     const location = useLocation();
 
-
     const menuItems = [
-
         {
-            name: "Dashboard",
+            name: t("admin.dashboard", "Dashboard"),
             path: "/admin/dashboard",
             icon: "fa-tachometer-alt"
         },
-
         {
-            name: "Home",
+            name: t("admin.home", "Home"),
             path: "/admin/home",
             icon: "fa-home"
         },
-
         {
-            name: "Patients",
+            name: t("admin.patients", "Patients"),
             path: "/admin/patients",
             icon: "fa-user-injured"
         },
-
         {
-            name: "Appointments",
+            name: t("admin.appointments", "Appointments"),
             path: "/admin/appointments",
             icon: "fa-calendar-check"
         },
-
         {
-            name: "Doctors",
+            name: t("admin.doctors", "Doctors"),
             path: "/admin/doctors",
             icon: "fa-user-md"
         },
-
         {
-            name: "Bed Management",
+            name: t("admin.beds", "Bed Management"),
             path: "/admin/beds",
             icon: "fa-bed"
         },
-
         {
-            name: "Blood Bank",
+            name: t("admin.bloodBank", "Blood Bank"),
             path: "/admin/blood-bank",
             icon: "fa-tint"
         },
-
         {
-            name: "Multi Hospital View",
+            name: t("admin.multiHospital", "Multi Hospital View"),
             path: "/admin/multi-hospitals",
             icon: "fa-hospital"
         },
-
     ];
 
-
-
     return (
-
         <aside className="sidebar">
-
-
             {/* Header */}
-
             <div className="sidebar-header">
-
-
                 <div className="logo-icon">
-
                     <FontAwesomeIcon 
                         icon={faClinicMedical}
                     />
-
                 </div>
-
-
                 <h2>
                     Alhaya
                 </h2>
-
-
             </div>
 
-
-
-
-
             {/* Menu */}
-
             <nav className="sidebar-nav">
-
-
                 <ul>
-
-
                     {
                         menuItems.map((item)=> (
-
-
                             <li
                                 key={item.path}
                                 className={
@@ -115,68 +82,37 @@ const Sidebar = () => {
                                     : ""
                                 }
                             >
-
-
                                 <Link to={item.path}>
-
-
                                     <i 
                                       className={
                                         `fas ${item.icon} nav-icon`
                                       }
                                     >
-
                                     </i>
-
-
                                     <span>
                                         {item.name}
                                     </span>
-
-
                                 </Link>
-
-
                             </li>
-
-
                         ))
                     }
-
-
                 </ul>
-
-
             </nav>
 
-
-
-
-
-            {/* Logout */}
-
-            <div className="sidebar-footer" style={{ padding: '10px 15px' }}>
+            {/* Logout & Language Switcher */}
+            <div className="sidebar-footer" style={{ padding: '10px 15px', display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+                <LanguageToggle style={{ color: 'var(--text-color, #ffffff)', marginRight: 0, padding: '4px' }} />
                 <Link 
                     to="/"
                     className="logout-btn"
                     style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '12px 15px', borderRadius: '8px', width: '100%' }}
                 >
-
                     <i className="fas fa-sign-out-alt nav-icon" style={{ width: '20px', fontSize: '16px' }}></i>
-
-                    Logout
-
-
+                    {t("admin.logout", "Logout")}
                 </Link>
-
             </div>
-
-
-
         </aside>
-
     );
 };
-
 
 export default Sidebar;
