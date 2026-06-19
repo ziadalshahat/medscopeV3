@@ -126,6 +126,7 @@
   align-items: center;
   gap: 0.5rem;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .signin-btn:hover {
@@ -151,6 +152,7 @@
   align-items: center;
   gap: 0.5rem;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .signup-btn:hover {
