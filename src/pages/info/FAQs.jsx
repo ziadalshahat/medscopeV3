@@ -15,7 +15,6 @@ const FAQs = () => {
   const faqItems = [
     { q: t("faqs.q1"), a: t("faqs.a1") },
     { q: t("faqs.q2"), a: t("faqs.a2") },
-    { q: t("faqs.q3"), a: t("faqs.a3") },
     { q: t("faqs.q4"), a: t("faqs.a4") }
   ];
 
