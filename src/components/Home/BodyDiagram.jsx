@@ -11,7 +11,7 @@ const specialties = [
     dotX: 630, dotY: 282,
     cornerX: 800, cornerY: 295,
     labelX: 935, labelY: 295,
-    htmlTop: "24.5%", htmlRight: "3%",
+    htmlTop: "22%", htmlRight: "3%",
     icon: (color) => (
       <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" strokeOpacity="0.2"/>
@@ -41,7 +41,7 @@ const specialties = [
     dotX: 622, dotY: 330,
     cornerX: 800, cornerY: 360,
     labelX: 935, labelY: 360,
-    htmlTop: "31%", htmlRight: "3%",
+    htmlTop: "33.5%", htmlRight: "3%",
     icon: (color) => (
       <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 2a4 4 0 0 0-4 4v5c0 3 2 5 4 7 2-2 4-4 4-7V6a4 4 0 0 0-4-4z"/>
