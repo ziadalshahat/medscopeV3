@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     CalendarDaysIcon,
     ClockIcon,
@@ -7,6 +8,7 @@ import {
 import '../styles/Appointments.css';
 
 const AppointmentCard = ({ data, isPast, onCancel }) => {
+    const { t } = useTranslation();
 
     // Determine badge class
     const getBadgeClass = (status) => {
@@ -41,12 +43,12 @@ const AppointmentCard = ({ data, isPast, onCancel }) => {
                     {data.doctorName}
                 </h4>
                 <p className="doctor-specialty">
-                    {data.specialty} <span className="separator">•</span> {data.hospitalName}
+                    {t(`specialties.${data.specialty.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_')}`, data.specialty)} <span className="separator">•</span> {data.hospitalName}
                 </p>
 
                 <div className="appt-status-row">
                     <span className={`appt-badge ${getBadgeClass(data.status)}`}>
-                        {data.status}
+                        {t(`patient.${data.status.toLowerCase()}`, data.status)}
                     </span>
                 </div>
             </div>
@@ -58,7 +60,7 @@ const AppointmentCard = ({ data, isPast, onCancel }) => {
                         className="btn-cancel-appt"
                         onClick={() => onCancel && onCancel(data.id)}
                     >
-                        Cancel Appointment
+                        {t('patient.cancelAppointment')}
                     </button>
                 </div>
             )}

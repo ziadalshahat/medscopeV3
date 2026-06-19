@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import BookingStepper from '../../components/BookingStepper';
 import { usePatient } from '../../context/PatientContext';
@@ -24,6 +25,7 @@ const getSpecialtyIcon = (name) => {
 };
 
 const SelectSpecialty = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { bookingData, setBookingData } = usePatient();
 
@@ -40,13 +42,13 @@ const SelectSpecialty = () => {
                 setSpecialties(data || []);
             } catch (err) {
                 console.error("Failed to fetch specialties:", err);
-                setError('Could not load specialties. Please try again later.');
+                setError(t('patient.couldNotLoadDates'));
             } finally {
                 setLoading(false);
             }
         };
         fetchSpecialties();
-    }, []);
+    }, [bookingData?.hospitalId, t]);
 
     const filteredSpecialties = specialties.filter(spec => {
         const name = typeof spec === 'string' ? spec : spec.name || '';
@@ -70,8 +72,8 @@ const SelectSpecialty = () => {
         <div className="booking-layout">
 
             <div className="booking-header">
-                <h2 className="booking-title">Book a New Appointment</h2>
-                <p className="booking-subtitle">Choose specialty, doctor, and time — confirm in one step.</p>
+                <h2 className="booking-title">{t('patient.bookNewAppointment')}</h2>
+                <p className="booking-subtitle">{t('patient.chooseSpecialtyDoctorTime') || 'Choose specialty, doctor, and time — confirm in one step.'}</p>
             </div>
 
             <BookingStepper currentStep={1} />
@@ -83,7 +85,7 @@ const SelectSpecialty = () => {
                     <input
                         type="text"
                         className="specialty-search-input"
-                        placeholder="Search specialties..."
+                        placeholder={t('patient.searchSpecialties') || 'Search specialties...'}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -106,12 +108,14 @@ const SelectSpecialty = () => {
                                     onClick={() => setSelectedSpecialty(spec)}
                                 >
                                     {getSpecialtyIcon(name)}
-                                    <span className="specialty-name">{name}</span>
+                                    <span className="specialty-name">
+                                        {t(`specialties.${name.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_')}`, name)}
+                                    </span>
                                 </div>
                             );
                         })}
                         {filteredSpecialties.length === 0 && (
-                            <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>No specialties found.</p>
+                            <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>{t('patient.noSpecialties') || 'No specialties found.'}</p>
                         )}
                     </div>
                 )}
@@ -122,7 +126,7 @@ const SelectSpecialty = () => {
                         disabled={!selectedSpecialty}
                         onClick={handleNext}
                     >
-                        Next
+                        {t('patient.next')}
                     </button>
                 </div>
 

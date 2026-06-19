@@ -1,13 +1,16 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import '../styles/BookingStepper.css';
 
 const BookingStepper = ({ currentStep }) => {
+    const { t } = useTranslation();
+
     const steps = [
-        { id: 1, label: 'Specialty' },
-        { id: 2, label: 'Doctor' },
-        { id: 3, label: 'Date & Time' },
-        { id: 4, label: 'Review' }
+        { id: 1, label: t('patient.stepSpecialty') },
+        { id: 2, label: t('patient.stepDoctor') },
+        { id: 3, label: t('patient.stepDateTime') },
+        { id: 4, label: t('patient.stepReview') }
     ];
 
     return (

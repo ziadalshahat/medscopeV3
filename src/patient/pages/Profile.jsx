@@ -1,6 +1,7 @@
 // src/patient/pages/Profile.jsx
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { usePatient } from "../context/PatientContext";
 import profileService from "../services/profileService";
 import {
@@ -24,6 +25,7 @@ const Toast = ({ message, type, onClose }) => (
 
 /* ── Profile Page ───────────────────────────────────────────────────────── */
 const Profile = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { setPatient, profileData, setProfileData } = usePatient();
 
@@ -189,7 +191,7 @@ const Profile = () => {
     };
 
     /* ── Render ── */
-    if (loading) return <Loader message="Loading Your Profile..." />;
+    if (loading) return <Loader message={t('patient.loadingProfile')} />;
 
     return (
         <>
@@ -201,30 +203,30 @@ const Profile = () => {
             {/* ─── Personal Information ─── */}
             <div className="profile-card">
                 <div className="profile-card-header">
-                    <h3>Personal Information</h3>
+                    <h3>{t('patient.personalInfo')}</h3>
                     <button className="btn-edit" onClick={() => setIsEditModalOpen(true)}>
-                        <PencilSquareIcon /> Edit
+                        <PencilSquareIcon /> {t('patient.edit')}
                     </button>
                 </div>
                 <div className="info-grid">
                     <div className="info-item">
-                        <div className="info-label"><UserIcon /> First Name</div>
+                        <div className="info-label"><UserIcon /> {t('patient.firstName')}</div>
                         <div className="info-value">{profileData?.firstName || '—'}</div>
                     </div>
                     <div className="info-item">
-                        <div className="info-label"><UserIcon /> Last Name</div>
+                        <div className="info-label"><UserIcon /> {t('patient.lastName')}</div>
                         <div className="info-value">{profileData?.lastName || '—'}</div>
                     </div>
                     <div className="info-item">
-                        <div className="info-label"><PhoneIcon /> Phone Number</div>
+                        <div className="info-label"><PhoneIcon /> {t('patient.phoneNumber')}</div>
                         <div className="info-value">{profileData?.phoneNumber || '—'}</div>
                     </div>
                     <div className="info-item">
-                        <div className="info-label"><MapPinIcon /> Address</div>
+                        <div className="info-label"><MapPinIcon /> {t('patient.address')}</div>
                         <div className="info-value">{profileData?.address || '—'}</div>
                     </div>
                     <div className="info-item">
-                        <div className="info-label"><HeartIcon /> Blood Group</div>
+                        <div className="info-label"><HeartIcon /> {t('patient.bloodGroup')}</div>
                         <div className="info-value">{profileData?.bloodGroup || '—'}</div>
                     </div>
                 </div>
@@ -233,39 +235,39 @@ const Profile = () => {
             {/* ─── Account Information ─── */}
             <div className="profile-card">
                 <div className="profile-card-header">
-                    <h3>Account Information</h3>
+                    <h3>{t('patient.accountInfo')}</h3>
                 </div>
                 <div className="account-cards-grid">
                     <div className="account-box">
-                        <div className="account-box-label"><IdentificationIcon /> Patient ID</div>
+                        <div className="account-box-label"><IdentificationIcon /> {t('patient.patientId')}</div>
                         <div className="account-box-value">{profileData?.patientId || '—'}</div>
                     </div>
                     <div className="account-box">
-                        <div className="account-box-label"><CalendarDaysIcon /> Registration Date</div>
+                        <div className="account-box-label"><CalendarDaysIcon /> {t('patient.registrationDate')}</div>
                         <div className="account-box-value">{profileData?.registrationDate || '—'}</div>
                     </div>
                     <div className="account-box">
-                        <div className="account-box-label"><ShieldCheckIcon /> Account Status</div>
+                        <div className="account-box-label"><ShieldCheckIcon /> {t('patient.accountStatus')}</div>
                         <div className={`account-box-value ${profileData?.accountStatus === 'Active' ? 'value-active' : ''}`}>
-                            {profileData?.accountStatus || '—'}
+                            {profileData?.accountStatus === 'Active' ? t('patient.active') : profileData?.accountStatus || '—'}
                         </div>
                     </div>
                     <div className="account-box">
-                        <div className="account-box-label"><ClockIcon /> Last Login</div>
-                        <div className="account-box-value">{profileData?.lastLogin || 'Never'}</div>
+                        <div className="account-box-label"><ClockIcon /> {t('patient.lastLogin')}</div>
+                        <div className="account-box-value">{profileData?.lastLogin === 'Never' || !profileData?.lastLogin ? t('patient.never') : profileData?.lastLogin}</div>
                     </div>
                 </div>
             </div>
 
             {/* ─── Settings ─── */}
             <div className="profile-card">
-                <div className="profile-card-header"><h3>Settings</h3></div>
-                <h4 className="notification-heading"><BellIcon /> Notification Preferences</h4>
+                <div className="profile-card-header"><h3>{t('patient.settings')}</h3></div>
+                <h4 className="notification-heading"><BellIcon /> {t('patient.notificationPreferences')}</h4>
                 <div className="settings-list">
                     {[
-                        { key: 'emailNotifications',  label: 'Email Notifications' },
-                        { key: 'smsNotifications',    label: 'SMS Notifications' },
-                        { key: 'appointmentReminders',label: 'Appointment Reminders' },
+                        { key: 'emailNotifications',  label: t('patient.emailNotifications') },
+                        { key: 'smsNotifications',    label: t('patient.smsNotifications') },
+                        { key: 'appointmentReminders',label: t('patient.appointmentReminders') },
                     ].map(({ key, label }) => (
                         <div className="setting-item" key={key}>
                             <span className="setting-label">{label}</span>
@@ -283,15 +285,15 @@ const Profile = () => {
                 <div className="settings-actions">
                     <div className="settings-action-col">
                         <button className="btn-action-primary" onClick={() => setIsPasswordModalOpen(true)}>
-                            Change Password
+                            {t('patient.changePassword')}
                         </button>
                     </div>
                     <div className="settings-action-col">
                         <button className="btn-action-danger" onClick={() => setIsDeleteModalOpen(true)}>
-                            Delete Account
+                            {t('patient.deleteAccount')}
                         </button>
                         <span className="danger-text">
-                            Once you delete your account, there is no going back. Please be certain.
+                            {t('patient.deleteWarnText')}
                         </span>
                     </div>
                 </div>
@@ -304,18 +306,18 @@ const Profile = () => {
                 <div className="modal-overlay" onClick={() => setIsEditModalOpen(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>Edit Profile</h3>
+                            <h3>{t('patient.editProfile')}</h3>
                             <button className="modal-close" onClick={() => setIsEditModalOpen(false)}>
                                 <XMarkIcon />
                             </button>
                         </div>
                         <form onSubmit={handleSaveEdit}>
                             {[
-                                { name: 'firstName',   label: 'First Name',    required: true },
-                                { name: 'lastName',    label: 'Last Name',     required: true },
-                                { name: 'phoneNumber', label: 'Phone Number',  required: true },
-                                { name: 'address',     label: 'Address',       required: true },
-                                { name: 'bloodGroup',  label: 'Blood Group',   required: false },
+                                { name: 'firstName',   label: t('patient.firstName'),    required: true },
+                                { name: 'lastName',    label: t('patient.lastName'),     required: true },
+                                { name: 'phoneNumber', label: t('patient.phoneNumber'),  required: true },
+                                { name: 'address',     label: t('patient.address'),       required: true },
+                                { name: 'bloodGroup',  label: t('patient.bloodGroup'),   required: false },
                             ].map(({ name, label, required }) => (
                                 <div className="edit-form-group" key={name}>
                                     <label>{label}</label>
@@ -330,10 +332,10 @@ const Profile = () => {
                             ))}
                             <div className="modal-actions">
                                 <button type="button" className="btn-cancel" onClick={() => setIsEditModalOpen(false)}>
-                                    Cancel
+                                    {t('patient.cancel')}
                                 </button>
                                 <button type="submit" className="btn-action-primary" disabled={saving}>
-                                    {saving ? 'Saving...' : 'Save Changes'}
+                                    {saving ? t('patient.saving') : t('patient.saveChanges')}
                                 </button>
                             </div>
                         </form>
@@ -346,16 +348,16 @@ const Profile = () => {
                 <div className="modal-overlay" onClick={() => setIsPasswordModalOpen(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>Change Password</h3>
+                            <h3>{t('patient.changePassword')}</h3>
                             <button className="modal-close" onClick={() => { setIsPasswordModalOpen(false); setPasswordError(''); }}>
                                 <XMarkIcon />
                             </button>
                         </div>
                         <form onSubmit={handlePasswordSubmit}>
                             {[
-                                { name: 'oldPassword',     label: 'Current Password' },
-                                { name: 'newPassword',     label: 'New Password' },
-                                { name: 'confirmPassword', label: 'Confirm New Password' },
+                                { name: 'oldPassword',     label: t('patient.currentPassword') },
+                                { name: 'newPassword',     label: t('patient.newPassword') },
+                                { name: 'confirmPassword', label: t('patient.confirmNewPassword') },
                             ].map(({ name, label }) => (
                                 <div className="edit-form-group" key={name}>
                                     <label>{label}</label>
@@ -371,10 +373,10 @@ const Profile = () => {
                             {passwordError && <p className="password-error">{passwordError}</p>}
                             <div className="modal-actions">
                                 <button type="button" className="btn-cancel" onClick={() => { setIsPasswordModalOpen(false); setPasswordError(''); }}>
-                                    Cancel
+                                    {t('patient.cancel')}
                                 </button>
                                 <button type="submit" className="btn-action-primary" disabled={saving}>
-                                    {saving ? 'Changing...' : 'Change Password'}
+                                    {saving ? t('patient.changing') : t('patient.changePassword')}
                                 </button>
                             </div>
                         </form>
@@ -387,22 +389,20 @@ const Profile = () => {
                 <div className="modal-overlay" onClick={() => setIsDeleteModalOpen(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>Delete Account</h3>
+                            <h3>{t('patient.deleteAccount')}</h3>
                             <button className="modal-close" onClick={() => setIsDeleteModalOpen(false)}>
                                 <XMarkIcon />
                             </button>
                         </div>
                         <p className="modal-warning-text">
-                            Are you absolutely sure you want to delete your account?{' '}
-                            <strong>All your medical records, appointments, and personal data will be permanently removed.</strong>{' '}
-                            This action cannot be undone.
+                            {t('patient.deleteWarnLong')}
                         </p>
                         <div className="modal-actions">
                             <button type="button" className="btn-cancel" onClick={() => setIsDeleteModalOpen(false)}>
-                                Cancel
+                                {t('patient.cancel')}
                             </button>
                             <button type="button" className="btn-action-danger" onClick={handleDeleteAccount} disabled={saving}>
-                                {saving ? 'Deleting...' : 'Yes, Delete Account'}
+                                {saving ? t('patient.deleting') : t('patient.yesDeleteAccount')}
                             </button>
                         </div>
                     </div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import BookingStepper from '../../components/BookingStepper';
 import { usePatient } from '../../context/PatientContext';
@@ -23,11 +24,14 @@ import {
     endOfWeek,
     isSameMonth
 } from 'date-fns';
+import { ar, enUS } from 'date-fns/locale';
 
 import '../../styles/SelectSpecialty.css';
 import '../../styles/SelectDateTime.css';
 
 const SelectDateTime = () => {
+    const { t, i18n } = useTranslation();
+    const dateLocale = i18n.language === 'ar' ? ar : enUS;
     const navigate = useNavigate();
     const { bookingData, setBookingData } = usePatient();
 
@@ -61,14 +65,14 @@ const SelectDateTime = () => {
                 setAvailableDates(datesList);
             } catch (err) {
                 console.error("Failed to fetch available dates:", err);
-                setError('Could not load available dates. Please try again later.');
+                setError(t('patient.couldNotLoadDates'));
             } finally {
                 setLoading(false);
             }
         };
 
         fetchAvailableDates();
-    }, [doctorId]);
+    }, [doctorId, t]);
 
     const handleNextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
     const handlePrevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
@@ -79,7 +83,7 @@ const SelectDateTime = () => {
     const endDate = endOfWeek(monthEnd);
 
     const days = eachDayOfInterval({ start: startDate, end: endDate });
-    const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+    const daysOfWeek = i18n.language === 'ar' ? ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س'] : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
     const handleSelectDate = async (date) => {
         setSelectedDateObj(date);
@@ -123,9 +127,9 @@ const SelectDateTime = () => {
     return (
         <div className="booking-layout">
             <div className="booking-header">
-                <h2 className="booking-title">Book a New Appointment</h2>
+                <h2 className="booking-title">{t('patient.bookNewAppointment')}</h2>
                 <p className="booking-subtitle">
-                    Choose specialty, doctor, and time — confirm in one step.
+                    {t('patient.chooseSpecialtyDoctorTime')}
                 </p>
             </div>
 
@@ -134,12 +138,12 @@ const SelectDateTime = () => {
             <div className="booking-wizard-wrapper">
                 {!doctorId ? (
                     <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-                        <p>No doctor selected. Please go back.</p>
+                        <p>{t('patient.noDoctorSelected')}</p>
                         <button
                             className="btn-wizard-next"
                             onClick={() => navigate('/patient/appointments/book/doctor')}
                         >
-                            Go Back
+                            {t('patient.goBack')}
                         </button>
                     </div>
                 ) : loading ? (
@@ -159,7 +163,7 @@ const SelectDateTime = () => {
                                 </button>
 
                                 <h3 className="calendar-month">
-                                    {format(currentMonth, 'MMMM yyyy')}
+                                    {format(currentMonth, 'MMMM yyyy', { locale: dateLocale })}
                                 </h3>
 
                                 <button className="calendar-nav-btn" onClick={handleNextMonth}>
@@ -203,14 +207,14 @@ const SelectDateTime = () => {
                         <div className="time-slots-section">
                             <h3 className="time-slots-header">
                                 {selectedDateObj
-                                    ? `Available Slots for ${format(selectedDateObj, 'MMM d, yyyy')}`
-                                    : 'Select a date'}
+                                    ? t('patient.availableSlotsFor', { date: format(selectedDateObj, i18n.language === 'ar' ? 'dd MMMM yyyy' : 'MMM d, yyyy', { locale: dateLocale }) })
+                                    : t('patient.selectDate')}
                             </h3>
 
                             <div className="time-grid">
                                 {!selectedDateObj ? (
                                     <p style={{ gridColumn: '1 / -1', color: '#64748b' }}>
-                                        Please select an available date from the calendar.
+                                        {t('patient.pleaseSelectDate')}
                                     </p>
                                 ) : slotsLoading ? (
                                     <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'center' }}>
@@ -228,13 +232,13 @@ const SelectDateTime = () => {
                                     ))
                                 ) : (
                                     <p style={{ gridColumn: '1 / -1', color: '#64748b' }}>
-                                        No slots available for this day.
+                                        {t('patient.noSlotsAvailableDay')}
                                     </p>
                                 )}
                             </div>
 
                             <p className="time-footer-note">
-                                All slots are 30 minutes.
+                                {t('patient.allSlotsNote')}
                             </p>
 
                             <div className="datetime-footer">
@@ -243,7 +247,7 @@ const SelectDateTime = () => {
                                     disabled={!selectedTime || !selectedDateObj}
                                     onClick={handleNextStep}
                                 >
-                                    Next
+                                    {t('patient.next')}
                                 </button>
                             </div>
                         </div>

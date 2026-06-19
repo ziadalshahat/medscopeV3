@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { MapPinIcon } from '@heroicons/react/24/outline';
 import { usePatient } from '../../context/PatientContext';
@@ -7,6 +8,7 @@ import Loader from '../../../components/Loader';
 import '../../styles/SelectHospital.css';
 
 const SelectHospital = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { setBookingData } = usePatient();
     const [hospitals, setHospitals] = useState([]);
@@ -20,13 +22,13 @@ const SelectHospital = () => {
                 setHospitals(data || []);
             } catch (err) {
                 console.error("Failed to fetch hospitals:", err);
-                setError('Could not load hospitals. Please try again later.');
+                setError(t('patient.couldNotLoadDates'));
             } finally {
                 setLoading(false);
             }
         };
         fetchHospitals();
-    }, []);
+    }, [t]);
 
     const handleSelectHospital = (hospital) => {
         setBookingData(prev => ({
@@ -40,7 +42,7 @@ const SelectHospital = () => {
     return (
         <div className="hospital-selection-container">
             <div className="hospital-title-wrapper">
-                <h2 className="hospital-title">Select a hospital to book a new appointment</h2>
+                <h2 className="hospital-title">{t('patient.selectHospitalToBook') || 'Select a hospital to book a new appointment'}</h2>
             </div>
             
             {loading && <Loader />}
@@ -49,7 +51,7 @@ const SelectHospital = () => {
             {!loading && !error && (
                 <div className="hospital-grid">
                     {hospitals.length === 0 ? (
-                        <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>No hospitals available.</p>
+                        <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>{t('patient.noHospitalData')}</p>
                     ) : (
                         hospitals.map(hospital => (
                             <div key={hospital.id} className="hospital-card" onClick={() => handleSelectHospital(hospital)}>
@@ -63,7 +65,7 @@ const SelectHospital = () => {
                                         {hospital.name}
                                     </div>
                                     <div className="hospital-location">
-                                        <MapPinIcon /> {hospital.location || 'Location missing'}
+                                        <MapPinIcon /> {hospital.location || t('patient.na')}
                                     </div>
                                 </div>
                             </div>

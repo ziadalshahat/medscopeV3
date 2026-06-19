@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import AppointmentCard from '../../components/AppointmentCard';
@@ -8,6 +9,7 @@ import Swal from 'sweetalert2';
 import '../../styles/Appointments.css';
 
 const Upcoming = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -20,23 +22,24 @@ const Upcoming = () => {
                 setUpcomingAppointments(data || []);
             } catch (err) {
                 console.error("Failed to fetch upcoming appointments:", err);
-                setError('Could not load appointments.');
+                setError(t('patient.noUpcomingAppointmentsFound'));
             } finally {
                 setLoading(false);
             }
         };
         fetchUpcoming();
-    }, []);
+    }, [t]);
 
     const handleCancel = async (id) => {
         const result = await Swal.fire({
-            title: 'Cancel Appointment?',
-            text: "Are you sure you want to cancel this appointment?",
+            title: t('patient.cancelApptTitle'),
+            text: t('patient.cancelApptText'),
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, cancel it!'
+            confirmButtonText: t('patient.yesCancel'),
+            cancelButtonText: t('patient.cancel')
         });
 
         if (result.isConfirmed) {
@@ -45,16 +48,16 @@ const Upcoming = () => {
                 await appointmentService.cancelAppointment(id);
                 setUpcomingAppointments(prev => prev.filter(appt => appt.id !== id));
                 Swal.fire({
-                    title: 'Cancelled!',
-                    text: 'Your appointment has been cancelled.',
+                    title: t('patient.cancelledTitle'),
+                    text: t('patient.cancelledText'),
                     icon: 'success',
                     confirmButtonColor: '#0ea5e9'
                 });
             } catch (err) {
                 console.error("Failed to cancel appointment:", err);
                 Swal.fire({
-                    title: 'Error!',
-                    text: 'Could not cancel the appointment. Please try again later.',
+                    title: t('patient.errorTitle'),
+                    text: t('patient.cancelErrorText'),
                     icon: 'error',
                     confirmButtonColor: '#0ea5e9'
                 });
@@ -73,10 +76,10 @@ const Upcoming = () => {
             <div className="appointments-action-bar">
                 <div className="appointments-tabs">
                     <NavLink to="/patient/appointments/upcoming" className="tab-link active">
-                        Upcoming
+                        {t('patient.upcoming')}
                     </NavLink>
                     <NavLink to="/patient/appointments/past" className="tab-link">
-                        Past Appointments
+                        {t('patient.pastAppointments')}
                     </NavLink>
                 </div>
 
@@ -85,7 +88,7 @@ const Upcoming = () => {
                     onClick={() => navigate('/patient/appointments/hospital')}
                 >
                     <PlusIcon />
-                    Book a New Appointment
+                    {t('patient.bookNewAppointment')}
                 </button>
             </div>
 
@@ -106,7 +109,7 @@ const Upcoming = () => {
                     </div>
                 ) : (
                     <div className="btn-empty-state" style={{ textAlign: 'center', marginTop: '2rem', color: '#64748b' }}>
-                        <p>No upcoming appointments found.</p>
+                        <p>{t('patient.noUpcomingAppointmentsFound')}</p>
                     </div>
                 )
             )}

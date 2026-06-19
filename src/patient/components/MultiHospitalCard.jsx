@@ -1,6 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const MultiHospitalCard = ({ hospital }) => {
+    const { t } = useTranslation();
+
     return (
         <div className="mh-card">
             {/* Hospital Header */}
@@ -28,14 +31,22 @@ const MultiHospitalCard = ({ hospital }) => {
                     else if (percentage >= 70) statusClass = 'status-warning';
                     else statusClass = 'status-good';
 
+                    // Translate bed types if there is a match in i18n
+                    // Let's create a dynamic key for bed type or fall back to the type itself
+                    const bedTypeKey = bed.type.toLowerCase().includes('icu') ? 'icuBeds' 
+                                      : bed.type.toLowerCase().includes('pediatric') ? 'pediatricBeds'
+                                      : bed.type.toLowerCase().includes('emergency') ? 'emergencyBeds'
+                                      : bed.type.toLowerCase().includes('operating') || bed.type.toLowerCase().includes('or ') ? 'orBeds'
+                                      : 'beds';
+
                     return (
                         <div className={`mh-bed-row ${statusClass}`} key={index}>
                             <div className="mh-bed-info">
                                 <span className={`mh-bed-label ${index > 0 ? 'mh-bed-label--teal' : ''}`}>
-                                    {bed.type}
+                                    {t(`patient.${bedTypeKey}`, bed.type)}
                                 </span>
                                 <span className="mh-bed-count">
-                                    {occupied}/{total} <small>beds</small>
+                                    {occupied}/{total} <small>{t('patient.beds')}</small>
                                 </span>
                             </div>
                             
@@ -47,7 +58,7 @@ const MultiHospitalCard = ({ hospital }) => {
                                     />
                                 </div>
                                 <span className="mh-availability-text">
-                                    {total > 0 ? `${available} available` : 'N/A'}
+                                    {total > 0 ? `${available} ${t('patient.available')}` : t('patient.na')}
                                 </span>
                             </div>
                         </div>

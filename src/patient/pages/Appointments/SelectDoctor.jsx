@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import BookingStepper from '../../components/BookingStepper';
 import { MagnifyingGlassIcon, StarIcon as StarIconSolid, XMarkIcon } from '@heroicons/react/24/solid';
@@ -10,6 +11,7 @@ import '../../styles/SelectSpecialty.css'; // Reusing layout common styles
 import '../../styles/SelectDoctor.css';
 
 const SelectDoctor = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { bookingData, setBookingData } = usePatient();
     
@@ -28,7 +30,7 @@ const SelectDoctor = () => {
             try {
                 // Defensive checks: ensure hospital and specialty exist
                 if (!bookingData?.hospitalId) {
-                    setError("Hospital not selected. Please go back and select a hospital.");
+                    setError(t('patient.hospitalNotSelected'));
                     setLoading(false);
                     return;
                 }
@@ -38,7 +40,7 @@ const SelectDoctor = () => {
                                 : (bookingData?.specialtyName || bookingData?.specialtyId);
 
                 if (!specArg) {
-                    setError("Specialty not selected. Please go back and select a specialty.");
+                    setError(t('patient.specialtyNotSelected'));
                     setLoading(false);
                     return;
                 }
@@ -57,13 +59,13 @@ const SelectDoctor = () => {
                     detailedErrs = JSON.stringify(err.response.data);
                 }
                 
-                setError(`Could not load doctors. Status: ${err.response?.status}. Details: ${detailedErrs}`);
+                setError(`${t('patient.couldNotLoadDoctors')} (${err.response?.status || 'Error'})`);
             } finally {
                 setLoading(false);
             }
         };
         fetchDoctors();
-    }, []);
+    }, [bookingData, t]);
 
     const filteredDoctors = doctors.filter(doc => 
         (doc.name || '').toLowerCase().includes(searchQuery.toLowerCase())
@@ -110,8 +112,8 @@ const SelectDoctor = () => {
     return (
         <div className="booking-layout">
             <div className="booking-header">
-                <h2 className="booking-title">Book a New Appointment</h2>
-                <p className="booking-subtitle">Choose specialty, doctor, and time — confirm in one step.</p>
+                <h2 className="booking-title">{t('patient.bookNewAppointment')}</h2>
+                <p className="booking-subtitle">{t('patient.chooseSpecialtyDoctorTime')}</p>
             </div>
 
             <BookingStepper currentStep={2} />
@@ -123,7 +125,7 @@ const SelectDoctor = () => {
                     <input
                         type="text"
                         className="specialty-search-input"
-                        placeholder="Search by doctor's name..."
+                        placeholder={t('patient.searchDoctors') || "Search by doctor's name..."}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -135,7 +137,7 @@ const SelectDoctor = () => {
                 {!loading && !error && (
                     <div className="doctor-list-container">
                         {filteredDoctors.length === 0 ? (
-                            <p style={{ textAlign: 'center' }}>No doctors found matching your search.</p>
+                            <p style={{ textAlign: 'center' }}>{t('patient.noDoctorsFound')}</p>
                         ) : (
                             filteredDoctors.map((doc) => (
                                 <div key={doc.id} className="doctor-card">
@@ -143,18 +145,20 @@ const SelectDoctor = () => {
                                         <img src={doc.image || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=200'} alt={doc.name} className="doctor-avatar" />
                                         <div className="doctor-details">
                                             <h3 className="doctor-name-title">{doc.name}</h3>
-                                            <p className="doctor-card-specialty">{doc.specialty}</p>
+                                            <p className="doctor-card-specialty">
+                                                {t(`specialties.${doc.specialty?.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_')}`, doc.specialty)}
+                                            </p>
                                             <div className="doctor-rating" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                                                 <span style={{ color: '#004a61', fontWeight: '600' }}>{doc.rating || 0}</span>
                                                 <div style={{ display: 'flex' }}>{renderStars(doc.rating)}</div>
-                                                <span>({doc.reviews || 0} reviews)</span>
+                                                <span>({doc.reviews || 0} {t('patient.reviews')})</span>
                                             </div>
-                                            <p className="doctor-bio">{doc.bio || 'No bio available for this doctor.'}</p>
+                                            <p className="doctor-bio">{doc.bio || t('patient.noBio')}</p>
                                         </div>
                                     </div>
                                     <div className="doctor-action-section">
-                                        <button className="btn-view-schedule" onClick={() => handleViewSchedule(doc)}>View Schedule</button>
-                                        <button className="btn-select-doctor" onClick={() => handleSelectDoctor(doc)}>Select</button>
+                                        <button className="btn-view-schedule" onClick={() => handleViewSchedule(doc)}>{t('patient.viewSchedule')}</button>
+                                        <button className="btn-select-doctor" onClick={() => handleSelectDoctor(doc)}>{t('patient.select')}</button>
                                     </div>
                                 </div>
                             ))
@@ -182,8 +186,8 @@ const SelectDoctor = () => {
                             <XMarkIcon style={{width: 24, height: 24, color: '#64748b'}} />
                         </button>
                         
-                        <h3 style={{ marginTop: 0, marginBottom: '8px', color: '#0f172a' }}>Schedule for {selectedScheduleDoctor?.name}</h3>
-                        <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '20px' }}>Previewing available slots</p>
+                        <h3 style={{ marginTop: 0, marginBottom: '8px', color: '#0f172a' }}>{t('patient.scheduleFor')} {selectedScheduleDoctor?.name}</h3>
+                        <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '20px' }}>{t('patient.previewSlots')}</p>
 
                         {scheduleLoading ? (
                             <Loader />
@@ -206,14 +210,14 @@ const SelectDoctor = () => {
                                                     </span>
                                                 ))
                                             ) : (
-                                                <span style={{ fontSize: '13px', color: '#94a3b8' }}>No slots available</span>
+                                                <span style={{ fontSize: '13px', color: '#94a3b8' }}>{t('patient.noSlotsAvailable')}</span>
                                             )}
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <p style={{ color: '#64748b' }}>No schedule data available for this doctor.</p>
+                            <p style={{ color: '#64748b' }}>{t('patient.noScheduleData')}</p>
                         )}
                         
                         <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'flex-end' }}>
@@ -224,7 +228,7 @@ const SelectDoctor = () => {
                                     handleSelectDoctor(selectedScheduleDoctor);
                                 }}
                             >
-                                Continue with Doctor
+                                {t('patient.continueWithDoctor')}
                             </button>
                         </div>
                     </div>

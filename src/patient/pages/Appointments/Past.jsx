@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import AppointmentCard from '../../components/AppointmentCard';
@@ -7,6 +8,7 @@ import Loader from '../../../components/Loader';
 import '../../styles/Appointments.css';
 
 const Past = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [pastAppointments, setPastAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -19,13 +21,13 @@ const Past = () => {
                 setPastAppointments(data || []);
             } catch (err) {
                 console.error("Failed to fetch past appointments:", err);
-                setError('Could not load past appointments.');
+                setError(t('patient.noPastAppointments'));
             } finally {
                 setLoading(false);
             }
         };
         fetchPast();
-    }, []);
+    }, [t]);
 
     if (loading) return <Loader />;
 
@@ -36,10 +38,10 @@ const Past = () => {
             <div className="appointments-action-bar">
                 <div className="appointments-tabs">
                     <NavLink to="/patient/appointments/upcoming" className="tab-link">
-                        Upcoming
+                        {t('patient.upcoming')}
                     </NavLink>
                     <NavLink to="/patient/appointments/past" className="tab-link active">
-                        Past Appointments
+                        {t('patient.pastAppointments')}
                     </NavLink>
                 </div>
 
@@ -48,7 +50,7 @@ const Past = () => {
                     onClick={() => navigate('/patient/appointments/book/hospital')}
                 >
                     <PlusIcon />
-                    Book a New Appointment
+                    {t('patient.bookNewAppointment')}
                 </button>
             </div>
 
@@ -64,7 +66,7 @@ const Past = () => {
                     </div>
                 ) : (
                     <div className="btn-empty-state" style={{ textAlign: 'center', marginTop: '2rem', color: '#64748b' }}>
-                        <p>No past appointments found.</p>
+                        <p>{t('patient.noPastAppointments')}</p>
                     </div>
                 )
             )}

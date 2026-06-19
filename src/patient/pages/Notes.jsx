@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getNotes } from '../services/notesService';
 import Loader from '../../components/Loader';
 
 
 const Notes = () => {
+    const { t } = useTranslation();
     const [notes, setNotes] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -24,7 +26,7 @@ const Notes = () => {
     if (loading) {
         return (
             <div style={{ position: 'relative', width: '100%', minHeight: '50vh' }}>
-                <Loader message="Loading Notes..." />
+                <Loader message={t('patient.loadingNotes')} />
             </div>
         );
     }
@@ -33,12 +35,12 @@ const Notes = () => {
         <>
 
         <div>
-            <h2 className="mb-4">Notes</h2>
+            <h2 className="mb-4">{t('patient.notes')}</h2>
             
             {notes.length === 0 ? (
                 <div className="card shadow-sm border-0">
                     <div className="card-body">
-                        <p className="text-muted mb-0">No notes available at the moment.</p>
+                        <p className="text-muted mb-0">{t('patient.noNotes')}</p>
                     </div>
                 </div>
             ) : (
@@ -46,7 +48,7 @@ const Notes = () => {
                     {notes.map((note, index) => (
                         <div className="card shadow-sm border-0" key={note.id || index}>
                             <div className="card-body">
-                                <h5 className="card-title text-primary">{note.title || 'Note'}</h5>
+                                <h5 className="card-title text-primary">{note.title || t('patient.noteTitle')}</h5>
                                 {(note.date || note.createdAt) && (
                                     <h6 className="card-subtitle mb-2 text-muted">{note.date || note.createdAt}</h6>
                                 )}

@@ -184,7 +184,7 @@ const Dashboard = () => {
                   </div>
 
                   <span className="badge-confirmed">
-                    {appointment.status}
+                    {t(`patient.${appointment.status.toLowerCase()}`, appointment.status)}
                   </span>
 
                 </div>

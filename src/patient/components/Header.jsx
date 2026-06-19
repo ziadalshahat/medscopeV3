@@ -1,9 +1,13 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
 const Header = ({ searchQuery, setSearchQuery, sortMethod, setSortMethod }) => {
+    const { t } = useTranslation();
+
     return (
         <div>
             <div className="bb-notice">
-                <strong>Note:</strong> This information is for viewing purposes only. For blood requests or donations, please contact the hospital or blood bank directly.
+                <strong>{t('patient.note')}:</strong> {t('patient.bloodBankNote')}
             </div>
 
             <div className="bb-controls">
@@ -11,7 +15,7 @@ const Header = ({ searchQuery, setSearchQuery, sortMethod, setSortMethod }) => {
                     <input
                         type="text"
                         className="bb-input"
-                        placeholder="Search hospitals by name..."
+                        placeholder={t('patient.searchHospitals')}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -22,10 +26,10 @@ const Header = ({ searchQuery, setSearchQuery, sortMethod, setSortMethod }) => {
                         value={sortMethod}
                         onChange={(e) => setSortMethod(e.target.value)}
                     >
-                        <option value="none">Sort by...</option>
-                        <option value="highest">Highest Blood Availability</option>
-                        <option value="lowest">Lowest Blood Availability</option>
-                        <option value="name">Hospital Name A–Z</option>
+                        <option value="none">{t('patient.sortBy')}...</option>
+                        <option value="highest">{t('patient.highestBlood')}</option>
+                        <option value="lowest">{t('patient.lowestBlood')}</option>
+                        <option value="name">{t('patient.hospitalNameAZ')}</option>
                     </select>
                 </div>
             </div>

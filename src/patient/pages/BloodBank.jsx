@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 import HospitalCard from '../components/HospitalCard';
 import Loader from '../../components/Loader';
@@ -8,6 +9,7 @@ import '../styles/BloodBank.css';
 
 
 const BloodBank = () => {
+    const { t } = useTranslation();
     const [hospitals, setHospitals] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -21,13 +23,13 @@ const BloodBank = () => {
                 setHospitals(data);
             } catch (err) {
                 console.error('Failed to load hospitals:', err);
-                setError('Could not establish connection to the Blood Bank database. It may be offline.');
+                setError(t('patient.bloodConnectionError'));
             } finally {
                 setLoading(false);
             }
         };
         fetchData();
-    }, []);
+    }, [t]);
 
     const getProcessedHospitals = () => {
         let result = hospitals.filter((h) => {
@@ -63,7 +65,7 @@ const BloodBank = () => {
     if (loading) {
         return (
             <div style={{ position: 'relative', width: '100%', minHeight: '50vh' }}>
-                <Loader message="Loading Blood Bank Data..." />
+                <Loader message={t('patient.loadingBloodData')} />
             </div>
         );
     }
@@ -91,7 +93,7 @@ const BloodBank = () => {
                     ))
                 ) : (
                     <div className="bb-empty-state" style={{ gridColumn: '1 / -1' }}>
-                        No blood bank records match your search criteria.
+                        {t('patient.noBloodRecords')}
                     </div>
                 )}
             </div>

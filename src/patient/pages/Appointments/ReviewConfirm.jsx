@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import BookingStepper from '../../components/BookingStepper';
 import {
@@ -20,6 +21,7 @@ import '../../styles/SelectSpecialty.css';
 import '../../styles/ReviewConfirm.css';
 
 const ReviewConfirm = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { bookingData, resetBookingData } = usePatient();
 
@@ -36,11 +38,10 @@ const ReviewConfirm = () => {
 
     // ── Visit type options ─────────────────────────────────────────────────────
     const VISIT_TYPE_OPTIONS = [
-        { label: 'Consultation', value: 'Consultation' },
-        { label: 'Follow-up', value: 'Follow-up' },
-        { label: 'Emergency', value: 'Emergency' },
-        { label: 'Surgry', value: 'surgry' }
-
+        { label: t('patient.visitConsultation'), value: 'Consultation' },
+        { label: t('patient.visitFollowUp'), value: 'Follow-up' },
+        { label: t('patient.visitEmergency'), value: 'Emergency' },
+        { label: t('patient.visitSurgery'), value: 'surgry' }
     ];
 
     // ── Fetch patient profile on mount ─────────────────────────────────────────
@@ -53,7 +54,7 @@ const ReviewConfirm = () => {
                 if (!cancelled) setProfile(data);
             } catch (err) {
                 console.error('[ReviewConfirm] Failed to load profile:', err);
-                if (!cancelled) setError('Failed to load your profile. Please try again.');
+                if (!cancelled) setError(t('patient.failedToLoadProfile'));
             } finally {
                 if (!cancelled) setProfileLoading(false);
             }
@@ -61,7 +62,7 @@ const ReviewConfirm = () => {
 
         fetchProfile();
         return () => { cancelled = true; };
-    }, []);
+    }, [t]);
 
     // ── Convert 12-hour → 24-hour ──────────────────────────────────────────────
     const convertTo24Hour = (time) => {
@@ -95,7 +96,6 @@ const ReviewConfirm = () => {
             const formattedTime = convertTo24Hour(bookingData.time);
 
             // Step 1: Create booking session via POST /select
-            // PatientCreateAppointmentDto: { doctorId, date, time, appointmentNotes }
             const selectPayload = {
                 doctorId: bookingData.doctorId,
                 date: strictIsoDate,
@@ -106,7 +106,6 @@ const ReviewConfirm = () => {
             await appointmentService.selectAppointment(selectPayload);
 
             // Step 2: Confirm via POST /confirm
-            // ConfirmAppointmentDto: { appointmentNotes, visitType }
             const confirmPayload = {
                 appointmentNotes: appointmentNotes.trim() || '',
                 visitType
@@ -126,7 +125,7 @@ const ReviewConfirm = () => {
                 err.response?.data?.title ||
                 (typeof err.response?.data === 'string' ? err.response.data : null);
 
-            setError(backendMsg || 'Failed to create appointment. Please try again.');
+            setError(backendMsg || t('patient.failedToCreateAppt'));
         } finally {
             setLoading(false);
         }
@@ -139,9 +138,9 @@ const ReviewConfirm = () => {
                 <div className="success-overlay">
                     <div className="success-card">
                         <CheckCircleIcon className="success-icon" />
-                        <h2>Appointment Booked Successfully!</h2>
-                        <p>Your appointment with {bookingData?.doctorName || 'the doctor'} has been scheduled.</p>
-                        <p className="redirect-text">Redirecting to your appointments...</p>
+                        <h2>{t('patient.apptBookedSuccess')}</h2>
+                        <p>{t('patient.apptScheduledDesc', { name: bookingData?.doctorName || '' })}</p>
+                        <p className="redirect-text">{t('patient.redirecting')}</p>
                     </div>
                 </div>
             </div>
@@ -153,12 +152,12 @@ const ReviewConfirm = () => {
         return (
             <div className="booking-layout">
                 <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-                    <p>No booking data found.</p>
+                    <p>{t('patient.noBookingData')}</p>
                     <button
                         className="btn-wizard-next"
                         onClick={() => navigate('/patient/appointments/book/hospital')}
                     >
-                        Start Over
+                        {t('patient.startOver')}
                     </button>
                 </div>
             </div>
@@ -176,9 +175,9 @@ const ReviewConfirm = () => {
         <div className="booking-layout">
 
             <div className="booking-header">
-                <h2 className="booking-title">Book a New Appointment</h2>
+                <h2 className="booking-title">{t('patient.bookNewAppointment')}</h2>
                 <p className="booking-subtitle">
-                    Choose specialty, doctor, and time — confirm in one step.
+                    {t('patient.chooseSpecialtyDoctorTime')}
                 </p>
             </div>
 
@@ -193,7 +192,7 @@ const ReviewConfirm = () => {
                 )}
 
                 <div className="review-container">
-                    <h3 className="review-header">Review &amp; Confirm</h3>
+                    <h3 className="review-header">{t('patient.reviewAndConfirm')}</h3>
 
                     {/* Loading state while fetching profile */}
                     {profileLoading && <Loader />}
@@ -207,7 +206,7 @@ const ReviewConfirm = () => {
                                 {/* Full Name (readonly) */}
                                 <div className="form-group-review">
                                     <label className="review-label">
-                                        <UserIcon /> Full Name
+                                        <UserIcon /> {t('patient.fullName')}
                                     </label>
                                     <input
                                         id="review-fullname"
@@ -223,7 +222,7 @@ const ReviewConfirm = () => {
                                     {/* Phone (readonly) */}
                                     <div className="form-group-review">
                                         <label className="review-label">
-                                            <PhoneIcon /> Phone
+                                            <PhoneIcon /> {t('patient.phoneNumber')}
                                         </label>
                                         <input
                                             id="review-phone"
@@ -237,7 +236,7 @@ const ReviewConfirm = () => {
                                     {/* Email (readonly) */}
                                     <div className="form-group-review">
                                         <label className="review-label">
-                                            <EnvelopeIcon /> Email
+                                            <EnvelopeIcon /> {t('patient.email')}
                                         </label>
                                         <input
                                             id="review-email"
@@ -256,13 +255,13 @@ const ReviewConfirm = () => {
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="blood-icon">
                                             <path d="M12 2C12 2 5 9.5 5 14.5C5 18.64 8.13 22 12 22C15.87 22 19 18.64 19 14.5C19 9.5 12 2 12 2Z" />
                                         </svg>
-                                        Blood Type
+                                        {t('patient.bloodGroup')}
                                     </label>
                                     <input
                                         id="review-bloodtype"
                                         type="text"
                                         className="review-input review-input-readonly"
-                                        value={profile?.bloodGroup || 'N/A'}
+                                        value={profile?.bloodGroup || t('patient.na')}
                                         readOnly
                                     />
                                 </div>
@@ -273,7 +272,7 @@ const ReviewConfirm = () => {
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="blood-icon">
                                             <path d="M3 12h2l3-9 4 18 3-9h2" />
                                         </svg>
-                                        Visit Type <span className="required-star">*</span>
+                                        {t('patient.visitType')} <span className="required-star">*</span>
                                     </label>
                                     <select
                                         id="review-visittype"
@@ -292,12 +291,12 @@ const ReviewConfirm = () => {
                                 {/* Appointment Notes (editable) */}
                                 <div className="form-group-review">
                                     <label className="review-label">
-                                        Appointment Notes (Optional)
+                                        {t('patient.apptNotesOptional')}
                                     </label>
                                     <textarea
                                         id="review-notes"
                                         className="review-textarea"
-                                        placeholder="Describe your symptoms, allergies, or anything the doctor should know..."
+                                        placeholder={t('patient.describeSymptoms')}
                                         value={appointmentNotes}
                                         onChange={(e) => setAppointmentNotes(e.target.value)}
                                         maxLength={500}
@@ -314,7 +313,7 @@ const ReviewConfirm = () => {
 
                                 <div className="summary-card-inner">
 
-                                    <h3>Your Appointment</h3>
+                                    <h3>{t('patient.yourAppointment')}</h3>
 
                                     <div className="summary-doctor-preview">
                                         <img
@@ -328,7 +327,7 @@ const ReviewConfirm = () => {
 
                                         <div className="summary-doc-details">
                                             <h4>{bookingData.doctorName}</h4>
-                                            <p>{bookingData.specialtyName}</p>
+                                            <p>{t(`specialties.${bookingData.specialtyName?.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_')}`, bookingData.specialtyName)}</p>
                                         </div>
                                     </div>
 
@@ -366,7 +365,7 @@ const ReviewConfirm = () => {
                                 navigate('/patient/appointments/book/datetime')
                             }
                         >
-                            Back
+                            {t('patient.goBack')}
                         </button>
 
                         <button
@@ -377,10 +376,10 @@ const ReviewConfirm = () => {
                             {loading ? (
                                 <>
                                     <span className="btn-spinner" />
-                                    Confirming...
+                                    {t('patient.confirming')}
                                 </>
                             ) : (
-                                'Confirm Booking'
+                                t('patient.confirmBooking')
                             )}
                         </button>
 
