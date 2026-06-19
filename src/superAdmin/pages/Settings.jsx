@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Settings.css";
+import { useTranslation } from "react-i18next";
 import {
   getProfile,
   updateProfile,
@@ -8,6 +9,7 @@ import {
 } from "../services/superAdminApi";
 
 const Settings = () => {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -81,11 +83,11 @@ const Settings = () => {
 
   // ========== Change Password ==========
   const handleChangePassword = async () => {
-    if (!passwords.current) return setPassMsg("Please enter current password.");
+    if (!passwords.current) return setPassMsg(t("admin.saving") === "Saving..." ? "Please enter current password." : "الرجاء إدخال كلمة المرور الحالية.");
     if (passwords.newPass.length < 6)
-      return setPassMsg("New password must be at least 6 characters.");
+      return setPassMsg(t("admin.saving") === "Saving..." ? "New password must be at least 6 characters." : "يجب أن تكون كلمة المرور الجديدة 6 أحرف على الأقل.");
     if (passwords.newPass !== passwords.confirm)
-      return setPassMsg("Passwords don't match.");
+      return setPassMsg(t("admin.saving") === "Saving..." ? "Passwords don't match." : "كلمتا المرور غير متطابقتين.");
 
     try {
       setSavingPass(true);
@@ -95,7 +97,7 @@ const Settings = () => {
         newPassword: passwords.newPass,
         confirmPassword: passwords.confirm,
       });
-      setPassMsg("Password changed successfully!");
+      setPassMsg(t("admin.saving") === "Saving..." ? "Password changed successfully!" : "تم تغيير كلمة المرور بنجاح!");
       setPasswords({ current: "", newPass: "", confirm: "" });
     } catch (err) {
       console.error("Error changing password:", err);
@@ -105,7 +107,7 @@ const Settings = () => {
       } else if (Array.isArray(errorMsg)) {
         setPassMsg(errorMsg.map((e) => e.description || e).join(", "));
       } else {
-        setPassMsg("Failed to change password");
+        setPassMsg(t("admin.saving") === "Saving..." ? "Failed to change password" : "فشل تغيير كلمة المرور");
       }
     } finally {
       setSavingPass(false);
@@ -133,7 +135,7 @@ const Settings = () => {
   if (loading) {
     return (
       <div className="settings-page">
-        <h2>Loading...</h2>
+        <h2>{t("admin.saving") === "Saving..." ? "Loading..." : "جاري التحميل..."}</h2>
       </div>
     );
   }
@@ -141,23 +143,23 @@ const Settings = () => {
   return (
     <div className="settings-page">
       <div className="settings-header">
-        <h2 className="settings-title">Settings</h2>
+        <h2 className="settings-title">{t("superadmin.settings.title")}</h2>
         <p className="settings-subtitle">
-          Manage your personal information and settings
+          {t("superadmin.settings.subtitle")}
         </p>
       </div>
 
       {/* Personal Information */}
       <div className="settings-card">
         <div className="card-top">
-          <h3 className="card-title">Personal Information</h3>
+          <h3 className="card-title">{t("settings.personal_info")}</h3>
           {!isEditing ? (
             <button className="edit-btn" onClick={handleEdit}>
-              <i className="fas fa-edit"></i> Edit
+              <i className="fas fa-edit"></i> {t("settings.edit")}
             </button>
           ) : (
             <button className="edit-btn save" onClick={handleSaveInfo}>
-              <i className="fas fa-check"></i> Save
+              <i className="fas fa-check"></i> {t("settings.save")}
             </button>
           )}
         </div>
@@ -165,7 +167,7 @@ const Settings = () => {
         <div className="info-grid">
           <div className="info-field">
             <label>
-              <i className="fas fa-user"></i> Full Name
+              <i className="fas fa-user"></i> {t("settings.full_name")}
             </label>
             {isEditing ? (
               <input
@@ -182,14 +184,14 @@ const Settings = () => {
 
           <div className="info-field">
             <label>
-              <i className="fas fa-envelope"></i> Email
+              <i className="fas fa-envelope"></i> {t("settings.email")}
             </label>
             <p className="readonly">{info.email}</p>
           </div>
 
           <div className="info-field">
             <label>
-              <i className="fas fa-phone"></i> Phone Number
+              <i className="fas fa-phone"></i> {t("settings.phone")}
             </label>
             {isEditing ? (
               <input
@@ -200,7 +202,7 @@ const Settings = () => {
                 }
               />
             ) : (
-              <p>{info.phone || "Not set"}</p>
+              <p>{info.phone || t("settings.not_set")}</p>
             )}
           </div>
         </div>
@@ -209,19 +211,19 @@ const Settings = () => {
       {/* Security Settings */}
       <div className="settings-card">
         <div className="card-top">
-          <h3 className="card-title">Security Settings</h3>
+          <h3 className="card-title">{t("settings.security_settings")}</h3>
           <button
             className="edit-btn"
             onClick={handleChangePassword}
             disabled={savingPass}
           >
-            {savingPass ? "Changing..." : "Change Password"}
+            {savingPass ? t("settings.changing") : t("settings.change_password")}
           </button>
         </div>
 
         {passMsg && (
           <p
-            className={`pass-msg ${passMsg.includes("success") ? "success" : "error"}`}
+            className={`pass-msg ${passMsg.includes("successfully") || passMsg.includes("نجاح") ? "success" : "error"}`}
           >
             {passMsg}
           </p>
@@ -229,7 +231,7 @@ const Settings = () => {
 
         <div className="pass-grid">
           <div className="info-field full">
-            <label>Current Password</label>
+            <label>{t("settings.current_password")}</label>
             <input
               type="password"
               value={passwords.current}
@@ -239,7 +241,7 @@ const Settings = () => {
             />
           </div>
           <div className="info-field">
-            <label>New Password</label>
+            <label>{t("settings.new_password")}</label>
             <input
               type="password"
               value={passwords.newPass}
@@ -249,7 +251,7 @@ const Settings = () => {
             />
           </div>
           <div className="info-field">
-            <label>Confirm New Password</label>
+            <label>{t("settings.confirm_password")}</label>
             <input
               type="password"
               value={passwords.confirm}
@@ -263,18 +265,18 @@ const Settings = () => {
 
       {/* Notification Settings */}
       <div className="settings-card">
-        <h3 className="card-title">Settings</h3>
+        <h3 className="card-title">{t("superadmin.settings.title")}</h3>
         <div className="notif-section">
           <p className="notif-label">
-            <i className="fas fa-bell"></i> Notification Preferences
+            <i className="fas fa-bell"></i> {t("settings.notification_preferences")}
           </p>
           {[
-            { key: "systemErrors", label: "Receive alerts for system errors" },
+            { key: "systemErrors", label: t("settings.system_errors") },
             {
               key: "securityIncidents",
-              label: "Receive alerts for security incidents",
+              label: t("settings.security_incidents"),
             },
-            { key: "appointmentReminders", label: "Appointment Reminders" },
+            { key: "appointmentReminders", label: t("settings.appointment_reminders") },
           ].map(({ key, label }) => (
             <div className="notif-item" key={key}>
               <span>{label}</span>

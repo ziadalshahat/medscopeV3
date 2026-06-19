@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Adminmanagement.css";
+import { useTranslation } from "react-i18next";
 import {
   getAdmins,
   createAdmin,
@@ -9,6 +10,7 @@ import {
 } from "../services/superAdminApi";
 
 const AdminManagement = () => {
+  const { t } = useTranslation();
   const [allAdmins, setAllAdmins] = useState([]);
   const [hospitals, setHospitals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -185,7 +187,7 @@ const AdminManagement = () => {
   if (loading && allAdmins.length === 0) {
     return (
       <div className="admin-page">
-        <h2>Loading...</h2>
+        <h2>{t("admin.saving") === "Saving..." ? "Loading..." : "جاري التحميل..."}</h2>
       </div>
     );
   }
@@ -197,7 +199,7 @@ const AdminManagement = () => {
       <div className="admin-table-wrapper">
         <div className="table-card-header">
           <button className="add-btn" onClick={openAdd}>
-            + Create New Admin
+            {t("admin.create_btn")}
           </button>
           <span className="expand-icon-btn">
             <i className="fas fa-expand-arrows-alt"></i>
@@ -211,7 +213,7 @@ const AdminManagement = () => {
             <i className="fas fa-search"></i>
             <input
               type="text"
-              placeholder="Search"
+              placeholder={t("admin.search")}
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -230,7 +232,7 @@ const AdminManagement = () => {
             >
               {hospitalOptions.map((h) => (
                 <option key={h} value={h}>
-                  {h === "All" ? "Filter by Hospital" : h}
+                  {h === "All" ? t("admin.filter_hospital") : h}
                 </option>
               ))}
             </select>
@@ -241,13 +243,13 @@ const AdminManagement = () => {
         <table className="admin-table">
           <thead>
             <tr>
-              <th>Employee ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Hospital</th>
-              <th>Status</th>
-              <th>Last Login</th>
-              <th>Actions</th>
+              <th>{t("admin.employee_id")}</th>
+              <th>{t("admin.name")}</th>
+              <th>{t("admin.email")}</th>
+              <th>{t("admin.hospital")}</th>
+              <th>{t("admin.status")}</th>
+              <th>{t("admin.last_login")}</th>
+              <th>{t("admin.actions")}</th>
             </tr>
           </thead>
           <tbody>
@@ -261,7 +263,7 @@ const AdminManagement = () => {
                   <span
                     className={`status-badge ${admin.status === "Active" ? "active" : "suspended"}`}
                   >
-                    {admin.status}
+                    {admin.status === "Active" ? t("admin.active") : t("admin.suspended")}
                   </span>
                 </td>
                 <td>
@@ -294,7 +296,7 @@ const AdminManagement = () => {
             onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
             disabled={currentPage === 1}
           >
-            Previous
+            {t("hospital.previous")}
           </button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
@@ -310,7 +312,7 @@ const AdminManagement = () => {
             onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
             disabled={currentPage === totalPages}
           >
-            Next
+            {t("hospital.next")}
           </button>
         </div>
       </div>
@@ -323,13 +325,13 @@ const AdminManagement = () => {
               <div className="new-modal-topbar">
                 <i className="fas fa-user"></i>
                 <span>
-                  {editIndex !== null ? "Edit Admin" : "Create New Admin"}
+                  {editIndex !== null ? t("hospital.edit") : t("admin.create_btn")}
                 </span>
               </div>
               <div className="new-modal-body">
                 <div className="new-form-field">
                   <label>
-                    <i className="fas fa-user"></i> First Name *
+                    <i className="fas fa-user"></i> {t("admin.first_name")} *
                   </label>
                   <input
                     type="text"
@@ -341,7 +343,7 @@ const AdminManagement = () => {
                 </div>
                 <div className="new-form-field">
                   <label>
-                    <i className="fas fa-user"></i> Last Name *
+                    <i className="fas fa-user"></i> {t("admin.last_name")} *
                   </label>
                   <input
                     type="text"
@@ -357,7 +359,7 @@ const AdminManagement = () => {
                       className="fas fa-envelope"
                       style={{ color: "#c0392b" }}
                     ></i>{" "}
-                    Email *
+                    {t("admin.email")} *
                   </label>
                   <input
                     type="email"
@@ -369,7 +371,7 @@ const AdminManagement = () => {
                 </div>
                 <div className="new-form-field">
                   <label>
-                    <i className="fas fa-home"></i> Hospital *
+                    <i className="fas fa-home"></i> {t("admin.hospital")} *
                   </label>
                   <select
                     value={formData.hospitalId}
@@ -377,7 +379,7 @@ const AdminManagement = () => {
                       setFormData({ ...formData, hospitalId: e.target.value })
                     }
                   >
-                    <option value="">Select hospital</option>
+                    <option value="">{t("admin.select_hospital")}</option>
                     {hospitals.map((h) => (
                       <option key={h.id} value={h.id}>
                         {h.name}
@@ -389,7 +391,7 @@ const AdminManagement = () => {
                   <div className="new-form-field">
                     <label>
                       <i className="fas fa-lock" style={{ color: "#c0392b" }}></i>{" "}
-                      Password *
+                      {t("admin.password")} *
                     </label>
                     <input
                       type="password"
@@ -406,13 +408,13 @@ const AdminManagement = () => {
                     onClick={handleSave}
                     disabled={saving}
                   >
-                    {saving ? "Saving..." : "Save"}
+                    {saving ? t("admin.saving") : t("admin.save")}
                   </button>
                   <button
                     className="new-close-btn"
                     onClick={() => setModalStep(null)}
                   >
-                    Close
+                    {t("admin.close")}
                   </button>
                 </div>
               </div>
@@ -424,17 +426,17 @@ const AdminManagement = () => {
               <div className="success-icon">
                 <i className="fas fa-check"></i>
               </div>
-              <h3>Admin created successfully</h3>
-              <p>Temporary password: {tempPassword}</p>
+              <h3>{t("admin.created_success")}</h3>
+              <p>{t("admin.temp_password")}: {tempPassword}</p>
               <div className="new-modal-btns">
                 <button className="new-save-btn" onClick={openAdd}>
-                  Add Another
+                  {t("admin.add_another")}
                 </button>
                 <button
                   className="new-close-btn"
                   onClick={() => setModalStep(null)}
                 >
-                  Back to Admins
+                  {t("admin.back_to_list")}
                 </button>
               </div>
             </div>

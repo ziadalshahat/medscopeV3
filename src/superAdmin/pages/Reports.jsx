@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Reports.css";
+import { useTranslation } from "react-i18next";
 import {
   BarChart,
   Bar,
@@ -47,6 +48,7 @@ const COLORS = [
 const DAYS_PER_PAGE = 10;
 
 const Reports = () => {
+  const { t } = useTranslation();
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // 1-indexed
   const [growthPage, setGrowthPage] = useState(1);
 
@@ -146,7 +148,7 @@ const Reports = () => {
   if (loading && !reportData) {
     return (
       <div className="reports-page">
-        <h2>Loading...</h2>
+        <h2>{t("admin.saving") === "Saving..." ? "Loading..." : "جاري التحميل..."}</h2>
       </div>
     );
   }
@@ -155,9 +157,9 @@ const Reports = () => {
     <div className="reports-page">
       <div className="reports-header">
         <div>
-          <h2 className="reports-title">Reports & Analytics</h2>
+          <h2 className="reports-title">{t("superadmin.reports.title")}</h2>
           <p className="reports-subtitle">
-            Manage your personal information and settings
+            {t("superadmin.reports.subtitle")}
           </p>
         </div>
       </div>
@@ -168,7 +170,7 @@ const Reports = () => {
         {/* User Growth */}
         <div className="chart-section">
           <div className="chart-top">
-            <h3 className="chart-title">User Growth</h3>
+            <h3 className="chart-title">{t("reports.user_growth")}</h3>
             <select
               className="chart-filter"
               value={MONTHS[selectedMonth - 1]}
@@ -176,7 +178,20 @@ const Reports = () => {
             >
               {MONTHS.map((m) => (
                 <option key={m} value={m}>
-                  {m}
+                  {t("admin.saving") === "Saving..." ? m : {
+                    "January": "يناير",
+                    "February": "فبراير",
+                    "March": "مارس",
+                    "April": "أبريل",
+                    "May": "مايو",
+                    "June": "يونيو",
+                    "July": "يوليو",
+                    "August": "أغسطس",
+                    "September": "سبتمبر",
+                    "October": "أكتوبر",
+                    "November": "نوفمبر",
+                    "December": "ديسمبر"
+                  }[m] || m}
                 </option>
               ))}
             </select>
@@ -184,16 +199,16 @@ const Reports = () => {
 
           <div className="chart-meta">
             <span className="total-label">
-              Total No of Patients : <strong>{totalPatients}</strong>
+              {t("reports.total_patients")} : <strong>{totalPatients}</strong>
             </span>
             <div className="chart-legend-inline">
               <span>
                 <span className="dot" style={{ background: "#1e4f73" }}></span>{" "}
-                Patients
+                {t("reports.patients")}
               </span>
               <span>
                 <span className="dot" style={{ background: "#9BB3C7" }}></span>{" "}
-                Doctors
+                {t("reports.doctors")}
               </span>
             </div>
           </div>
@@ -222,19 +237,19 @@ const Reports = () => {
                   dataKey="patients"
                   fill="#1e4f73"
                   radius={[4, 4, 0, 0]}
-                  name="Patients"
+                  name={t("reports.patients")}
                 />
                 <Bar
                   dataKey="doctors"
                   fill="#9BB3C7"
                   radius={[4, 4, 0, 0]}
-                  name="Doctors"
+                  name={t("reports.doctors")}
                 />
               </BarChart>
             </ResponsiveContainer>
           ) : (
             <p style={{ textAlign: "center", padding: "40px", color: "#999" }}>
-              No data available for this month
+              {t("reports.no_data")}
             </p>
           )}
 
@@ -246,7 +261,7 @@ const Reports = () => {
                 onClick={() => setGrowthPage((p) => Math.max(p - 1, 1))}
                 disabled={growthPage === 1}
               >
-                Previous
+                {t("reports.previous")}
               </button>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                 (page) => (
@@ -266,7 +281,7 @@ const Reports = () => {
                 }
                 disabled={growthPage === totalPages}
               >
-                Next
+                {t("reports.next")}
               </button>
             </div>
           )}
@@ -276,13 +291,13 @@ const Reports = () => {
               className="export-btn excel"
               onClick={() => handleExportExcel("User Growth")}
             >
-              Export Excel
+              {t("reports.export_excel")}
             </button>
             <button
               className="export-btn pdf"
               onClick={() => handleExportPdf("User Growth")}
             >
-              Export Pdf
+              {t("reports.export_pdf")}
             </button>
           </div>
         </div>
@@ -292,7 +307,7 @@ const Reports = () => {
         {/* Hospital Distribution by City */}
         <div className="chart-section">
           <div className="chart-top">
-            <h3 className="chart-title">Hospital Distribution by City</h3>
+            <h3 className="chart-title">{t("reports.distribution")}</h3>
           </div>
 
           <div className="pie-wrapper">
@@ -332,7 +347,7 @@ const Reports = () => {
               <p
                 style={{ textAlign: "center", padding: "40px", color: "#999" }}
               >
-                No distribution data available
+                {t("reports.no_dist_data")}
               </p>
             )}
           </div>
@@ -342,13 +357,13 @@ const Reports = () => {
               className="export-btn excel"
               onClick={() => handleExportExcel("City Distribution")}
             >
-              Export Excel
+              {t("reports.export_excel")}
             </button>
             <button
               className="export-btn pdf"
               onClick={() => handleExportPdf("City Distribution")}
             >
-              Export Pdf
+              {t("reports.export_pdf")}
             </button>
           </div>
         </div>
