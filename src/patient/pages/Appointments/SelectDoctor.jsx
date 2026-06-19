@@ -175,49 +175,58 @@ const SelectDoctor = () => {
                     alignItems: 'center', justifyContent: 'center', zIndex: 1000
                 }}>
                     <div style={{
-                        background: 'white', padding: '24px', borderRadius: '12px',
+                        background: 'var(--modal-bg, #ffffff)', padding: '24px', borderRadius: '12px',
                         width: '90%', maxWidth: '500px', maxHeight: '80vh', overflowY: 'auto',
-                        position: 'relative'
+                        position: 'relative',
+                        color: 'var(--text-color, #0f172a)'
                     }}>
                         <button 
                             onClick={() => setScheduleModalOpen(false)}
                             style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', cursor: 'pointer' }}
                         >
-                            <XMarkIcon style={{width: 24, height: 24, color: '#64748b'}} />
+                            <XMarkIcon style={{width: 24, height: 24, color: 'var(--text-muted, #64748b)'}} />
                         </button>
                         
-                        <h3 style={{ marginTop: 0, marginBottom: '8px', color: '#0f172a' }}>{t('patient.scheduleFor')} {selectedScheduleDoctor?.name}</h3>
-                        <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '20px' }}>{t('patient.previewSlots')}</p>
+                        <h3 style={{ marginTop: 0, marginBottom: '8px', color: 'var(--text-color, #0f172a)' }}>{t('patient.scheduleFor')} {selectedScheduleDoctor?.name}</h3>
+                        <p style={{ color: 'var(--text-muted, #64748b)', fontSize: '14px', marginBottom: '20px' }}>{t('patient.previewSlots')}</p>
 
                         {scheduleLoading ? (
                             <Loader />
                         ) : scheduleData && scheduleData.length > 0 ? (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                                {scheduleData.map((dayObj, index) => (
-                                    <div key={index} style={{ border: '1px solid #e2e8f0', borderRadius: '8px', padding: '16px' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', fontWeight: '600', color: '#334155' }}>
-                                            <CalendarDaysIcon style={{width: 20, height: 20, color: '#0ea5e9'}} />
-                                            {dayObj.date}
+                                {scheduleData.map((dayObj, index) => {
+                                    const dayName = dayObj.day || dayObj.date || dayObj.dayOfWeek || '';
+                                    const daySlots = dayObj.slots || dayObj.availableTimes || dayObj.times || [];
+                                    return (
+                                        <div key={index} style={{ border: '1px solid var(--border-color, #e2e8f0)', borderRadius: '8px', padding: '16px', background: 'var(--card-bg, #ffffff)' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', fontWeight: '600', color: 'var(--text-color, #334155)' }}>
+                                                <CalendarDaysIcon style={{width: 20, height: 20, color: '#0ea5e9'}} />
+                                                {t(`doctor.${dayName}`, dayName)}
+                                            </div>
+                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                                                {daySlots.length > 0 ? (
+                                                    daySlots.map((slot, i) => {
+                                                        const slotText = typeof slot === 'string' ? slot : (slot.time || slot.Time || slot.slot || '');
+                                                        return (
+                                                            <span key={i} style={{ 
+                                                                background: 'var(--input-bg, #f1f5f9)', padding: '6px 12px', borderRadius: '6px', 
+                                                                fontSize: '13px', color: 'var(--text-color, #475569)', display: 'flex', alignItems: 'center', gap: '4px',
+                                                                border: '1px solid var(--border-color, transparent)'
+                                                            }}>
+                                                                <ClockIcon style={{width: 14, height: 14}} /> {slotText}
+                                                            </span>
+                                                        );
+                                                    })
+                                                ) : (
+                                                    <span style={{ fontSize: '13px', color: 'var(--text-muted, #94a3b8)' }}>{t('patient.noSlotsAvailable')}</span>
+                                                )}
+                                            </div>
                                         </div>
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                                            {(dayObj.slots || []).length > 0 ? (
-                                                dayObj.slots.map((slot, i) => (
-                                                    <span key={i} style={{ 
-                                                        background: '#f1f5f9', padding: '6px 12px', borderRadius: '6px', 
-                                                        fontSize: '13px', color: '#475569', display: 'flex', alignItems: 'center', gap: '4px' 
-                                                    }}>
-                                                        <ClockIcon style={{width: 14, height: 14}} /> {slot}
-                                                    </span>
-                                                ))
-                                            ) : (
-                                                <span style={{ fontSize: '13px', color: '#94a3b8' }}>{t('patient.noSlotsAvailable')}</span>
-                                            )}
-                                        </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         ) : (
-                            <p style={{ color: '#64748b' }}>{t('patient.noScheduleData')}</p>
+                            <p style={{ color: 'var(--text-muted, #64748b)' }}>{t('patient.noScheduleData')}</p>
                         )}
                         
                         <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'flex-end' }}>
