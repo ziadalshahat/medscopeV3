@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthCard from "../components/AuthCard";
 import SuccessModal from "../components/SuccessModal";
@@ -93,15 +93,15 @@ const SignUpForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [gender, setGender] = useState("male");
-  const [dob, setDob] = useState("");
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [firstName, setFirstName] = useState(() => sessionStorage.getItem("signup_firstName") || "");
+  const [lastName, setLastName] = useState(() => sessionStorage.getItem("signup_lastName") || "");
+  const [email, setEmail] = useState(() => sessionStorage.getItem("signup_email") || "");
+  const [password, setPassword] = useState(() => sessionStorage.getItem("signup_password") || "");
+  const [confirmPassword, setConfirmPassword] = useState(() => sessionStorage.getItem("signup_confirmPassword") || "");
+  const [phone, setPhone] = useState(() => sessionStorage.getItem("signup_phone") || "");
+  const [gender, setGender] = useState(() => sessionStorage.getItem("signup_gender") || "male");
+  const [dob, setDob] = useState(() => sessionStorage.getItem("signup_dob") || "");
+  const [termsAccepted, setTermsAccepted] = useState(() => sessionStorage.getItem("signup_termsAccepted") === "true");
 
   const [touched, setTouched] = useState({});
   const [submitAttempted, setSubmitAttempted] = useState(false);
@@ -110,6 +110,54 @@ const SignUpForm = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    sessionStorage.setItem("signup_firstName", firstName);
+  }, [firstName]);
+
+  useEffect(() => {
+    sessionStorage.setItem("signup_lastName", lastName);
+  }, [lastName]);
+
+  useEffect(() => {
+    sessionStorage.setItem("signup_email", email);
+  }, [email]);
+
+  useEffect(() => {
+    sessionStorage.setItem("signup_password", password);
+  }, [password]);
+
+  useEffect(() => {
+    sessionStorage.setItem("signup_confirmPassword", confirmPassword);
+  }, [confirmPassword]);
+
+  useEffect(() => {
+    sessionStorage.setItem("signup_phone", phone);
+  }, [phone]);
+
+  useEffect(() => {
+    sessionStorage.setItem("signup_gender", gender);
+  }, [gender]);
+
+  useEffect(() => {
+    sessionStorage.setItem("signup_dob", dob);
+  }, [dob]);
+
+  useEffect(() => {
+    sessionStorage.setItem("signup_termsAccepted", termsAccepted);
+  }, [termsAccepted]);
+
+  const clearSessionStorage = () => {
+    sessionStorage.removeItem("signup_firstName");
+    sessionStorage.removeItem("signup_lastName");
+    sessionStorage.removeItem("signup_email");
+    sessionStorage.removeItem("signup_password");
+    sessionStorage.removeItem("signup_confirmPassword");
+    sessionStorage.removeItem("signup_phone");
+    sessionStorage.removeItem("signup_gender");
+    sessionStorage.removeItem("signup_dob");
+    sessionStorage.removeItem("signup_termsAccepted");
+  };
 
   const strength = useMemo(() => getPasswordStrength(password, t), [password, t]);
   const markTouched = useCallback((field) => setTouched((prev) => ({ ...prev, [field]: true })), []);
@@ -360,6 +408,7 @@ const SignUpForm = () => {
         <SuccessModal
           message="Registration Successful!"
           onClose={() => {
+            clearSessionStorage();
             setShowSuccess(false);
             navigate("/login");
           }}

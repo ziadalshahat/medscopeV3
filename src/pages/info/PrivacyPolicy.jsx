@@ -10,8 +10,8 @@ const PrivacyPolicy = () => {
   return (
     <div className="info-page-wrapper">
       <div className="info-card">
-        <button onClick={() => navigate('/')} className="info-back-btn">
-          <i className="fas fa-arrow-left"></i> {t("support.back_to_login")}
+        <button onClick={() => navigate(-1)} className="info-back-btn">
+          <i className="fas fa-arrow-left"></i> {t("support.back")}
         </button>
 
         <div className="info-header">

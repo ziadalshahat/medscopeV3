@@ -333,7 +333,8 @@ const resources = {
         "emergency": "Emergency Hot Line",
         "hours": "Business Hours",
         "hours_desc": "24/7 Support for Emergencies. Technical support is active Sun-Thu, 9 AM - 6 PM.",
-        "success": "Thank you! Your message has been sent successfully."
+        "success": "Thank you! Your message has been sent successfully.",
+        "back": "Back"
       }
     }
   },
@@ -667,7 +668,8 @@ const resources = {
         "emergency": "خط الطوارئ الساخن",
         "hours": "ساعات العمل",
         "hours_desc": "دعم 24/7 لحالات الطوارئ. الدعم الفني نشط من الأحد إلى الخميس، 9 صباحاً - 6 مساءً.",
-        "success": "شكرًا لك! تم إرسال رسالتك بنجاح."
+        "success": "شكرًا لك! تم إرسال رسالتك بنجاح.",
+        "back": "العودة"
       }
     }
   }
