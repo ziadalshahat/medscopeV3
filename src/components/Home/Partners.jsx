@@ -1,10 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../styles/Home/Home.css';
-import partner1Img from '../../assets/images/home/partner-1.jpg';
 import { useTranslation } from 'react-i18next';
+import axiosInstance from '../../api/axiosInstance';
 
 const Partners = () => {
   const { t } = useTranslation();
+  const [hospitals, setHospitals] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHomeHospitals = async () => {
+      try {
+        const res = await axiosInstance.get('/hospitals/home');
+        setHospitals(res.data || []);
+      } catch (err) {
+        console.error('Failed to load home page hospitals:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchHomeHospitals();
+  }, []);
+
+  const getHospitalImage = (img) => {
+    if (!img) {
+      return "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=800";
+    }
+    if (img.startsWith('http://') || img.startsWith('https://')) {
+      return img;
+    }
+    const baseHost = 'https://med-scope1.runasp.net';
+    const cleanImg = img.startsWith('/') ? img : `/${img}`;
+    return `${baseHost}${cleanImg}`;
+  };
 
   return (
     <div id="hospitals" className="home-section partners-section">
@@ -18,31 +46,33 @@ const Partners = () => {
         {t("partners.subtitle")}
       </p>
 
-      <div className="partners-grid">
-        <div className="partner-card">
-          <img 
-            src={partner1Img} 
-            alt={t("partners.city_hospital")} 
-            className="partner-img"
-          />
-          <div className="partner-overlay">
-            <h3>{t("partners.city_hospital")}</h3>
-            <p>123 Healthcare Ave, NY</p>
-          </div>
+      {loading ? (
+        <div style={{ textAlign: 'center', color: '#fff', padding: '2rem' }}>
+          {t("admin.loading", "Loading...")}
         </div>
-
-        <div className="partner-card">
-          <img 
-            src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=2073&auto=format&fit=crop" 
-            alt={t("partners.metro_hospital")} 
-            className="partner-img"
-          />
-          <div className="partner-overlay">
-            <h3>{t("partners.metro_hospital")}</h3>
-            <p>456 Wellness Blvd, CA</p>
-          </div>
+      ) : (
+        <div className="partners-grid">
+          {hospitals.length === 0 ? (
+            <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: '#fff' }}>
+              {t("admin.no_hospitals_found", "No hospitals found")}
+            </p>
+          ) : (
+            hospitals.map((hospital) => (
+              <div className="partner-card" key={hospital.id}>
+                <img 
+                  src={getHospitalImage(hospital.imageUrl)} 
+                  alt={hospital.name} 
+                  className="partner-img"
+                />
+                <div className="partner-overlay">
+                  <h3>{t("hospitals." + hospital.name.toLowerCase().replace(/\s+/g, '_').replace(/al_/g, '').replace(/el_/g, '').trim(), hospital.name)}</h3>
+                  <p>{hospital.location || 'N/A'}</p>
+                </div>
+              </div>
+            ))
+          )}
         </div>
-      </div>
+      )}
 
       <button className="view-all-btn">
         {t("partners.view_all")}
