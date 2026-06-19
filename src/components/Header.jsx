@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import "./Header.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
+import LanguageToggle from "./LanguageToggle";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -40,7 +43,7 @@ const Header = () => {
                         </div>
                         <div className="logo-text">
                             <h1 className="logo-title">MedScope</h1>
-                            <p className="logo-subtitle">Healthcare Excellence</p>
+                            <p className="logo-subtitle">{t("footer.empower")}</p>
                         </div>
                     </div>
                 </div>
@@ -48,26 +51,27 @@ const Header = () => {
                 {/* Desktop Navigation */}
                 <nav className="navigation">
                     <ul className="nav-list">
-                        <li><a href="#home" className="nav-link" onClick={(e) => handleNavClick(e, "home")}>Home</a></li>
-                        <li><a href="#hospitals" className="nav-link" onClick={(e) => handleNavClick(e, "hospitals")}>Hospitals</a></li>
-                        <li><a href="#services" className="nav-link" onClick={(e) => handleNavClick(e, "services")}>Services</a></li>
-                        <li><a href="#about" className="nav-link" onClick={(e) => handleNavClick(e, "about")}>About</a></li>
+                        <li><a href="#home" className="nav-link" onClick={(e) => handleNavClick(e, "home")}>{t("header.home")}</a></li>
+                        <li><a href="#hospitals" className="nav-link" onClick={(e) => handleNavClick(e, "hospitals")}>{t("header.hospitals")}</a></li>
+                        <li><a href="#services" className="nav-link" onClick={(e) => handleNavClick(e, "services")}>{t("header.services")}</a></li>
+                        <li><a href="#about" className="nav-link" onClick={(e) => handleNavClick(e, "about")}>{t("header.about")}</a></li>
                     </ul>
                 </nav>
 
                 {/* Right Section */}
                 <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <LanguageToggle style={{ color: '#ffffff' }} />
                     <ThemeToggle />
                     {(isLandingPage || isSignupPage) && (
                         <button className="signin-btn" onClick={() => { navigate("/login"); closeMobileMenu(); }}>
                             <i className="fas fa-user signin-icon"></i>
-                            Sign in
+                            {t("header.signin")}
                         </button>
                     )}
                     {(isLandingPage || isLoginPage) && (
                         <button className="signup-btn" onClick={() => { navigate("/signup"); closeMobileMenu(); }}>
                             <i className="fas fa-user-plus signup-icon"></i>
-                            Sign up
+                            {t("header.signup")}
                         </button>
                     )}
                 </div>
@@ -87,23 +91,23 @@ const Header = () => {
                 <div className="mobile-menu-content">
                     <nav className="mobile-nav">
                         <ul className="mobile-nav-list">
-                            <li><a href="#home" className="mobile-nav-link" onClick={(e) => handleNavClick(e, "home")}>Home</a></li>
-                            <li><a href="#hospitals" className="mobile-nav-link" onClick={(e) => handleNavClick(e, "hospitals")}>Hospitals</a></li>
-                            <li><a href="#services" className="mobile-nav-link" onClick={(e) => handleNavClick(e, "services")}>Services</a></li>
-                            <li><a href="#about" className="mobile-nav-link" onClick={(e) => handleNavClick(e, "about")}>About</a></li>
+                            <li><a href="#home" className="mobile-nav-link" onClick={(e) => handleNavClick(e, "home")}>{t("header.home")}</a></li>
+                            <li><a href="#hospitals" className="mobile-nav-link" onClick={(e) => handleNavClick(e, "hospitals")}>{t("header.hospitals")}</a></li>
+                            <li><a href="#services" className="mobile-nav-link" onClick={(e) => handleNavClick(e, "services")}>{t("header.services")}</a></li>
+                            <li><a href="#about" className="mobile-nav-link" onClick={(e) => handleNavClick(e, "about")}>{t("header.about")}</a></li>
                         </ul>
                     </nav>
                     <div className="mobile-menu-actions">
                         {(isLandingPage || isSignupPage) && (
                             <button className="mobile-signin-btn" onClick={() => { navigate("/login"); closeMobileMenu(); }}>
                                 <i className="fas fa-user mobile-signin-icon"></i>
-                                Sign in
+                                {t("header.signin")}
                             </button>
                         )}
                         {(isLandingPage || isLoginPage) && (
                             <button className="mobile-signup-btn" onClick={() => { navigate("/signup"); closeMobileMenu(); }} style={{ marginTop: (isLandingPage ? "10px" : "0") }}>
                                 <i className="fas fa-user-plus mobile-signup-icon"></i>
-                                Sign up
+                                {t("header.signup")}
                             </button>
                         )}
                     </div>

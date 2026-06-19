@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import "./Superadminlayout.css";
 import ThemeToggle from "../ThemeToggle";
+import LanguageToggle from "../LanguageToggle";
 
 const pageInfo = {
   "/super-admin/hospitals": { title: "Hospital Management", subtitle: "Manage your personal information and settings" },
@@ -139,6 +140,8 @@ const SuperAdminLayout = () => {
             <p className="super-header-subtitle">{current.subtitle}</p>
           </div>
           <div className="super-header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            {/* Language Toggle Button */}
+            <LanguageToggle style={{ color: '#ffffff' }} />
             {/* Theme Toggle Button */}
             <ThemeToggle style={{ color: '#ffffff' }} />
 

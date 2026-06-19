@@ -21,6 +21,7 @@ import './styles/PatientLayout.css';
 import { usePatient } from "./context/PatientContext";
 import Chatbot from './components/Chatbot';
 import ThemeToggle from '../components/ThemeToggle';
+import LanguageToggle from '../components/LanguageToggle';
 
 // Patient Layout: includes the top Header, Sidebar and the main content area
 const PatientLayout = () => {
@@ -95,6 +96,7 @@ const PatientLayout = () => {
                         <p>{headerContent.subtitle}</p>
                     </div>  
                     <div className="patient-header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                        <LanguageToggle style={{ color: '#a4cce4' }} />
                         <ThemeToggle style={{ color: '#a4cce4' }} />
                     </div>
                 </header>
