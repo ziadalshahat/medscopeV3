@@ -139,6 +139,72 @@ const resources = {
       "hero": {
         "title": "Your Health,",
         "subtitle": "Our Priority"
+      },
+      "features": {
+        "badge": "WHAT MEDSCOPE OFFERS",
+        "title": "Modern Healthcare Management",
+        "subtitle": "Our comprehensive platform of seamless hospital operations and enhances patient care. MANAGE IT CLEARLY. ANYWHERE, ANYTIME.",
+        "expert_care": "Expert Medical Care",
+        "expert_care_desc": "Access to top-tier healthcare professionals and advanced medical facilities to ensure you receive the best possible care.",
+        "availability": "24/7 Availability",
+        "availability_desc": "Round-the-clock access to emergency services and patient care because health issues don't follow a schedule.",
+        "secure_platform": "Secure Platform",
+        "secure_platform_desc": "Your privacy is our priority. Our platform ensures that your medical information remains strictly confidential and secure."
+      },
+      "partners": {
+        "badge": "PARTNERS",
+        "title": "Partner Hospitals",
+        "subtitle": "Trusted healthcare facilities in our network providing exceptional medical care.",
+        "city_hospital": "City General Hospital",
+        "metro_hospital": "Metro Medical Center",
+        "view_all": "View All Partner Hospitals →"
+      },
+      "body": {
+        "title": "Where is the pain?"
+      },
+      "specialties": {
+        "neurology": "Neurology",
+        "ophthalmology": "Ophthalmology",
+        "oral_surgery": "Oral & Maxillofacial Surgery",
+        "cardiology": "Cardiology",
+        "gastroenterology": "Gastroenterology",
+        "urology": "Urology",
+        "rheumatology": "Rheumatology",
+        "orthopedics": "Orthopedics"
+      },
+      "tools": {
+        "badge": "Platform Services",
+        "title": "Comprehensive Healthcare Management Tools",
+        "subtitle": "Access powerful healthcare management tools designed to streamline your medical journey.",
+        "most_popular": "Most Popular",
+        "booking": "Doctor Appointments Booking",
+        "instant_booking": "Instant Booking",
+        "reminders": "Reminders",
+        "login_to_book": "Login to Book →",
+        "beds": "Available Beds (ICU & Incubators)",
+        "live_status": "Live status",
+        "all_departments": "All departments",
+        "login_to_view": "Login to View →",
+        "blood_bank": "Blood Bank",
+        "available_quantities": "Available quantities",
+        "login_to_view_blood": "Login to View Blood →",
+        "my_appointments": "My Appointments",
+        "history": "History",
+        "upcoming": "Upcoming",
+        "login_to_manage": "Login to Manage Appointments →"
+      },
+      "footer_info": {
+        "brand_desc": "Advanced hospital management platform connecting patients with quality healthcare services. Your health is our priority, and we're committed to providing exceptional medical care.",
+        "quick_links": "Quick links",
+        "privacy": "Privacy Policy",
+        "terms": "Terms & Conditions",
+        "faqs": "FAQs",
+        "support": "Support Center",
+        "contact_info": "Contact Info",
+        "email": "Email",
+        "phone": "Phone",
+        "emergency": "Emergency",
+        "copyright_long": "© 2025 MedScope. All rights reserved. Empowering Healthcare Excellence"
       }
     }
   },
@@ -278,6 +344,72 @@ const resources = {
       "hero": {
         "title": "صحتك،",
         "subtitle": "أولويتنا"
+      },
+      "features": {
+        "badge": "ما يقدمه ميدسكوب",
+        "title": "إدارة الرعاية الصحية الحديثة",
+        "subtitle": "منصتنا الشاملة لعمليات المستشفى السلسة وتعزيز رعاية المرضى. إدارتها بوضوح. في أي مكان وفي أي وقت.",
+        "expert_care": "رعاية طبية متميزة",
+        "expert_care_desc": "الوصول إلى أفضل المتخصصين في الرعاية الصحية والمرافق الطبية المتقدمة لضمان حصولك على أفضل رعاية ممكنة.",
+        "availability": "متاح 24/7",
+        "availability_desc": "الوصول على مدار الساعة إلى خدمات الطوارئ ورعاية المرضى لأن المشكلات الصحية لا تتبع جدولاً زمنيًا.",
+        "secure_platform": "منصة آمنة",
+        "secure_platform_desc": "خصوصيتك هي أولويتنا. تضمن منصتنا بقاء معلوماتك الطبية سرية وآمنة تمامًا."
+      },
+      "partners": {
+        "badge": "شركاؤنا",
+        "title": "المستشفيات الشريكة",
+        "subtitle": "مرافق رعاية صحية موثوقة في شبكتنا تقدم رعاية طبية استثنائية.",
+        "city_hospital": "مستشفى المدينة العام",
+        "metro_hospital": "مركز مترو الطبي",
+        "view_all": "عرض جميع المستشفيات الشريكة ←"
+      },
+      "body": {
+        "title": "أين تشعر بالألم؟"
+      },
+      "specialties": {
+        "neurology": "أعصاب",
+        "ophthalmology": "رمد وعيون",
+        "oral_surgery": "جراحة الفم والفكين",
+        "cardiology": "قلب وأوعية دموية",
+        "gastroenterology": "جهاز هضمي",
+        "urology": "مسالك بولية",
+        "rheumatology": "روماتيزم",
+        "orthopedics": "عظام"
+      },
+      "tools": {
+        "badge": "خدمات المنصة",
+        "title": "أدوات شاملة لإدارة الرعاية الصحية",
+        "subtitle": "الوصول إلى أدوات قوية لإدارة الرعاية الصحية مصممة لتبسيط رحلتك الطبية.",
+        "most_popular": "الأكثر شيوعاً",
+        "booking": "حجز مواعيد الأطباء",
+        "instant_booking": "حجز فوري",
+        "reminders": "تذكيرات",
+        "login_to_book": "سجل دخول للحجز ←",
+        "beds": "الأسرة المتاحة (العناية المركزة والحضانات)",
+        "live_status": "حالة مباشرة",
+        "all_departments": "جميع الأقسام",
+        "login_to_view": "سجل دخول للعرض ←",
+        "blood_bank": "بنك الدم",
+        "available_quantities": "الكميات المتاحة",
+        "login_to_view_blood": "سجل دخول لعرض بنك الدم ←",
+        "my_appointments": "مواعيدي",
+        "history": "السجل التاريخي",
+        "upcoming": "القادمة",
+        "login_to_manage": "سجل دخول لإدارة المواعيد ←"
+      },
+      "footer_info": {
+        "brand_desc": "منصة متطورة لإدارة المستشفيات تربط المرضى بخدمات الرعاية الصحية عالية الجودة. صحتك هي أولويتنا، ونحن ملتزمون بتقديم رعاية طبية استثنائية.",
+        "quick_links": "روابط سريعة",
+        "privacy": "سياسة الخصوصية",
+        "terms": "الشروط والأحكام",
+        "faqs": "الأسئلة الشائعة",
+        "support": "مركز الدعم",
+        "contact_info": "معلومات الاتصال",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "emergency": "الطوارئ",
+        "copyright_long": "© 2025 ميدسكوب. جميع الحقوق محفوظة. تمكين التميز في الرعاية الصحية"
       }
     }
   }

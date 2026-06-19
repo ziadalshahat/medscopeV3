@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../../styles/Home/Home.css';
 import bodyImg from '../../assets/images/home/body-diagram.jpg';
+import { useTranslation } from 'react-i18next';
 
 const specialties = [
   {
@@ -125,10 +126,11 @@ const specialties = [
 
 const BodyDiagram = () => {
   const [hoveredSpecialty, setHoveredSpecialty] = useState(null);
+  const { t } = useTranslation();
 
   return (
     <div id="services" className="home-section body-diagram-section" style={{ overflow: 'hidden' }}>
-      <h2 className="home-section-title" style={{ fontSize: '42px', marginBottom: '10px' }}>Where is the pain?</h2>
+      <h2 className="home-section-title" style={{ fontSize: '42px', marginBottom: '10px' }}>{t("body.title")}</h2>
       <div className="title-divider"></div>
 
       <div className="interactive-body-outer">
@@ -200,6 +202,8 @@ const BodyDiagram = () => {
               ? { top: spec.htmlTop, left: spec.htmlLeft }
               : { top: spec.htmlTop, right: spec.htmlRight };
 
+            const translationKey = spec.id.replace("-", "_");
+
             return (
               <div
                 key={`label-${spec.id}`}
@@ -213,11 +217,11 @@ const BodyDiagram = () => {
                     <div className="specialty-card-icon">
                       {spec.icon(isHovered ? "#ffffff" : "#1c5b7c")}
                     </div>
-                    <span className="specialty-card-name">{spec.name}</span>
+                    <span className="specialty-card-name">{t(`specialties.${translationKey}`)}</span>
                   </>
                 ) : (
                   <>
-                    <span className="specialty-card-name">{spec.name}</span>
+                    <span className="specialty-card-name">{t(`specialties.${translationKey}`)}</span>
                     <div className="specialty-card-icon">
                       {spec.icon(isHovered ? "#ffffff" : "#1c5b7c")}
                     </div>

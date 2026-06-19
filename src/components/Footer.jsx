@@ -1,9 +1,12 @@
 import React from "react";
 import "./Footer.css";
+import { useTranslation } from "react-i18next";
 
 const logoImage = "/ChatGPT Image Sep 29, 2025, 03_40_38 PM.png";
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -17,14 +20,13 @@ const Footer = () => {
                 <img src={logoImage} alt="MedScope Logo" className="logo-icon-img" width={40} height={40} />
               </div>
               <div className="footer-logo-text">
-                <h2 className="footer-logo-title">MedScope</h2>
-                <p className="footer-logo-subtitle">Healthcare Excellence</p>
+                <h2 className="footer-logo-title">{t("footer.title")}</h2>
+                <p className="footer-logo-subtitle">{t("footer.empower")}</p>
               </div>
             </div>
             
             <p className="footer-brand-desc">
-              Advanced hospital management platform connecting patients with quality healthcare services. 
-              Your health is our priority, and we're committed to providing exceptional medical care.
+              {t("footer_info.brand_desc")}
             </p>
 
             <div className="footer-social">
@@ -46,27 +48,27 @@ const Footer = () => {
           {/* Column 2: Quick Links */}
           <div className="footer-col col-links">
             <h3 className="footer-col-title">
-              <i className="fas fa-link title-icon"></i> Quick links
+              <i className="fas fa-link title-icon"></i> {t("footer_info.quick_links")}
             </h3>
             <ul className="footer-links-list">
               <li>
                 <a href="#privacy">
-                  <i className="fas fa-chevron-right list-arrow"></i> Privacy Policy
+                  <i className="fas fa-chevron-right list-arrow"></i> {t("footer_info.privacy")}
                 </a>
               </li>
               <li>
                 <a href="#terms">
-                  <i className="fas fa-chevron-right list-arrow"></i> Terms & Conditions
+                  <i className="fas fa-chevron-right list-arrow"></i> {t("footer_info.terms")}
                 </a>
               </li>
               <li>
                 <a href="#faqs">
-                  <i className="fas fa-chevron-right list-arrow"></i> FAQs
+                  <i className="fas fa-chevron-right list-arrow"></i> {t("footer_info.faqs")}
                 </a>
               </li>
               <li>
                 <a href="#support">
-                  <i className="fas fa-chevron-right list-arrow"></i> Support Center
+                  <i className="fas fa-chevron-right list-arrow"></i> {t("footer_info.support")}
                 </a>
               </li>
             </ul>
@@ -75,7 +77,7 @@ const Footer = () => {
           {/* Column 3: Contact Info */}
           <div className="footer-col col-contact">
             <h3 className="footer-col-title">
-              <i className="fas fa-phone-alt title-icon"></i> Contact Info
+              <i className="fas fa-phone-alt title-icon"></i> {t("footer_info.contact_info")}
             </h3>
             
             <div className="contact-items">
@@ -84,7 +86,7 @@ const Footer = () => {
                   <i className="fas fa-envelope"></i>
                 </div>
                 <div className="contact-item-text">
-                  <span className="contact-label">Email</span>
+                  <span className="contact-label">{t("footer_info.email")}</span>
                   <a href="mailto:info@medscope.com" className="contact-value">info@medscope.com</a>
                 </div>
               </div>
@@ -94,7 +96,7 @@ const Footer = () => {
                   <i className="fas fa-phone-alt"></i>
                 </div>
                 <div className="contact-item-text">
-                  <span className="contact-label">Phone</span>
+                  <span className="contact-label">{t("footer_info.phone")}</span>
                   <span className="contact-value">01003252891</span>
                 </div>
               </div>
@@ -104,7 +106,7 @@ const Footer = () => {
                   <i className="fas fa-ambulance"></i>
                 </div>
                 <div className="contact-item-text">
-                  <span className="contact-label">Emergency</span>
+                  <span className="contact-label">{t("footer_info.emergency")}</span>
                   <span className="contact-value highlight">123</span>
                 </div>
               </div>
@@ -116,7 +118,7 @@ const Footer = () => {
         {/* Bottom copyright line */}
         <div className="footer-bottom">
           <p className="copyright-text">
-            © 2025 MedScope. All rights reserved. Empowering Healthcare Excellence
+            {t("footer_info.copyright_long")}
           </p>
         </div>
       </div>

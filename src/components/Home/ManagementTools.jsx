@@ -4,9 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faTint, faCalendarCheck, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import '../../styles/Home/Home.css';
 import managementImg from '../../assets/images/home/management-tools.jpg';
+import { useTranslation } from 'react-i18next';
 
 const ManagementTools = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleLoginRedirect = () => {
     navigate('/'); // Redirect to the main login page
@@ -16,13 +18,15 @@ const ManagementTools = () => {
     <div className="home-section management-tools-section">
       <div style={{ marginBottom: '20px' }}>
         <span className="platform-services-badge">
-          Platform Services
+          {t("tools.badge")}
         </span>
       </div>
-      <h2 className="home-section-title">Comprehensive Healthcare<br />Management Tools</h2>
+      <h2 className="home-section-title">
+        {t("tools.title")}
+      </h2>
       <div className="title-divider"></div>
       <p className="home-section-subtitle">
-        Access powerful healthcare management tools designed to streamline your medical journey.
+        {t("tools.subtitle")}
       </p>
 
       {/* Main Tool Card */}
@@ -37,25 +41,25 @@ const ManagementTools = () => {
             <div className="main-tool-calendar-box">
               <i className="fas fa-calendar-alt"></i>
             </div>
-            <span className="most-popular-badge">Most Popular</span>
+            <span className="most-popular-badge">{t("tools.most_popular")}</span>
           </div>
 
           <div className="main-tool-content">
-            <h2>Doctor Appointments Booking</h2>
+            <h2>{t("tools.booking")}</h2>
             
             <div className="main-tool-features">
               <span className="feature-item">
-                <i className="fas fa-clock feature-icon-red"></i> Instant Booking
+                <i className="fas fa-clock feature-icon-red"></i> {t("tools.instant_booking")}
               </span>
               <span className="feature-item">
-                <i className="fas fa-bell feature-icon-red"></i> Reminders
+                <i className="fas fa-bell feature-icon-red"></i> {t("tools.reminders")}
               </span>
             </div>
           </div>
 
           <div className="main-tool-footer">
             <button className="login-btn-wide" onClick={handleLoginRedirect}>
-              Login to Book &rarr;
+              {t("tools.login_to_book")}
             </button>
           </div>
         </div>
@@ -68,13 +72,13 @@ const ManagementTools = () => {
           <div className="sub-tool-icon">
             <FontAwesomeIcon icon={faBed} />
           </div>
-          <h3>Available Beds (ICU & Incubators)</h3>
+          <h3>{t("tools.beds")}</h3>
           <div className="sub-tool-features">
-            <span><FontAwesomeIcon icon={faCheckCircle} /> Live status</span>
-            <span><FontAwesomeIcon icon={faCheckCircle} /> All departments</span>
+            <span><FontAwesomeIcon icon={faCheckCircle} /> {t("tools.live_status")}</span>
+            <span><FontAwesomeIcon icon={faCheckCircle} /> {t("tools.all_departments")}</span>
           </div>
           <button className="login-btn-small" onClick={handleLoginRedirect}>
-            Login to View &rarr;
+            {t("tools.login_to_view")}
           </button>
         </div>
 
@@ -83,12 +87,12 @@ const ManagementTools = () => {
           <div className="sub-tool-icon">
             <FontAwesomeIcon icon={faTint} />
           </div>
-          <h3>Blood Bank</h3>
+          <h3>{t("tools.blood_bank")}</h3>
           <div className="sub-tool-features">
-            <span><FontAwesomeIcon icon={faCheckCircle} /> Available quantities</span>
+            <span><FontAwesomeIcon icon={faCheckCircle} /> {t("tools.available_quantities")}</span>
           </div>
           <button className="login-btn-small" onClick={handleLoginRedirect}>
-            Login to View Blood &rarr;
+            {t("tools.login_to_view_blood")}
           </button>
         </div>
 
@@ -97,13 +101,13 @@ const ManagementTools = () => {
           <div className="sub-tool-icon">
             <FontAwesomeIcon icon={faCalendarCheck} />
           </div>
-          <h3>My Appointments</h3>
+          <h3>{t("tools.my_appointments")}</h3>
           <div className="sub-tool-features">
-            <span><FontAwesomeIcon icon={faCheckCircle} /> History</span>
-            <span><FontAwesomeIcon icon={faCheckCircle} /> Upcoming</span>
+            <span><FontAwesomeIcon icon={faCheckCircle} /> {t("tools.history")}</span>
+            <span><FontAwesomeIcon icon={faCheckCircle} /> {t("tools.upcoming")}</span>
           </div>
           <button className="login-btn-small" onClick={handleLoginRedirect}>
-            Login to Manage Appointments &rarr;
+            {t("tools.login_to_manage")}
           </button>
         </div>
       </div>
