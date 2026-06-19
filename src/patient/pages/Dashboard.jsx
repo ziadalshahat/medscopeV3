@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   BellAlertIcon,
   CalendarIcon,
@@ -15,7 +16,7 @@ import { getDashboardData } from "../services/dashboardService";
 import Loader from "../../components/Loader";
 
 const Dashboard = () => {
-
+  const { t } = useTranslation();
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -38,16 +39,12 @@ const Dashboard = () => {
 
   }, []);
 
-  console.log(dashboardData?.updates);
-
   if (loading) {
-    return <Loader message="Loading Your Dashboard..." />
+    return <Loader message={t("patient.loadingDashboard") || "Loading..."} />
   }
-  console.log(dashboardData);
 
   return (
-<>
-
+    <>
       <div className="dashboard-container">
 
       {/* Updates */}
@@ -56,7 +53,7 @@ const Dashboard = () => {
         <div className="updates-header">
           <BellAlertIcon />
           <h3>
-            New Updates
+            {t('patient.newUpdates')}
             <span className="updates-count">
               ({dashboardData.updates.length})
             </span>
@@ -64,9 +61,8 @@ const Dashboard = () => {
         </div>
 
         <div className="updates-list">
-          {console.log(dashboardData.updates)}
           {dashboardData.updates.length === 0 ? (
-            <p className="no-data">No updates available</p>
+            <p className="no-data">{t('patient.noUpdates') || "No updates"}</p>
           ) : (
             dashboardData.updates.map((update, index) => (
               <div key={index} className="update-item">
@@ -92,8 +88,8 @@ const Dashboard = () => {
           </div>
 
           <div className="action-text">
-            <h4>Appointments</h4>
-            <p>{dashboardData.upcomingAppointmentsCount} Upcoming</p>
+            <h4>{t('patient.appointments')}</h4>
+            <p>{dashboardData.upcomingAppointmentsCount} {t('patient.upcoming')}</p>
           </div>
         </NavLink>
 
@@ -106,8 +102,8 @@ const Dashboard = () => {
           </div>
 
           <div className="action-text">
-            <h4>Medical Reports</h4>
-            <p>{dashboardData.medicalRecordsCount} Reports</p>
+            <h4>{t('patient.medicalReports')}</h4>
+            <p>{dashboardData.medicalRecordsCount} {t('patient.reportsCount')}</p>
           </div>
         </NavLink>
 
@@ -120,8 +116,8 @@ const Dashboard = () => {
           </div>
 
           <div className="action-text">
-            <h4>Book Appointment</h4>
-            <p>Schedule Visit</p>
+            <h4>{t('patient.bookAppointment')}</h4>
+            <p>{t('patient.scheduleVisit')}</p>
           </div>
         </NavLink>
 
@@ -134,8 +130,8 @@ const Dashboard = () => {
           </div>
 
           <div className="action-text">
-            <h4>Smart Assistant</h4>
-            <p>Ask Questions</p>
+            <h4>{t('patient.smartAssistant')}</h4>
+            <p>{t('patient.askQuestions')}</p>
           </div>
         </NavLink>
 
@@ -148,20 +144,20 @@ const Dashboard = () => {
         <div className="section-card">
 
           <div className="section-header">
-            <h3>Upcoming Appointments</h3>
+            <h3>{t('patient.upcomingAppointments')}</h3>
 
             <NavLink
               to="/patient/appointments/upcoming"
               className="section-link"
             >
-              View All
+              {t('patient.viewAll')}
             </NavLink>
           </div>
 
           <div className="list-container">
 
             {dashboardData.upcomingAppointments.length === 0 ? (
-              <p className="no-data">No upcoming appointments</p>
+              <p className="no-data">{t('patient.noUpcomingAppointments') || "No upcoming appointments"}</p>
             ) : (
 
               dashboardData.upcomingAppointments.map((appointment, index) => (
@@ -205,20 +201,20 @@ const Dashboard = () => {
         <div className="section-card">
 
           <div className="section-header">
-            <h3>Medical Reports</h3>
+            <h3>{t('patient.medicalReports')}</h3>
 
             <NavLink
               to="/patient/medical-history"
               className="section-link"
             >
-              View All
+              {t('patient.viewAll')}
             </NavLink>
           </div>
 
           <div className="list-container">
 
             {dashboardData.medicalRecords.length === 0 ? (
-              <p className="no-data">No medical reports</p>
+              <p className="no-data">{t('patient.noMedicalReports') || "No medical reports"}</p>
             ) : (
 
               dashboardData.medicalRecords.map((report, index) => (
@@ -242,7 +238,7 @@ const Dashboard = () => {
                   </div>
 
                   <span className="badge-ready">
-                    Ready
+                    {t('patient.ready') || "Ready"}
                   </span>
 
                 </div>

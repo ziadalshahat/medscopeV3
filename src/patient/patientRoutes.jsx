@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, Outlet, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PatientProvider } from './context/PatientContext';
 import Sidebar from './components/Sidebar';
 import { BellIcon } from '@heroicons/react/24/outline';
@@ -25,6 +26,7 @@ import LanguageToggle from '../components/LanguageToggle';
 
 // Patient Layout: includes the top Header, Sidebar and the main content area
 const PatientLayout = () => {
+    const { t } = useTranslation();
     const location = useLocation();
     const { patient } = usePatient();
 
@@ -32,45 +34,45 @@ const PatientLayout = () => {
     const getHeaderText = () => {
         if (location.pathname.includes('/profile')) {
             return {
-                title: 'Profile',
-                subtitle: 'Manage your personal information and settings'
+                title: t('patient.profile'),
+                subtitle: t('patient.managePersonalInfo')
             };
         }
         if (location.pathname.includes('/appointments/upcoming') || location.pathname.includes('/appointments/past')) {
             return {
-                title: 'My Appointments',
-                subtitle: 'View and manage your appointments'
+                title: t('patient.myAppointments'),
+                subtitle: t('patient.viewManageAppointments')
             };
         }
         if (location.pathname.includes('/medical-history')) {
             return {
-                title: 'Patient Record',
+                title: t('patient.patientRecord'),
                 subtitle: ''
             };
         }
         if (location.pathname.includes('/appointments/book')) {
             return {
-                title: 'Book a New Appointment',
+                title: t('patient.bookNewAppointment'),
                 subtitle: 'Choose specialty, doctor, and time — confirm in one step.'
             };
         }
         if (location.pathname.includes('/hospitals')) {
             return {
-                title: 'Multi-Hospital View',
-                subtitle: 'View available bed types at hospitals'
+                title: t('patient.multiHospital'),
+                subtitle: t('patient.multiHospitalSubtitle')
             };
         }
         if (location.pathname.includes('/blood-bank')) {
             return {
-                title: 'Blood Bank',
-                subtitle: 'View available blood types and quantities at hospitals and blood banks'
+                title: t('patient.bloodBank'),
+                subtitle: t('patient.bloodBankSubtitle')
             };
         }
 
         // Default Header
         return {
-            title: `Welcome back, ${patient.name || "Patient"}`,
-            subtitle: "Here's what's happening with your health today"
+            title: `${t('patient.welcomeBack')}, ${patient.name || "Patient"}`,
+            subtitle: t('patient.healthToday')
         };
     };
 
@@ -82,7 +84,7 @@ const PatientLayout = () => {
             {/* Sidebar Container (Left) */}
             <div className="patient-sidebar-container">
                 <div className="patient-branding">
-                    <h1>Patient Portal</h1>
+                    <h1>{t('patient.portalTitle')}</h1>
                 </div>
                 <Sidebar />
             </div>
