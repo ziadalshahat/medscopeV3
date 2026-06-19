@@ -338,7 +338,7 @@ const SignUpForm = () => {
               }}
             />
             <span className="terms-label">
-              {t("auth.terms_agree")} <a href="#terms" className="auth-link">{t("auth.terms_cond")}</a> {t("auth.terms_and")} <a href="#privacy" className="auth-link">{t("auth.privacy_policy")}</a> <span className="text-danger">*</span>
+              {t("auth.terms_agree")} <Link to="/terms" className="auth-link">{t("auth.terms_cond")}</Link> {t("auth.terms_and")} <Link to="/privacy" className="auth-link">{t("auth.privacy_policy")}</Link> <span className="text-danger">*</span>
             </span>
           </label>
           {fieldError("terms")}
