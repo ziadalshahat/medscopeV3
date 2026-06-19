@@ -43,13 +43,13 @@ const ForgotPassword = () => {
 
     return (
         <AuthCard
-            title="Forgot Password"
-            subtitle="Please enter your Email to reset the password"
+            title={t("auth.forgot_title")}
+            subtitle={t("auth.forgot_subtitle")}
             icon="fa-solid fa-envelope"
         >
             <form onSubmit={handleSubmit}>
                 <div className="auth-form-group mb-4">
-                    <label className="auth-label">Email</label>
+                    <label className="auth-label">{t("auth.email_label")}</label>
                     <div className="auth-input-group">
                         <span className="auth-input-icon danger">
                             <i className="fas fa-envelope"></i>
@@ -57,7 +57,7 @@ const ForgotPassword = () => {
                         <input
                             type="email"
                             className="auth-input"
-                            placeholder="Enter your email address"
+                            placeholder={t("auth.email_placeholder")}
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -68,12 +68,12 @@ const ForgotPassword = () => {
                 {error && <div className="auth-error-message mb-3" style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
 
                 <button type="submit" className="auth-submit-btn" disabled={loading}>
-                    {loading ? "Sending..." : "Reset Password"}
+                    {loading ? t("auth.sending") : t("auth.reset_btn")}
                 </button>
 
                 <div className="text-center mt-4">
                     <Link to="/" className="auth-link small-text text-muted">
-                        <i className="fas fa-arrow-left"></i> Back to Login
+                        <i className="fas fa-arrow-left"></i> {t("auth.back_to_login")}
                     </Link>
                 </div>
             </form>

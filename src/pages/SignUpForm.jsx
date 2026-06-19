@@ -4,12 +4,13 @@ import AuthCard from "../components/AuthCard";
 import SuccessModal from "../components/SuccessModal";
 import Loader from "../components/Loader";
 import { signupUser } from "../patient/services/authService.js";
+import { useTranslation } from "react-i18next";
 import "./Auth.css";
 
 const EMAIL_RE = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
 const EGYPT_PHONE_RE = /^(\+20|01)[0-9]{9,10}$/;
 
-const getPasswordStrength = (password) => {
+const getPasswordStrength = (password, t) => {
   if (!password) return { level: "", label: "", width: "0%" };
 
   const hasLower = /[a-z]/.test(password);
@@ -19,54 +20,55 @@ const getPasswordStrength = (password) => {
   const isLong = password.length >= 8;
 
   if (isLong && hasLower && hasUpper && hasNumber && hasSpecial)
-    return { level: "strong", label: "Strong", width: "100%" };
+    return { level: "strong", label: t("auth.strong"), width: "100%" };
   if (isLong && (hasLower || hasUpper) && hasNumber)
-    return { level: "medium", label: "Medium", width: "66%" };
-  return { level: "weak", label: "Weak", width: "33%" };
+    return { level: "medium", label: t("auth.medium"), width: "66%" };
+  return { level: "weak", label: t("auth.weak"), width: "33%" };
 };
 
 const validateField = (name, value, extra = {}) => {
+  const { t } = extra;
   switch (name) {
     case "firstName":
     case "lastName":
-      if (!value.trim()) return `${name === "firstName" ? "First" : "Last"} name is required.`;
-      if (value.trim().length < 2) return `${name === "firstName" ? "First" : "Last"} name must be at least 2 characters.`;
+      if (!value.trim()) return name === "firstName" ? t("auth.validation.first_name_required") : t("auth.validation.last_name_required");
+      if (value.trim().length < 2) return name === "firstName" ? t("auth.validation.first_name_min") : t("auth.validation.last_name_min");
       return "";
     case "email":
-      if (!value.trim()) return "Email is required.";
+      if (!value.trim()) return t("auth.validation.email_required");
 
       if (value.includes(" "))
-        return "Email cannot contain spaces.";
+        return t("auth.validation.email_spaces");
 
       if (!EMAIL_RE.test(value))
-        return "Please enter a valid email address (example: name@email.com).";
+        return t("auth.validation.email_invalid");
 
       if (value.length > 100)
-        return "Email is too long.";
+        return t("auth.validation.email_too_long");
 
       return "";
     case "password":
-      if (!value) return "Password is required.";
-      if (value.length < 8) return "Password must be at least 8 characters.";
-      if (!/[A-Z]/.test(value)) return "Password must include an uppercase letter.";
-      if (!/[a-z]/.test(value)) return "Password must include a lowercase letter.";
-      if (!/[0-9]/.test(value)) return "Password must include a number.";
+      if (!value) return t("auth.validation.password_required");
+      if (value.length < 8) return t("auth.validation.password_min");
+      if (!/[A-Z]/.test(value)) return t("auth.validation.password_upper");
+      if (!/[a-z]/.test(value)) return t("auth.validation.password_lower");
+      if (!/[0-9]/.test(value)) return t("auth.validation.password_number");
       return "";
     case "confirmPassword":
-      if (!value) return "Please confirm your password.";
-      if (value !== extra.password) return "Passwords do not match.";
+      if (!value) return t("auth.validation.confirm_password_required");
+      if (value !== extra.password) return t("auth.validation.passwords_match");
       return "";
     case "phone":
-      if (!value.trim()) return "Phone number is required.";
-      if (!EGYPT_PHONE_RE.test(value.replace(/\s/g, ""))) return "Enter a valid Egyptian phone (e.g. +201xxxxxxxxx).";
+      if (!value.trim()) return t("auth.validation.phone_required");
+      if (!EGYPT_PHONE_RE.test(value.replace(/\s/g, ""))) return t("auth.validation.phone_invalid");
       return "";
     case "dob":
-      if (!value) return "Date of birth is required.";
+      if (!value) return t("auth.validation.dob_required");
 
       const birthDate = new Date(value);
       const today = new Date();
 
-      if (birthDate > today) return "Date of birth cannot be in the future.";
+      if (birthDate > today) return t("auth.validation.dob_future");
 
       const age = today.getFullYear() - birthDate.getFullYear();
       const monthDiff = today.getMonth() - birthDate.getMonth();
@@ -76,11 +78,11 @@ const validateField = (name, value, extra = {}) => {
           ? age - 1
           : age;
 
-      if (realAge < 18) return "You must be at least 18 years old.";
+      if (realAge < 18) return t("auth.validation.dob_underage");
 
       return "";
     case "terms":
-      if (!value) return "You must accept the Terms & Conditions.";
+      if (!value) return t("auth.validation.terms_required");
       return "";
     default:
       return "";
@@ -89,6 +91,7 @@ const validateField = (name, value, extra = {}) => {
 
 const SignUpForm = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -108,19 +111,19 @@ const SignUpForm = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const strength = useMemo(() => getPasswordStrength(password), [password]);
+  const strength = useMemo(() => getPasswordStrength(password, t), [password, t]);
   const markTouched = useCallback((field) => setTouched((prev) => ({ ...prev, [field]: true })), []);
 
   const errors = useMemo(() => ({
-    firstName: validateField("firstName", firstName),
-    lastName: validateField("lastName", lastName),
-    email: validateField("email", email),
-    password: validateField("password", password),
-    confirmPassword: validateField("confirmPassword", confirmPassword, { password }),
-    phone: validateField("phone", phone),
-    dob: validateField("dob", dob),
-    terms: validateField("terms", termsAccepted),
-  }), [firstName, lastName, email, password, confirmPassword, phone, dob, termsAccepted]);
+    firstName: validateField("firstName", firstName, { t }),
+    lastName: validateField("lastName", lastName, { t }),
+    email: validateField("email", email, { t }),
+    password: validateField("password", password, { t }),
+    confirmPassword: validateField("confirmPassword", confirmPassword, { password, t }),
+    phone: validateField("phone", phone, { t }),
+    dob: validateField("dob", dob, { t }),
+    terms: validateField("terms", termsAccepted, { t }),
+  }), [firstName, lastName, email, password, confirmPassword, phone, dob, termsAccepted, t]);
 
   const shouldShow = (field) => (touched[field] || submitAttempted) && errors[field];
   const isFormValid = Object.values(errors).every((e) => !e) && strength.level !== "weak";
@@ -166,8 +169,8 @@ const SignUpForm = () => {
   return (
     <>
       <AuthCard
-        title="Sign Up"
-        subtitle="Join our healthcare platform to manage your medical records and appointments"
+        title={t("auth.signup_title")}
+        subtitle={t("auth.signup_subtitle")}
         icon="fa-solid fa-user-doctor"
         isSignup={true}
       >
@@ -175,13 +178,13 @@ const SignUpForm = () => {
           {/* First & Last Name */}
           <div className="form-row">
             <div className="form-col">
-              <label className="auth-label">First Name</label>
+              <label className="auth-label">{t("auth.first_name")}</label>
               <div className={inputGroupClass("firstName")}>
                 <span className="auth-input-icon"><i className="fas fa-user"></i></span>
                 <input
                   type="text"
                   className="auth-input"
-                  placeholder="First name"
+                  placeholder={t("auth.first_name_placeholder")}
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   onBlur={() => markTouched("firstName")}
@@ -190,13 +193,13 @@ const SignUpForm = () => {
               {fieldError("firstName")}
             </div>
             <div className="form-col">
-              <label className="auth-label">Last Name</label>
+              <label className="auth-label">{t("auth.last_name")}</label>
               <div className={inputGroupClass("lastName")}>
                 <span className="auth-input-icon"><i className="fas fa-user"></i></span>
                 <input
                   type="text"
                   className="auth-input"
-                  placeholder="Last name"
+                  placeholder={t("auth.last_name_placeholder")}
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   onBlur={() => markTouched("lastName")}
@@ -208,13 +211,13 @@ const SignUpForm = () => {
 
           {/* Email */}
           <div className="auth-form-group">
-            <label className="auth-label">Email Address</label>
+            <label className="auth-label">{t("auth.email_label")}</label>
             <div className={inputGroupClass("email")}>
               <span className="auth-input-icon danger"><i className="fas fa-envelope"></i></span>
               <input
                 type="email"
                 className="auth-input"
-                placeholder="Enter your email address"
+                placeholder={t("auth.email_placeholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onBlur={() => markTouched("email")}
@@ -225,13 +228,13 @@ const SignUpForm = () => {
 
           {/* Password */}
           <div className="auth-form-group">
-            <label className="auth-label">Password</label>
+            <label className="auth-label">{t("auth.password_label")}</label>
             <div className={inputGroupClass("password")}>
               <span className="auth-input-icon primary"><i className="fas fa-lock"></i></span>
               <input
                 type={showPassword ? "text" : "password"}
                 className="auth-input"
-                placeholder="Create a strong password"
+                placeholder={t("auth.create_password_placeholder")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onBlur={() => markTouched("password")}
@@ -251,19 +254,19 @@ const SignUpForm = () => {
                 {strength.label || "—"}
               </span>
             </div>
-            <span className="password-hint">Must be at least 8 characters with one uppercase letter, one number, and one special character</span>
+            <span className="password-hint">{t("auth.validation.password_min")}</span>
             {fieldError("password")}
           </div>
 
           {/* Confirm Password */}
           <div className="auth-form-group">
-            <label className="auth-label">Confirm Password</label>
+            <label className="auth-label">{t("auth.confirm_password")}</label>
             <div className={inputGroupClass("confirmPassword")}>
               <span className="auth-input-icon primary"><i className="fas fa-lock"></i></span>
               <input
                 type={showConfirm ? "text" : "password"}
                 className="auth-input"
-                placeholder="Confirm your password"
+                placeholder={t("auth.confirm_password_placeholder")}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 onBlur={() => markTouched("confirmPassword")}
@@ -277,13 +280,13 @@ const SignUpForm = () => {
 
           {/* Phone */}
           <div className="auth-form-group">
-            <label className="auth-label">Phone Number</label>
+            <label className="auth-label">{t("auth.phone_number")}</label>
             <div className={inputGroupClass("phone")}>
               <span className="auth-input-icon danger"><i className="fas fa-phone"></i></span>
               <input
                 type="tel"
                 className="auth-input"
-                placeholder="+20xxxxxxxxxxx"
+                placeholder={t("auth.phone_placeholder")}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 onBlur={() => markTouched("phone")}
@@ -294,23 +297,23 @@ const SignUpForm = () => {
 
           {/* Gender */}
           <div className="auth-form-group">
-            <label className="auth-label">Gender</label>
+            <label className="auth-label">{t("auth.gender")}</label>
             <div className="gender-group">
               <label className="gender-radio">
-                <input type="radio" name="gender" value="male" checked={gender === "male"} onChange={(e) => setGender(e.target.value)} /> Male
+                <input type="radio" name="gender" value="male" checked={gender === "male"} onChange={(e) => setGender(e.target.value)} /> {t("auth.gender_male")}
               </label>
               <label className="gender-radio">
-                <input type="radio" name="gender" value="female" checked={gender === "female"} onChange={(e) => setGender(e.target.value)} /> Female
+                <input type="radio" name="gender" value="female" checked={gender === "female"} onChange={(e) => setGender(e.target.value)} /> {t("auth.gender_female")}
               </label>
               <label className="gender-radio">
-                <input type="radio" name="gender" value="preferNotToSay" checked={gender === "preferNotToSay"} onChange={(e) => setGender(e.target.value)} /> Prefer not to say
+                <input type="radio" name="gender" value="preferNotToSay" checked={gender === "preferNotToSay"} onChange={(e) => setGender(e.target.value)} /> {t("auth.gender_prefer_not_to_say")}
               </label>
             </div>
           </div>
 
           {/* Date of Birth */}
           <div className="auth-form-group">
-            <label className="auth-label">Date of Birth</label>
+            <label className="auth-label">{t("auth.dob")}</label>
             <div className={inputGroupClass("dob")}>
               <input
                 type="date"
@@ -335,22 +338,22 @@ const SignUpForm = () => {
               }}
             />
             <span className="terms-label">
-              I agree to the <a href="#terms" className="auth-link">Terms & Conditions</a> and <a href="#privacy" className="auth-link">Privacy Policy</a> <span className="text-danger">*</span>
+              {t("auth.terms_agree")} <a href="#terms" className="auth-link">{t("auth.terms_cond")}</a> {t("auth.terms_and")} <a href="#privacy" className="auth-link">{t("auth.privacy_policy")}</a> <span className="text-danger">*</span>
             </span>
           </label>
           {fieldError("terms")}
 
           <button type="submit" className="auth-submit-btn" disabled={loading}>
-            {loading ? <i className="fas fa-spinner fa-spin"></i> : <><i className="fas fa-user-plus"></i> Create Account</>}
+            {loading ? <i className="fas fa-spinner fa-spin"></i> : <><i className="fas fa-user-plus"></i> {t("auth.create_account")}</>}
           </button>
 
           <div className="text-center small-text text-muted mt-3">
-            Already have an account? <Link to="/login" className="auth-link auth-link-danger ms-1" style={{ marginLeft: "0.5rem" }}>Sign In</Link>
+            {t("auth.already_have_account")} <Link to="/login" className="auth-link auth-link-danger ms-1" style={{ marginLeft: "0.5rem" }}>{t("auth.signin_btn")}</Link>
           </div>
         </form>
       </AuthCard>
       {/* Loader */}
-      {loading && <Loader message="Creating your account..." />}
+      {loading && <Loader message={t("auth.creating_account")} />}
 
       {/* Success Modal */}
       {showSuccess && (

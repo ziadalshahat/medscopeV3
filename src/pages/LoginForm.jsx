@@ -4,10 +4,12 @@ import AuthCard from "../components/AuthCard";
 import SuccessModal from "../components/SuccessModal";
 import Loader from "../components/Loader";
 import { loginUser } from "../patient/services/authService.js";
+import { useTranslation } from "react-i18next";
 import "./Auth.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -94,13 +96,13 @@ const Login = () => {
 
   return (
     <AuthCard
-      title="Login"
-      subtitle="Access your healthcare portal"
+      title={t("auth.login_title")}
+      subtitle={t("auth.login_subtitle")}
       icon="fa-solid fa-user"
     >
       <form onSubmit={handleSubmit}>
         <div className="auth-form-group">
-          <label className="auth-label">Email Address</label>
+          <label className="auth-label">{t("auth.email_label")}</label>
           <div className="auth-input-group">
             <span className="auth-input-icon danger">
               <i className="fas fa-envelope"></i>
@@ -108,7 +110,7 @@ const Login = () => {
             <input
               type="email"
               className="auth-input"
-              placeholder="Enter your email address"
+              placeholder={t("auth.email_placeholder")}
               required
               value={email}
               onChange={handleInputChange(setEmail)}
@@ -117,7 +119,7 @@ const Login = () => {
         </div>
 
         <div className="auth-form-group mb-4">
-          <label className="auth-label">Password</label>
+          <label className="auth-label">{t("auth.password_label")}</label>
           <div className="auth-input-group">
             <span className="auth-input-icon primary">
               <i className="fas fa-lock"></i>
@@ -125,7 +127,7 @@ const Login = () => {
             <input
               type={showPassword ? "text" : "password"}
               className="auth-input"
-              placeholder="Enter your password"
+              placeholder={t("auth.password_placeholder")}
               required
               value={password}
               onChange={handleInputChange(setPassword)}
@@ -150,19 +152,19 @@ const Login = () => {
         )}
 
         <button type="submit" className="auth-submit-btn" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+          {loading ? t("auth.logging_in") : t("auth.login_btn")}
         </button>
 
         <div className="text-center mt-3 mb-3">
           <Link to="/forgot-password" className="auth-link small-text">
-            <i className="fas fa-key"></i> Forgot your password?
+            <i className="fas fa-key"></i> {t("auth.forgot_password")}
           </Link>
         </div>
 
         <div className="text-center small-text text-muted">
-          New here?<br />
+          {t("auth.new_here")}<br />
           <Link to="/signup" className="auth-link mt-2">
-            <i className="fas fa-user-plus"></i> Sign Up as Patient
+            <i className="fas fa-user-plus"></i> {t("auth.signup_patient")}
           </Link>
         </div>
       </form>
@@ -176,7 +178,7 @@ const Login = () => {
         autoDismiss={2500}
       />
 
-      {loading && <Loader message="Signing in..." />}
+      {loading && <Loader message={t("auth.logging_in")} />}
     </AuthCard>
   );
 };

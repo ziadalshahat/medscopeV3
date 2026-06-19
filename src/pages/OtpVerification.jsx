@@ -2,11 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import AuthCard from "../components/AuthCard";
 import { verifyOtp, forgotPassword } from "../patient/services/authService";
+import { useTranslation } from "react-i18next";
 import "./Auth.css";
 
 const OtpVerification = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const { t } = useTranslation();
     const email = location.state?.email || "";
 
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -135,8 +137,8 @@ const OtpVerification = () => {
 
     return (
         <AuthCard
-            title="Enter OTP"
-            subtitle={`Please enter the OTP sent to your registered Email: ${obscureEmail(email)}`}
+            title={t("auth.enter_otp")}
+            subtitle={`${t("auth.otp_subtitle")}${obscureEmail(email)}`}
             icon="fa-solid fa-shield-halved"
         >
             <form onSubmit={handleSubmit}>
@@ -160,7 +162,7 @@ const OtpVerification = () => {
                 {successMsg && <div className="auth-success-message mt-3" style={{ color: 'green', textAlign: 'center' }}>{successMsg}</div>}
 
                 <button type="submit" className="auth-submit-btn mt-4" disabled={loading}>
-                    {loading ? "Verifying..." : "Verify Code"}
+                    {loading ? t("auth.verifying") : t("auth.verify_code")}
                 </button>
 
                 <div className="text-center mt-4">
@@ -171,7 +173,7 @@ const OtpVerification = () => {
                         onClick={handleResend}
                         disabled={resendLoading}
                     >
-                        {resendLoading ? "Resending..." : "Didn't receive code? Resend"}
+                        {resendLoading ? t("auth.resending") : t("auth.resend_btn")}
                     </button>
                 </div>
             </form>

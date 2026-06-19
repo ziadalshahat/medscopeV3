@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import AuthCard from "../components/AuthCard";
 import { resetPassword } from "../patient/services/authService";
+import { useTranslation } from "react-i18next";
 import "./Auth.css";
 
 const ResetPassword = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const { t } = useTranslation();
     
     const email = location.state?.email || "";
     const resetToken = location.state?.resetToken || location.state?.otp || "";
@@ -68,13 +70,13 @@ const ResetPassword = () => {
 
     return (
         <AuthCard
-            title="Set a new password"
-            subtitle="Create a new password. Ensure it differs from previous ones for security"
+            title={t("auth.set_new_password")}
+            subtitle={t("auth.set_new_password_subtitle")}
             icon="fa-solid fa-lock"
         >
             <form onSubmit={handleSubmit} className="mt-2">
                 <div className="auth-form-group">
-                    <label className="auth-label">Password</label>
+                    <label className="auth-label">{t("auth.password_label")}</label>
                     <div className="auth-input-group">
                         <span className="auth-input-icon primary">
                             <i className="fas fa-lock"></i>
@@ -97,7 +99,7 @@ const ResetPassword = () => {
                 </div>
 
                 <div className="auth-form-group mb-4">
-                    <label className="auth-label">Confirm Password</label>
+                    <label className="auth-label">{t("auth.confirm_password")}</label>
                     <div className="auth-input-group">
                         <span className="auth-input-icon primary">
                             <i className="fas fa-lock"></i>
@@ -122,7 +124,7 @@ const ResetPassword = () => {
                 {error && <div className="auth-error-message mb-3" style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
 
                 <button type="submit" className="auth-submit-btn" disabled={loading}>
-                    {loading ? "Updating..." : "Update Password"}
+                    {loading ? t("auth.updating") : t("auth.update_password")}
                 </button>
             </form>
         </AuthCard>
