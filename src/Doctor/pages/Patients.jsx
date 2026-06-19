@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "../styles/Patients.css";
 import { getPatients } from "../services/patientsApi";
 import { deletePatient } from "../services/deletePatientApi";
@@ -7,8 +8,10 @@ import Loader from "../../components/Loader";
 import ConfirmModal from "../../components/ConfirmModal";
 import SuccessModal from "../../components/SuccessModal";
 import ThemeToggle from "../../components/ThemeToggle";
+import LanguageToggle from "../../components/LanguageToggle";
 
 const Patients = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [patients, setPatients] = useState([]);
@@ -133,44 +136,47 @@ const Patients = () => {
               className="pt-nav-item"
               onClick={() => navigate("/doctor/appointments")}
             >
-              <span>Appointments</span>
+              <span>{t("doctor.appointments")}</span>
             </div>
 
             <div className="pt-nav-item pt-nav-active">
-              <span>Patients</span>
+              <span>{t("doctor.patients")}</span>
             </div>
 
             <div
               className="pt-nav-item"
               onClick={() => navigate("/doctor/patient-record")}
             >
-              <span>Patient Record</span>
+              <span>{t("doctor.patientRecord")}</span>
             </div>
 
             <div
               className="pt-nav-item"
               onClick={() => navigate("/doctor/working-hours")}
             >
-              <span>Working Hours</span>
+              <span>{t("doctor.workingHours")}</span>
             </div>
           </nav>
         </div>
 
         <div className="pt-logout" onClick={() => navigate("/login")}>
-          <span>Logout</span>
+          <span>{t("doctor.logout")}</span>
         </div>
       </aside>
 
       {/* Main */}
       <main className="pt-main">
         <div className="pt-topbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h1 className="pt-page-title">Patients</h1>
-          <ThemeToggle />
+          <h1 className="pt-page-title">{t("doctor.patients")}</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
         </div>
 
         <div className="pt-card">
           <div className="pt-card-header">
-            <h2 className="pt-card-title">Patient Details</h2>
+            <h2 className="pt-card-title">{t("doctor.patientDetails")}</h2>
             <div className="pt-card-title-line"></div>
           </div>
 
@@ -179,7 +185,7 @@ const Patients = () => {
             <div className="pt-search-wrap">
               <input
                 className="pt-search"
-                placeholder="Search"
+                placeholder={t("doctor.search")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -190,7 +196,7 @@ const Patients = () => {
                 className="pt-filter-btn"
                 onClick={() => setShowFilter(!showFilter)}
               >
-                Filter by Gender
+                {t("doctor.filterGender")}
               </button>
 
               {showFilter && (
@@ -201,7 +207,7 @@ const Patients = () => {
                       className={`pt-filter-option ${filterGender === g ? "pt-filter-selected" : ""}`}
                       onClick={() => { setFilterGender(g); setShowFilter(false); }}
                     >
-                      {g}
+                      {t(`doctor.${g.toLowerCase()}`)}
                     </div>
                   ))}
                 </div>
@@ -214,12 +220,12 @@ const Patients = () => {
             <table className="pt-table">
               <thead>
                 <tr>
-                  <th>Patient Name</th>
-                  <th>Age</th>
-                  <th>Gender</th>
-                  <th>Phone Number</th>
-                  <th>Email</th>
-                  <th>User Action</th>
+                  <th>{t("doctor.patientName")}</th>
+                  <th>{t("doctor.age")}</th>
+                  <th>{t("doctor.gender")}</th>
+                  <th>{t("doctor.phone")}</th>
+                  <th>{t("doctor.email")}</th>
+                  <th>{t("doctor.userAction")}</th>
                 </tr>
               </thead>
 
@@ -237,7 +243,7 @@ const Patients = () => {
                       </div>
                     </td>
                     <td>{p.age}</td>
-                    <td>{p.gender}</td>
+                    <td>{p.gender === "Male" || p.gender === "ذكر" ? t("doctor.male") : p.gender === "Female" || p.gender === "أنثى" ? t("doctor.female") : p.gender}</td>
                     <td>{p.phoneNumber}</td>
                     <td>{p.email}</td>
                     <td>
@@ -245,7 +251,7 @@ const Patients = () => {
                         {/* View Record */}
                         <button
                           className="pt-icon-btn pt-icon-record"
-                          title="View Record"
+                          title={t("doctor.patientRecord")}
                           onClick={() =>
                             navigate("/doctor/patient-record", {
                               state: { patientId: p.patientId },
@@ -298,7 +304,7 @@ const Patients = () => {
               className="pt-page-nav"
               onClick={() => { if (activePage > 1) setActivePage(activePage - 1); }}
             >
-              Previous
+              {t("doctor.previous")}
             </button>
             <div className="pt-page-nums">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
@@ -315,7 +321,7 @@ const Patients = () => {
               className="pt-page-nav"
               onClick={() => { if (activePage < totalPages) setActivePage(activePage + 1); }}
             >
-              Next
+              {t("doctor.next")}
             </button>
           </div>
         </div>

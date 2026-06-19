@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "../styles/DoctorWorkingHours.css";
 import ThemeToggle from "../../components/ThemeToggle";
+import LanguageToggle from "../../components/LanguageToggle";
 
 import {
   getDoctorWorkingHours,
@@ -43,6 +45,7 @@ const formatTime = (time24) => {
 };
 
 const DoctorWorkingHours = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [schedule, setSchedule] = useState(defaultSchedule());
   const [appointmentDuration, setAppointmentDuration] = useState(30);
@@ -150,7 +153,7 @@ const DoctorWorkingHours = () => {
   };
 
   if (loading) {
-    return <div className="dwh-loading">Loading...</div>;
+    return <div className="dwh-loading">{t("doctor.loading")}</div>;
   }
 
   return (
@@ -158,15 +161,18 @@ const DoctorWorkingHours = () => {
       <div className="dwh-topbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button className="dwh-back-btn" onClick={() => navigate(-1)}>
           <span className="dwh-back-icon">&#8592;</span>
-          <span>Appointments</span>
+          <span>{t("doctor.appointments")}</span>
         </button>
-        <ThemeToggle />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <LanguageToggle />
+          <ThemeToggle />
+        </div>
       </div>
 
       <div className="dwh-header">
-        <h1 className="dwh-page-title">Working hours settings</h1>
+        <h1 className="dwh-page-title">{t("doctor.workingHoursSettings")}</h1>
         <p className="dwh-subtitle">
-          Specify your working days and hours and the duration of each appointment.
+          {t("doctor.workingHoursSubtitle")}
         </p>
       </div>
 
@@ -175,7 +181,7 @@ const DoctorWorkingHours = () => {
 
         {/* Duration selector */}
         <div className="dwh-duration-card">
-          <p className="dwh-duration-label">Duration of each appointment</p>
+          <p className="dwh-duration-label">{t("doctor.durationLabel")}</p>
           <div className="dwh-duration-options">
             {DURATION_OPTIONS.map((mins) => (
               <button
@@ -183,7 +189,7 @@ const DoctorWorkingHours = () => {
                 className={`dwh-duration-btn${appointmentDuration === mins ? " active" : ""}`}
                 onClick={() => setAppointmentDuration(mins)}
               >
-                {mins} minutes
+                {mins} {t("doctor.minutes")}
               </button>
             ))}
           </div>
@@ -208,11 +214,11 @@ const DoctorWorkingHours = () => {
               </div>
 
               <label className="dwh-day-name" htmlFor={`toggle-${day}`}>
-                {day}
+                {t(`doctor.${day}`)}
               </label>
 
               <div className="dwh-time-controls">
-                <span className="dwh-time-label">From</span>
+                <span className="dwh-time-label">{t("doctor.from")}</span>
                 {isEditingStart ? (
                   <input
                     type="time"
@@ -232,7 +238,7 @@ const DoctorWorkingHours = () => {
                   </button>
                 )}
 
-                <span className="dwh-time-label">To</span>
+                <span className="dwh-time-label">{t("doctor.to")}</span>
                 {isEditingEnd ? (
                   <input
                     type="time"
@@ -258,7 +264,7 @@ const DoctorWorkingHours = () => {
 
         <div className="dwh-save-wrap">
           <button className="dwh-save-btn" onClick={handleSave} disabled={saving}>
-            {saving ? "Saving..." : "Save Changes"}
+            {saving ? t("doctor.saving") : t("doctor.saveChanges")}
           </button>
         </div>
       </div>

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "../styles/DoctorAppointments.css";
 import { getUpcomingAppointments } from "../services/doctorAppointmentsApi";
 import Loader from "../../components/Loader";
 import ConfirmModal from "../../components/ConfirmModal";
 import SuccessModal from "../../components/SuccessModal";
 import ThemeToggle from "../../components/ThemeToggle";
+import LanguageToggle from "../../components/LanguageToggle";
 
 const DoctorAppointments = () => {
+  const { t, i18n } = useTranslation();
   const [activeTab, setActiveTab] = useState("Day");
   const [activePage, setActivePage] = useState(1);
 
@@ -149,34 +152,34 @@ const DoctorAppointments = () => {
               className="da-nav-item da-nav-active"
               onClick={() => navigate("/doctor/appointments")}
             >
-              <span>Appointments</span>
+              <span>{t("doctor.appointments")}</span>
             </div>
 
             <div
               className="da-nav-item"
               onClick={() => navigate("/doctor/patients")}
             >
-              <span>Patients</span>
+              <span>{t("doctor.patients")}</span>
             </div>
 
             <div
               className="da-nav-item"
               onClick={() => navigate("/doctor/patient-record")}
             >
-              <span>Patient Record</span>
+              <span>{t("doctor.patientRecord")}</span>
             </div>
 
             <div
               className="da-nav-item"
               onClick={() => navigate("/doctor/working-hours")}
             >
-              <span>Working Hours</span>
+              <span>{t("doctor.workingHours")}</span>
             </div>
           </nav>
         </div>
 
         <div className="da-logout" onClick={handleLogoutClick}>
-          <span>Logout</span>
+          <span>{t("doctor.logout")}</span>
         </div>
       </aside>
 
@@ -185,19 +188,22 @@ const DoctorAppointments = () => {
         {/* Top Header */}
         <div className="da-topbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <h1 className="da-page-title">Appointments</h1>
-            <p className="da-subtitle">Manage all upcoming patient appointments</p>
+            <h1 className="da-page-title">{t("doctor.appointments")}</h1>
+            <p className="da-subtitle">{t("doctor.appointmentsSubtitle")}</p>
           </div>
-          <ThemeToggle />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Card */}
         <div className="da-card">
           <div className="da-card-header">
             <div>
-              <h2 className="da-card-title">Upcoming Appointments</h2>
+              <h2 className="da-card-title">{t("doctor.upcomingAppointments")}</h2>
               <p className="da-card-subtitle">
-                {new Date().toLocaleDateString("en-US", {
+                {new Date().toLocaleDateString(i18n.language && i18n.language.startsWith("ar") ? "ar-EG" : "en-US", {
                   weekday: "long",
                   year: "numeric",
                   month: "long",
@@ -215,7 +221,7 @@ const DoctorAppointments = () => {
                 className={`da-tab ${activeTab === tab ? "da-tab-active" : ""}`}
                 onClick={() => setActiveTab(tab)}
               >
-                {tab}
+                {t(`doctor.${tab.toLowerCase()}`)}
               </button>
             ))}
           </div>
@@ -225,12 +231,12 @@ const DoctorAppointments = () => {
             <table className="da-table">
               <thead>
                 <tr>
-                  <th>Time</th>
-                  <th>Date</th>
-                  <th>Patient Name</th>
-                  <th>Hospital</th>
-                  <th>Visit Type</th>
-                  <th>User Action</th>
+                  <th>{t("doctor.time")}</th>
+                  <th>{t("doctor.date")}</th>
+                  <th>{t("doctor.patientName")}</th>
+                  <th>{t("doctor.hospital")}</th>
+                  <th>{t("doctor.visitType")}</th>
+                  <th>{t("doctor.userAction")}</th>
                 </tr>
               </thead>
 
@@ -265,7 +271,7 @@ const DoctorAppointments = () => {
                               })
                             }
                           >
-                            Details
+                            {t("doctor.details")}
                           </button>
 
                           <button
@@ -279,7 +285,7 @@ const DoctorAppointments = () => {
                               })
                             }
                           >
-                            Start Visit
+                            {t("doctor.startVisit")}
                           </button>
                         </div>
                       </td>
@@ -296,7 +302,7 @@ const DoctorAppointments = () => {
               className="da-page-nav"
               onClick={() => { if (activePage > 1) setActivePage(activePage - 1); }}
             >
-              Previous
+              {t("doctor.previous")}
             </button>
 
             <div className="da-pages">
@@ -315,7 +321,7 @@ const DoctorAppointments = () => {
               className="da-page-nav"
               onClick={() => setActivePage(activePage + 1)}
             >
-              Next
+              {t("doctor.next")}
             </button>
           </div>
         </div>
