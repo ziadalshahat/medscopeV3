@@ -286,6 +286,54 @@ const resources = {
           "dob_underage": "You must be at least 18 years old.",
           "terms_required": "You must accept the Terms & Conditions."
         }
+      },
+      "privacy": {
+        "title": "Privacy Policy",
+        "intro": "Your privacy is extremely important to us. This policy details how we collect, use, and protect your personal and medical information.",
+        "collection_title": "Information We Collect",
+        "collection_desc": "We collect personal information (name, contact details, DOB) and protected health information (medical history, symptoms, appointments) to provide you with healthcare services.",
+        "security_title": "Data Security & Encryption",
+        "security_desc": "All health records are encrypted at rest and in transit. We use industry-standard security protocols to keep your medical data confidential.",
+        "sharing_title": "Information Sharing",
+        "sharing_desc": "Your medical records are only shared with authorized healthcare providers in your chosen hospital. We do not sell or share your data with third-party advertisers."
+      },
+      "terms": {
+        "title": "Terms & Conditions",
+        "intro": "Please read these Terms & Conditions carefully before using the MedScope platform.",
+        "account_title": "User Account Responsibilities",
+        "account_desc": "You are responsible for keeping your login credentials confidential. You must notify us immediately of any unauthorized access.",
+        "booking_title": "Booking & Cancellation Policies",
+        "booking_desc": "Appointments are subject to hospital and doctor availability. Cancellation must be made at least 2 hours before the scheduled time.",
+        "liability_title": "Limitation of Medical Liability",
+        "liability_desc": "MedScope is a tool to facilitate hospital management and appointment bookings. It is not a direct healthcare provider and does not replace professional medical diagnosis."
+      },
+      "faqs": {
+        "title": "Frequently Asked Questions",
+        "intro": "Find quick answers to common questions about using MedScope.",
+        "q1": "How do I book an appointment?",
+        "a1": "Log into your account, select a specialty from the interactive body diagram or search for a hospital, choose a doctor, and pick an available slot.",
+        "q2": "Is my medical data safe?",
+        "a2": "Yes, MedScope uses advanced end-to-end encryption to secure all patient records and history, strictly complying with medical privacy standards.",
+        "q3": "Can I manage appointments for family members?",
+        "a3": "Yes, you can register dependent profiles under your patient dashboard and book appointments for them easily.",
+        "q4": "How do hospital administrators join MedScope?",
+        "a4": "Hospital management can contact our sales or support team via the Support page to register their facility and set up admin accounts."
+      },
+      "support": {
+        "title": "Support Center",
+        "intro": "Have questions or facing issues? Get in touch with our support team.",
+        "form_title": "Send Us a Message",
+        "name": "Full Name",
+        "email": "Email Address",
+        "subject": "Subject",
+        "message": "Message",
+        "send": "Send Message",
+        "info_title": "Contact Information",
+        "phone": "Phone Number",
+        "emergency": "Emergency Hot Line",
+        "hours": "Business Hours",
+        "hours_desc": "24/7 Support for Emergencies. Technical support is active Sun-Thu, 9 AM - 6 PM.",
+        "success": "Thank you! Your message has been sent successfully."
       }
     }
   },
@@ -572,6 +620,54 @@ const resources = {
           "dob_underage": "يجب أن لا يقل عمرك عن 18 عامًا.",
           "terms_required": "يجب عليك قبول الشروط والأحكام."
         }
+      },
+      "privacy": {
+        "title": "سياسة الخصوصية",
+        "intro": "خصوصيتك تهمنا للغاية. توضح هذه السياسة كيفية جمع معلوماتك الشخصية والطبية واستخدامها وحمايتها.",
+        "collection_title": "المعلومات التي نجمعها",
+        "collection_desc": "نجمع المعلومات الشخصية (الاسم، تفاصيل الاتصال، تاريخ الميلاد) والمعلومات الصحية المحمية (التاريخ الطبي، الأعراض، المواعيد) لتقديم خدمات الرعاية الصحية لك.",
+        "security_title": "أمن وتشفير البيانات",
+        "security_desc": "جميع السجلات الصحية مشفرة أثناء حفظها ونقلها. نحن نستخدم بروتوكولات أمان قياسية في المجال للحفاظ على سرية بياناتك الطبية.",
+        "sharing_title": "مشاركة المعلومات",
+        "sharing_desc": "تتم مشاركة سجلاتك الطبية فقط مع مقدمي الرعاية الصحية المصرح لهم في المستشفى الذي تختاره. نحن لا نبيع أو نشارك بياناتك مع معلنين خارجيين."
+      },
+      "terms": {
+        "title": "الشروط والأحكام",
+        "intro": "يرجى قراءة هذه الشروط والأحكام بعناية قبل استخدام منصة ميدسكوب.",
+        "account_title": "مسؤوليات حساب المستخدم",
+        "account_desc": "أنت مسؤول عن الحفاظ على سرية بيانات تسجيل الدخول الخاصة بك. يجب عليك إخطارنا فوراً بأي وصول غير مصرح به.",
+        "booking_title": "سياسات الحجز والإلغاء",
+        "booking_desc": "المواعيد تخضع لمدى توفر المستشفى والطبيب. يجب أن يتم الإلغاء قبل ساعتين على الأقل من الوقت المحدد.",
+        "liability_title": "حدود المسؤولية الطبية",
+        "liability_desc": "ميدسكوب هي أداة لتسهيل إدارة المستشفيات وحجز المواعيد. وهي ليست مقدم رعاية صحية مباشر ولا تحل محل التشخيص الطبي المهني."
+      },
+      "faqs": {
+        "title": "الأسئلة الشائعة",
+        "intro": "ابحث عن إجابات سريعة للأسئلة الشائعة حول استخدام ميدسكوب.",
+        "q1": "كيف يمكنني حجز موعد؟",
+        "a1": "قم بتسجيل الدخول إلى حسابك، ثم اختر تخصصاً من مخطط الجسم التفاعلي أو ابحث عن مستشفى، ثم اختر الطبيب والوقت المتاح.",
+        "q2": "هل بياناتي الطبية آمنة؟",
+        "a2": "نعم، يستخدم ميدسكوب تشفيراً متقدماً من البداية للنهاية لتأمين جميع سجلات وتاريخ المرضى، بما يتوافق تماماً مع معايير الخصوصية الطبية.",
+        "q3": "هل يمكنني إدارة المواعيد لأفراد عائلتي؟",
+        "a3": "نعم، يمكنك تسجيل ملفات تعريف تابعة تحت لوحة التحكم الخاصة بك وحجز المواعيد لهم بكل سهولة.",
+        "q4": "كيف يمكن لمديري المستشفيات الانضمام لميدسكوب؟",
+        "a4": "يمكن لإدارة المستشفيات الاتصال بفريق المبيعات أو الدعم عبر صفحة الدعم لتسجيل منشأتهم وإعداد حسابات المشرفين."
+      },
+      "support": {
+        "title": "مركز الدعم",
+        "intro": "هل لديك أسئلة أو تواجه مشكلات؟ تواصل مع فريق الدعم لدينا.",
+        "form_title": "أرسل لنا رسالة",
+        "name": "الاسم الكامل",
+        "email": "البريد الإلكتروني",
+        "subject": "الموضوع",
+        "message": "الرسالة",
+        "send": "إرسال الرسالة",
+        "info_title": "معلومات الاتصال",
+        "phone": "رقم الهاتف",
+        "emergency": "خط الطوارئ الساخن",
+        "hours": "ساعات العمل",
+        "hours_desc": "دعم 24/7 لحالات الطوارئ. الدعم الفني نشط من الأحد إلى الخميس، 9 صباحاً - 6 مساءً.",
+        "success": "شكرًا لك! تم إرسال رسالتك بنجاح."
       }
     }
   }

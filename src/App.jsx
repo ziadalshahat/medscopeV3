@@ -25,6 +25,11 @@ import NotFound from "./pages/NotFound";
 
 import PatientRoutes from "./patient/patientRoutes.jsx";
 
+import PrivacyPolicy from "./pages/info/PrivacyPolicy";
+import TermsConditions from "./pages/info/TermsConditions";
+import FAQs from "./pages/info/FAQs";
+import SupportCenter from "./pages/info/SupportCenter";
+
 // Public Layout
 function PublicLayout() {
   return (
@@ -61,6 +66,14 @@ function App() {
           <Route path="/reset-success" element={<ResetSuccess />} />
 
           <Route path="/home" element={<Home />} />
+
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+
+          <Route path="/terms" element={<TermsConditions />} />
+
+          <Route path="/faqs" element={<FAQs />} />
+
+          <Route path="/support" element={<SupportCenter />} />
 
           <Route path="*" element={<NotFound />} />
         </Route>

@@ -1,6 +1,7 @@
 import React from "react";
 import "./Footer.css";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const logoImage = "/ChatGPT Image Sep 29, 2025, 03_40_38 PM.png";
 
@@ -52,24 +53,24 @@ const Footer = () => {
             </h3>
             <ul className="footer-links-list">
               <li>
-                <a href="#privacy">
+                <Link to="/privacy">
                   <i className="fas fa-chevron-right list-arrow"></i> {t("footer_info.privacy")}
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#terms">
+                <Link to="/terms">
                   <i className="fas fa-chevron-right list-arrow"></i> {t("footer_info.terms")}
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#faqs">
+                <Link to="/faqs">
                   <i className="fas fa-chevron-right list-arrow"></i> {t("footer_info.faqs")}
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#support">
+                <Link to="/support">
                   <i className="fas fa-chevron-right list-arrow"></i> {t("footer_info.support")}
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
