@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import LanguageToggle from "../LanguageToggle";
 import "./Sidebar.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -99,9 +98,8 @@ const Sidebar = () => {
                 </ul>
             </nav>
 
-            {/* Logout & Language Switcher */}
-            <div className="sidebar-footer" style={{ padding: '10px 15px', display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
-                <LanguageToggle style={{ color: 'var(--text-color, #ffffff)', marginRight: 0, padding: '4px' }} />
+            {/* Logout */}
+            <div className="sidebar-footer" style={{ padding: '10px 15px' }}>
                 <Link 
                     to="/"
                     className="logout-btn"

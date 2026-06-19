@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Patients.css";
 import ThemeToggle from "../../components/ThemeToggle";
+import LanguageToggle from "../../components/LanguageToggle";
 import { getPatients, deletePatient, updatePatient } from "../services/patients";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faFilter, faSearch, faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -164,6 +165,7 @@ const Patients = () => {
         <h2 className="admin-patients-title">Patient Details</h2>
         
         <div className="admin-patients-profile-area">
+          <LanguageToggle />
           <ThemeToggle />
           <div className="notification-bell-container">
             <FontAwesomeIcon icon={faBell} className="bell-icon" />

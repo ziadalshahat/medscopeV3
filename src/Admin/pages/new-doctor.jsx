@@ -11,6 +11,7 @@ import Loader from "../../components/Loader";
 import ConfirmModal from "../../components/ConfirmModal";
 import SuccessModal from "../../components/SuccessModal";
 import ThemeToggle from "../../components/ThemeToggle";
+import LanguageToggle from "../../components/LanguageToggle";
 
 const NewDoctor = () => {
   const navigate = useNavigate();
@@ -200,6 +201,7 @@ const NewDoctor = () => {
             <FontAwesomeIcon icon={faUserDoctor} className="nd-title-icon" />
             Add Doctor
           </h2>
+          <LanguageToggle />
           <ThemeToggle />
         </div>
 

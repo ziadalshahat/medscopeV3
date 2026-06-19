@@ -6,6 +6,7 @@ import Loader from "../../components/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import ThemeToggle from "../../components/ThemeToggle";
+import LanguageToggle from "../../components/LanguageToggle";
 
 const BloodBank = () => {
   const [bloodData, setBloodData] = useState([]);
@@ -100,6 +101,7 @@ const BloodBank = () => {
       <div className="admin-bed-header-block">
         <h2 className="admin-bed-page-title">🩸 Blood Bank</h2>
         <div className="admin-bed-profile-area">
+          <LanguageToggle />
           <ThemeToggle />
           <div className="notification-bell-container">
             <FontAwesomeIcon icon={faBell} className="bell-icon" />

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Dashboard.css";
 import ThemeToggle from "../../components/ThemeToggle";
+import LanguageToggle from "../../components/LanguageToggle";
 import { getDashboardStats, getPatientsChart } from "../services/dashboardd";
 import { getDoctors } from "../services/doctors";
 import { getNewAppointments, getCompletedAppointments } from "../services/appointments";
@@ -285,6 +286,7 @@ const Dashboard = () => {
         <h2 className="dashboard-title">{t("admin.activity_overview", "Activity Overview")}</h2>
         
         <div className="dashboard-profile-area">
+          <LanguageToggle />
           <ThemeToggle />
           <div className="notification-bell-container">
             <FontAwesomeIcon icon={faBell} className="bell-icon" />

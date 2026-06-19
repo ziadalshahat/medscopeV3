@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "../styles/Home.css";
 import ThemeToggle from "../../components/ThemeToggle";
+import LanguageToggle from "../../components/LanguageToggle";
 import { getDashboardSummary } from "../services/dashboard";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -47,6 +48,7 @@ const Home = () => {
         <h2 className="admin-home-title">{t("admin.home", "Home")}</h2>
         
         <div className="admin-home-profile-area">
+          <LanguageToggle />
           <ThemeToggle />
           <div className="notification-bell-container">
             <FontAwesomeIcon icon={faBell} className="bell-icon" />
