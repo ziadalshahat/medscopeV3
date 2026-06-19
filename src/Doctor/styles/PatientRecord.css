@@ -26,6 +26,7 @@
   top: 0;
   height: 100vh;
   flex-shrink: 0;
+  align-self: flex-start;
 }
 
 .pt-sidebar-top {

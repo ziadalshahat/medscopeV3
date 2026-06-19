@@ -20,6 +20,10 @@
   padding: 24px 0;
   overflow: hidden;
   flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  align-self: flex-start;
 }
 
 .da-sidebar-top {

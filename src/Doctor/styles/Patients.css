@@ -23,6 +23,7 @@
   position: sticky;
   top: 0;
   height: 100vh;
+  align-self: flex-start;
 }
 
 .pt-sidebar-top {
