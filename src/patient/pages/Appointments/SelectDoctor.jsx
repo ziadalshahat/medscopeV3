@@ -196,12 +196,14 @@ const SelectDoctor = () => {
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                                 {scheduleData.map((dayObj, index) => {
                                     const dayName = dayObj.day || dayObj.date || dayObj.dayOfWeek || '';
+                                    const lookupKey = dayName ? (dayName.charAt(0).toUpperCase() + dayName.slice(1).toLowerCase()) : '';
                                     const daySlots = dayObj.slots || dayObj.availableTimes || dayObj.times || [];
+                                    const hasShift = dayObj.from && dayObj.to;
                                     return (
                                         <div key={index} style={{ border: '1px solid var(--border-color, #e2e8f0)', borderRadius: '8px', padding: '16px', background: 'var(--card-bg, #ffffff)' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', fontWeight: '600', color: 'var(--text-color, #334155)' }}>
                                                 <CalendarDaysIcon style={{width: 20, height: 20, color: '#0ea5e9'}} />
-                                                {t(`doctor.${dayName}`, dayName)}
+                                                {t(`doctor.${lookupKey}`, dayName)}
                                             </div>
                                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                                                 {daySlots.length > 0 ? (
@@ -217,6 +219,14 @@ const SelectDoctor = () => {
                                                             </span>
                                                         );
                                                     })
+                                                ) : hasShift ? (
+                                                    <span style={{ 
+                                                        background: 'var(--input-bg, #f1f5f9)', padding: '6px 12px', borderRadius: '6px', 
+                                                        fontSize: '13px', color: 'var(--text-color, #475569)', display: 'flex', alignItems: 'center', gap: '4px',
+                                                        border: '1px solid var(--border-color, transparent)'
+                                                    }}>
+                                                        <ClockIcon style={{width: 14, height: 14}} /> {dayObj.from} - {dayObj.to}
+                                                    </span>
                                                 ) : (
                                                     <span style={{ fontSize: '13px', color: 'var(--text-muted, #94a3b8)' }}>{t('patient.noSlotsAvailable')}</span>
                                                 )}
