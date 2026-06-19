@@ -3,12 +3,13 @@ import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import "./Superadminlayout.css";
 import ThemeToggle from "../ThemeToggle";
 import LanguageToggle from "../LanguageToggle";
+import { useTranslation } from "react-i18next";
 
 const pageInfo = {
-  "/super-admin/hospitals": { title: "Hospital Management", subtitle: "Manage your personal information and settings" },
-  "/super-admin/admins":    { title: "Admin Management", subtitle: "Manage your personal information and settings" },
-  "/super-admin/reports":   { title: "Reports & Analytics", subtitle: "Manage your personal information and settings" },
-  "/super-admin/settings":  { title: "Settings", subtitle: "Manage your personal information and settings" },
+  "/super-admin/hospitals": { title: "superadmin.hospitals.title", subtitle: "superadmin.hospitals.subtitle" },
+  "/super-admin/admins":    { title: "superadmin.admins.title", subtitle: "superadmin.admins.subtitle" },
+  "/super-admin/reports":   { title: "superadmin.reports.title", subtitle: "superadmin.reports.subtitle" },
+  "/super-admin/settings":  { title: "superadmin.settings.title", subtitle: "superadmin.settings.subtitle" },
 };
 
 const initialNotifications = [
@@ -20,6 +21,7 @@ const initialNotifications = [
 ];
 
 const SuperAdminLayout = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [showNotif, setShowNotif] = useState(false);
@@ -104,7 +106,7 @@ const SuperAdminLayout = () => {
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text"
               }}>MedScope</span>
-              <span style={{ fontSize: "10px", color: "#a8c8e0" }}>Healthcare Excellence</span>
+              <span style={{ fontSize: "10px", color: "#a8c8e0" }}>{t("footer.empower")}</span>
             </div>
           </div>
         </div>
@@ -117,7 +119,7 @@ const SuperAdminLayout = () => {
               className={({ isActive }) => `super-nav-item ${isActive ? "active" : ""}`}
             >
               <i className={item.icon}></i>
-              <span>{item.label}</span>
+              <span>{t(`sidebar.${item.label.toLowerCase()}`)}</span>
             </NavLink>
           ))}
         </nav>
@@ -125,7 +127,7 @@ const SuperAdminLayout = () => {
         <div className="super-sidebar-footer">
           <button className="logout-btn" onClick={() => navigate("/")}>
             <i className="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
+            <span>{t("header.logout")}</span>
           </button>
         </div>
       </aside>
@@ -136,8 +138,8 @@ const SuperAdminLayout = () => {
         {/* Header */}
         <header className="super-header">
           <div className="super-header-left">
-            <h2 className="super-header-title">{current.title}</h2>
-            <p className="super-header-subtitle">{current.subtitle}</p>
+            <h2 className="super-header-title">{t(current.title)}</h2>
+            <p className="super-header-subtitle">{t(current.subtitle)}</p>
           </div>
           <div className="super-header-right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             {/* Language Toggle Button */}

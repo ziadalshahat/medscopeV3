@@ -27,6 +27,30 @@ const resources = {
         "signin": "Sign in",
         "signup": "Sign up",
         "logout": "Logout"
+      },
+      "sidebar": {
+        "hospitals": "Hospitals",
+        "admins": "Admins",
+        "reports": "Reports",
+        "settings": "Settings"
+      },
+      "superadmin": {
+        "hospitals": {
+          "title": "Hospital Management",
+          "subtitle": "Manage your personal information and settings"
+        },
+        "admins": {
+          "title": "Admin Management",
+          "subtitle": "Manage your personal information and settings"
+        },
+        "reports": {
+          "title": "Reports & Analytics",
+          "subtitle": "Manage your personal information and settings"
+        },
+        "settings": {
+          "title": "Settings",
+          "subtitle": "Manage your personal information and settings"
+        }
       }
     }
   },
@@ -54,6 +78,30 @@ const resources = {
         "signin": "تسجيل الدخول",
         "signup": "إنشاء حساب",
         "logout": "تسجيل الخروج"
+      },
+      "sidebar": {
+        "hospitals": "المستشفيات",
+        "admins": "المدراء",
+        "reports": "التقارير",
+        "settings": "الإعدادات"
+      },
+      "superadmin": {
+        "hospitals": {
+          "title": "إدارة المستشفيات",
+          "subtitle": "إدارة المعلومات الشخصية والإعدادات الخاصة بك"
+        },
+        "admins": {
+          "title": "إدارة المدراء",
+          "subtitle": "إدارة المعلومات الشخصية والإعدادات الخاصة بك"
+        },
+        "reports": {
+          "title": "التقارير والتحليلات",
+          "subtitle": "إدارة المعلومات الشخصية والإعدادات الخاصة بك"
+        },
+        "settings": {
+          "title": "الإعدادات",
+          "subtitle": "إدارة المعلومات الشخصية والإعدادات الخاصة بك"
+        }
       }
     }
   }
