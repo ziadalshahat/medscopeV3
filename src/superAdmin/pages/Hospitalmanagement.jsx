@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Hospitalmanagement.css";
+import { useTranslation } from "react-i18next";
 import {
   getHospitals,
   createHospital,
@@ -9,6 +10,7 @@ import {
 } from "../services/superAdminApi";
 
 const HospitalManagement = () => {
+  const { t } = useTranslation();
   const [allHospitals, setAllHospitals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -145,7 +147,7 @@ const HospitalManagement = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this hospital?"))
+    if (!window.confirm(t("hospital.confirm_delete")))
       return;
 
     try {
@@ -181,7 +183,7 @@ const HospitalManagement = () => {
   if (loading && allHospitals.length === 0) {
     return (
       <div className="hospital-page">
-        <h2>Loading...</h2>
+        <h2>{t("hospital.saving") === "Saving..." ? "Loading..." : "جاري التحميل..."}</h2>
       </div>
     );
   }
@@ -193,7 +195,7 @@ const HospitalManagement = () => {
       <div className="hospital-table-wrapper">
         <div className="table-card-header">
           <button className="add-btn" onClick={openAdd}>
-            + Add New Hospital
+            {t("hospital.add_new")}
           </button>
           <span className="expand-icon-btn">
             <i className="fas fa-expand-arrows-alt"></i>
@@ -207,7 +209,7 @@ const HospitalManagement = () => {
             <i className="fas fa-search"></i>
             <input
               type="text"
-              placeholder="Search"
+              placeholder={t("hospital.search")}
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -224,9 +226,9 @@ const HospitalManagement = () => {
                 setCurrentPage(1);
               }}
             >
-              <option value="All">Filter by Status</option>
-              <option value="Active">Active</option>
-              <option value="Suspended">Suspended</option>
+              <option value="All">{t("hospital.filter_status")}</option>
+              <option value="Active">{t("hospital.active")}</option>
+              <option value="Suspended">{t("hospital.suspended")}</option>
             </select>
             <i className="fas fa-filter filter-icon"></i>
           </div>
@@ -235,12 +237,12 @@ const HospitalManagement = () => {
         <table className="hospital-table">
           <thead>
             <tr>
-              <th>Hospital ID</th>
-              <th>Hospital Name</th>
-              <th>City</th>
-              <th>Admins Count</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>{t("hospital.id")}</th>
+              <th>{t("hospital.name")}</th>
+              <th>{t("hospital.city")}</th>
+              <th>{t("hospital.admins_count")}</th>
+              <th>{t("hospital.status")}</th>
+              <th>{t("hospital.actions")}</th>
             </tr>
           </thead>
           <tbody>
@@ -254,7 +256,7 @@ const HospitalManagement = () => {
                   <span
                     className={`status-badge ${hospital.status === "Active" ? "active" : "suspended"}`}
                   >
-                    {hospital.status}
+                    {hospital.status === "Active" ? t("hospital.active") : t("hospital.suspended")}
                   </span>
                 </td>
                 <td className="actions-cell">
@@ -265,8 +267,8 @@ const HospitalManagement = () => {
                       handleStatusChange(hospital.id, e.target.value)
                     }
                   >
-                    <option value="Active">Active</option>
-                    <option value="Suspended">Suspended</option>
+                    <option value="Active">{t("hospital.active")}</option>
+                    <option value="Suspended">{t("hospital.suspended")}</option>
                   </select>
                   <button
                     className="action-btn delete-btn"
@@ -292,7 +294,7 @@ const HospitalManagement = () => {
             onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
             disabled={currentPage === 1}
           >
-            Previous
+            {t("hospital.previous")}
           </button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
@@ -308,7 +310,7 @@ const HospitalManagement = () => {
             onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
             disabled={currentPage === totalPages}
           >
-            Next
+            {t("hospital.next")}
           </button>
         </div>
       </div>
@@ -321,37 +323,37 @@ const HospitalManagement = () => {
               <div className="new-modal-topbar">
                 <i className="fas fa-home"></i>
                 <span>
-                  {editIndex !== null ? "Edit Hospital" : "Create New Hospital"}
+                  {editIndex !== null ? t("hospital.edit") : t("hospital.create")}
                 </span>
               </div>
               <div className="new-modal-body">
                 {[
                   {
-                    label: "Hospital Name",
+                    label: "name",
                     icon: "fas fa-home",
                     key: "name",
                     type: "text",
                   },
                   {
-                    label: "City",
+                    label: "city",
                     icon: "fas fa-map-marker-alt",
                     key: "city",
                     type: "text",
                   },
                   {
-                    label: "Email",
+                    label: "email",
                     icon: "fas fa-envelope",
                     key: "email",
                     type: "email",
                   },
                   {
-                    label: "Phone",
+                    label: "phone",
                     icon: "fas fa-phone",
                     key: "phone",
                     type: "text",
                   },
                   {
-                    label: "Address",
+                    label: "address",
                     icon: "fas fa-map-marker-alt",
                     key: "address",
                     type: "text",
@@ -359,7 +361,7 @@ const HospitalManagement = () => {
                 ].map(({ label, icon, key, type }) => (
                   <div className="new-form-field" key={key}>
                     <label>
-                      <i className={icon}></i> {label} *
+                      <i className={icon}></i> {t(`hospital.${label}`)} *
                     </label>
                     <input
                       type={type}
@@ -376,13 +378,13 @@ const HospitalManagement = () => {
                     onClick={handleSave}
                     disabled={saving}
                   >
-                    {saving ? "Saving..." : "Save"}
+                    {saving ? t("hospital.saving") : t("hospital.save")}
                   </button>
                   <button
                     className="new-close-btn"
                     onClick={() => setModalStep(null)}
                   >
-                    Close
+                    {t("hospital.close")}
                   </button>
                 </div>
               </div>
@@ -394,17 +396,17 @@ const HospitalManagement = () => {
               <div className="success-icon">
                 <i className="fas fa-check"></i>
               </div>
-              <h3>Hospital created successfully</h3>
-              <p>Hospital: {createdId}</p>
+              <h3>{t("hospital.created_success")}</h3>
+              <p>{t("hospital.name")}: {createdId}</p>
               <div className="new-modal-btns">
                 <button className="new-save-btn" onClick={openAdd}>
-                  Add Another
+                  {t("hospital.add_another")}
                 </button>
                 <button
                   className="new-close-btn"
                   onClick={() => setModalStep(null)}
                 >
-                  Back to hospitals
+                  {t("hospital.back_to_list")}
                 </button>
               </div>
             </div>

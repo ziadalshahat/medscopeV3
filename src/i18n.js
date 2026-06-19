@@ -51,6 +51,33 @@ const resources = {
           "title": "Settings",
           "subtitle": "Manage your personal information and settings"
         }
+      },
+      "hospital": {
+        "add_new": "+ Add New Hospital",
+        "search": "Search",
+        "filter_status": "Filter by Status",
+        "active": "Active",
+        "suspended": "Suspended",
+        "id": "Hospital ID",
+        "name": "Hospital Name",
+        "city": "City",
+        "admins_count": "Admins Count",
+        "status": "Status",
+        "actions": "Actions",
+        "previous": "Previous",
+        "next": "Next",
+        "confirm_delete": "Are you sure you want to delete this hospital?",
+        "edit": "Edit Hospital",
+        "create": "Create New Hospital",
+        "email": "Email",
+        "phone": "Phone",
+        "address": "Address",
+        "save": "Save",
+        "saving": "Saving...",
+        "close": "Close",
+        "created_success": "Hospital created successfully",
+        "add_another": "Add Another",
+        "back_to_list": "Back to hospitals"
       }
     }
   },
@@ -102,6 +129,33 @@ const resources = {
           "title": "الإعدادات",
           "subtitle": "إدارة المعلومات الشخصية والإعدادات الخاصة بك"
         }
+      },
+      "hospital": {
+        "add_new": "+ إضافة مستشفى جديد",
+        "search": "بحث",
+        "filter_status": "تصفية حسب الحالة",
+        "active": "نشط",
+        "suspended": "معلق",
+        "id": "معرف المستشفى",
+        "name": "اسم المستشفى",
+        "city": "المدينة",
+        "admins_count": "عدد المدراء",
+        "status": "الحالة",
+        "actions": "الإجراءات",
+        "previous": "السابق",
+        "next": "التالي",
+        "confirm_delete": "هل أنت متأكد من حذف هذا المستشفى؟",
+        "edit": "تعديل المستشفى",
+        "create": "إنشاء مستشفى جديد",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "address": "العنوان",
+        "save": "حفظ",
+        "saving": "جاري الحفظ...",
+        "close": "إغلاق",
+        "created_success": "تم إنشاء المستشفى بنجاح",
+        "add_another": "إضافة مستشفى آخر",
+        "back_to_list": "العودة للمستشفيات"
       }
     }
   }
