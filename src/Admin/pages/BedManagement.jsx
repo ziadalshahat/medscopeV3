@@ -114,10 +114,7 @@ const BedManagement = () => {
         <div className="admin-bed-profile-area">
           <LanguageToggle />
           <ThemeToggle />
-          <div className="notification-bell-container">
-            <FontAwesomeIcon icon={faBell} className="bell-icon" />
-            <span className="bell-badge"></span>
-          </div>
+          
           <div className="admin-bed-profile-details">
             <span className="profile-name">{userName}</span>
             <span className="profile-role">{userRole}</span>

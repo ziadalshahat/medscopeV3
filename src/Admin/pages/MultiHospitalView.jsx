@@ -69,10 +69,7 @@ const MultiHospitalView = () => {
         <div className="multi-profile-area">
           <LanguageToggle />
           <ThemeToggle />
-          <div className="notification-bell-container">
-            <FontAwesomeIcon icon={faBell} className="bell-icon" />
-            <span className="bell-badge"></span>
-          </div>
+          
           <div className="multi-profile-details">
             <div className="profile-text">
               <span className="profile-name">{userName}</span>

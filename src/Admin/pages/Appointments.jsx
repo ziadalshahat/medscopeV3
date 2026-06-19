@@ -200,10 +200,7 @@ const Appointments = () => {
         <div className="admin-appt-profile-area">
           <LanguageToggle />
           <ThemeToggle />
-          <div className="notification-bell-container">
-            <FontAwesomeIcon icon={faBell} className="bell-icon" />
-            <span className="bell-badge"></span>
-          </div>
+          
           <div className="profile-details">
             <span className="profile-name">{userName}</span>
             <span className="profile-role">{userRole}</span>
