@@ -30,6 +30,19 @@ const SelectHospital = () => {
         fetchHospitals();
     }, [t]);
 
+    const getHospitalImage = (hospital) => {
+        const img = hospital.imageUrl || hospital.image || hospital.hospitalImage;
+        if (!img) {
+            return "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=800";
+        }
+        if (img.startsWith('http://') || img.startsWith('https://')) {
+            return img;
+        }
+        const baseHost = 'https://med-scope1.runasp.net';
+        const cleanImg = img.startsWith('/') ? img : `/${img}`;
+        return `${baseHost}${cleanImg}`;
+    };
+
     const handleSelectHospital = (hospital) => {
         setBookingData(prev => ({
             ...prev,
@@ -56,7 +69,7 @@ const SelectHospital = () => {
                         hospitals.map(hospital => (
                             <div key={hospital.id} className="hospital-card" onClick={() => handleSelectHospital(hospital)}>
                                 <img
-                                    src={hospital.image || "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=800"}
+                                    src={getHospitalImage(hospital)}
                                     alt={hospital.name}
                                     className="hospital-image"
                                 />
@@ -65,7 +78,7 @@ const SelectHospital = () => {
                                         {hospital.name}
                                     </div>
                                     <div className="hospital-location">
-                                        <MapPinIcon /> {hospital.location || t('patient.na')}
+                                        <MapPinIcon /> {hospital.address || hospital.city || hospital.location || t('patient.na')}
                                     </div>
                                 </div>
                             </div>
