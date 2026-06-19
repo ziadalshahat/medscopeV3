@@ -465,10 +465,10 @@ const NewAppointment = () => {
                   value={form.visitType}
                   onChange={(e) => setForm({ ...form, visitType: e.target.value })}
                 >
-                  <option value="Consultation">Consultation</option>
-                  <option value="Follow-up">Follow-up</option>
-                  <option value="Emergency">Emergency</option>
-                  <option value="Surgery">Surgery</option>
+                  <option value="Consultation">{t("admin.consultation", "Consultation")}</option>
+                  <option value="Follow-up">{t("admin.follow_up", "Follow-up")}</option>
+                  <option value="Emergency">{t("admin.emergency", "Emergency")}</option>
+                  <option value="Surgery">{t("admin.surgery", "Surgery")}</option>
                 </select>
                 <FontAwesomeIcon icon={faChevronDown} className="na-select-arrow" />
               </div>
@@ -482,7 +482,7 @@ const NewAppointment = () => {
               <textarea
                 className="na-textarea"
                 value={form.notes}
-                placeholder="Add any relevant notes for the appointment..."
+                placeholder={t("admin.notes_placeholder", "Add any relevant notes for the appointment...")}
                 onChange={(e) => setForm({ ...form, notes: e.target.value })}
               />
             </div>
@@ -494,9 +494,7 @@ const NewAppointment = () => {
               type="button"
               className="na-btn-cancel"
               onClick={() => navigate("/admin/appointments")}
-            >
-              Cancel
-            </button>
+            >{t("admin.cancel", "Cancel")}</button>
             <button
               type="submit"
               className="na-btn-save"

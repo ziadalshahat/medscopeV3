@@ -220,19 +220,13 @@ const Appointments = () => {
               <button
                 className={activeTab === "new" ? "tab active" : "tab"}
                 onClick={() => setActiveTab("new")}
-              >
-                NEW APPOINTMENTS
-              </button>
+              >{t("admin.new_appointments", "NEW APPOINTMENTS")}</button>
               <button
                 className={activeTab === "completed" ? "tab active" : "tab"}
                 onClick={() => setActiveTab("completed")}
-              >
-                COMPLETED APPOINTMENTS
-              </button>
+              >{t("admin.completed_appointments", "COMPLETED APPOINTMENTS")}</button>
             </div>
-            <button className="new-appointment-btn" onClick={() => navigate("/admin/new-appointment")}>
-              + New Appointment
-            </button>
+            <button className="new-appointment-btn" onClick={() => navigate("/admin/new-appointment")}>{t("admin.new_appointment_btn", "+ New Appointment")}</button>
           </div>
 
           {/* Search & Date Filter */}
@@ -267,7 +261,7 @@ const Appointments = () => {
                     <th>{t("admin.time", "Time")}</th>
                     <th>{t("admin.date", "Date")}</th>
                     <th>{t("admin.patient_name", "Patient Name")}</th>
-                    <th>Patient Age</th>
+                    <th>{t("admin.patient_age_header", "Patient Age")}</th>
                     <th>{t("admin.doctor", "Doctor")}</th>
                     <th>{t("admin.visit_type", "Visit Type")}</th>
                     <th style={{ textAlign: "center" }}>{t("admin.user_action", "User Action")}</th>
@@ -277,7 +271,7 @@ const Appointments = () => {
                     <th>{t("admin.time", "Time")}</th>
                     <th>{t("admin.date", "Date")}</th>
                     <th>{t("admin.patient_name", "Patient Name")}</th>
-                    <th>Patient Age</th>
+                    <th>{t("admin.patient_age_header", "Patient Age")}</th>
                     <th>{t("admin.doctor", "Doctor")}</th>
                     <th>{t("admin.specialty", "Specialty")}</th>
                   </tr>
@@ -336,7 +330,7 @@ const Appointments = () => {
             <div className="pagination-info">
               {!loading && totalCount > 0 && (
                 <span>
-                  Showing {(currentPage - 1) * PAGE_SIZE + 1}–{Math.min(currentPage * PAGE_SIZE, totalCount)} of {totalCount}
+                  {t("admin.showing", "Showing ")} {(currentPage - 1) * PAGE_SIZE + 1}–{Math.min(currentPage * PAGE_SIZE, totalCount)} {t("admin.of", " of ")} {totalCount}
                 </span>
               )}
             </div>
@@ -345,9 +339,7 @@ const Appointments = () => {
                 className="prev-btn"
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-              >
-                Previous
-              </button>
+              >{t("admin.previous", "Previous")}</button>
               <div className="page-numbers">
                 {getPageNumbers().map((num) => (
                   <button
@@ -363,9 +355,7 @@ const Appointments = () => {
                 className="next-btn"
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-              >
-                Next
-              </button>
+              >{t("admin.next", "Next")}</button>
             </div>
           </div>
         </div>

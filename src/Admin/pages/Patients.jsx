@@ -290,9 +290,7 @@ const Patients = () => {
                 className="prev-btn"
                 onClick={handlePrevPage}
                 disabled={currentPage === 1}
-              >
-                Previous
-              </button>
+              >{t("admin.previous", "Previous")}</button>
               <div className="page-numbers">
                 {[...Array(totalPages)].map((_, i) => (
                   <button
@@ -308,9 +306,7 @@ const Patients = () => {
                 className="next-btn"
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages || totalPages === 0}
-              >
-                Next
-              </button>
+              >{t("admin.next", "Next")}</button>
             </div>
           </div>
         </div>
@@ -395,12 +391,8 @@ const Patients = () => {
               </div>
 
               <div className="modal-actions">
-                <button type="button" className="cancel-btn" onClick={() => setIsEditModalOpen(false)}>
-                  Cancel
-                </button>
-                <button type="submit" className="save-btn">
-                  Save Changes
-                </button>
+                <button type="button" className="cancel-btn" onClick={() => setIsEditModalOpen(false)}>{t("admin.cancel", "Cancel")}</button>
+                <button type="submit" className="save-btn">{t("admin.save_changes", "Save Changes")}</button>
               </div>
             </form>
           </div>

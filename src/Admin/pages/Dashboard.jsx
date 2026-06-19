@@ -499,9 +499,7 @@ const Dashboard = () => {
                 className="prev-btn"
                 onClick={handlePrevPage}
                 disabled={chartPage === 1}
-              >
-                Previous
-              </button>
+              >{t("admin.previous", "Previous")}</button>
               <div className="page-numbers">
                 {[...Array(totalPages)].map((_, i) => (
                   <button
@@ -517,9 +515,7 @@ const Dashboard = () => {
                 className="next-btn"
                 onClick={handleNextPage}
                 disabled={chartPage === totalPages || totalPages === 0}
-              >
-                Next
-              </button>
+              >{t("admin.next", "Next")}</button>
             </div>
           </div>
         </div>

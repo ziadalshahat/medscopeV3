@@ -156,7 +156,7 @@ const Doctors = () => {
     <div className="doc-page">
       {/* Top Header */}
       <div className="doc-header-block">
-        <h2 className="doc-page-title">Doctors Management</h2>
+        <h2 className="doc-page-title">{t("admin.doctors_management", "Doctors Management")}</h2>
         <div className="doc-profile-area">
           <LanguageToggle />
           <ThemeToggle />
@@ -176,13 +176,11 @@ const Doctors = () => {
         <div className="doc-card">
           {/* Sub-header: tab + button */}
           <div className="doc-card-header">
-            <div className="doc-tab-active">Doctors info</div>
+            <div className="doc-tab-active">{t("admin.doctors_info", "Doctors info")}</div>
             <button
               className="doc-new-btn"
               onClick={() => navigate("/admin/new-doctor")}
-            >
-              + New Doctor
-            </button>
+            >{t("admin.new_doctor_btn", "+ New Doctor")}</button>
           </div>
 
           {/* Filters */}
@@ -203,7 +201,7 @@ const Doctors = () => {
               value={specialty}
               onChange={(e) => setSpecialty(e.target.value)}
             >
-              <option value="">Filter by Specialty</option>
+              <option value="">{t("admin.filter_specialty", "Filter by Specialty")}</option>
               <option value="Cardiology">Cardiology</option>
               <option value="Pediatrics">Pediatrics</option>
               <option value="Orthopedics">Orthopedics</option>
@@ -217,13 +215,13 @@ const Doctors = () => {
             <table className="doc-table">
               <thead>
                 <tr>
-                  <th>DOCTOR ID</th>
-                  <th>NAME</th>
-                  <th>SPECIALTY</th>
-                  <th>PHONE NUMBER</th>
-                  <th>EMAIL</th>
-                  <th>ACTION</th>
-                  <th>STATUS</th>
+                  <th>{t("admin.doctor_id", "DOCTOR ID")}</th>
+                  <th>{t("admin.name", "NAME")}</th>
+                  <th>{t("admin.specialty", "SPECIALTY")}</th>
+                  <th>{t("admin.phone_number", "PHONE NUMBER")}</th>
+                  <th>{t("admin.email", "EMAIL")}</th>
+                  <th>{t("admin.action", "ACTION")}</th>
+                  <th>{t("admin.status", "STATUS")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -245,7 +243,7 @@ const Doctors = () => {
                           DOC{String((page - 1) * PAGE_SIZE + index + 1).padStart(3, "0")}
                         </td>
                         <td className="doc-name-cell">{doc.name || doc.fullName}</td>
-                        <td>{doc.specialty || "-"}</td>
+                        <td>{doc.specialty ? t(`specialties.${doc.specialty.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_')}`, doc.specialty) : "-"}</td>
                         <td>{doc.phoneNumber || doc.phone || "-"}</td>
                         <td className="doc-email-cell">{doc.email || "-"}</td>
                         <td>
@@ -262,7 +260,7 @@ const Doctors = () => {
                         </td>
                         <td>
                           <span className={`doc-status-badge ${isActive ? "doc-badge-active" : "doc-badge-inactive"}`}>
-                            {isActive ? "Active" : "Inactive"}
+                            {isActive ? t("admin.active", "Active") : t("admin.inactive", "Inactive")}
                           </span>
                         </td>
                       </tr>
@@ -284,7 +282,7 @@ const Doctors = () => {
             <div className="doc-pagination-info">
               {!loading && totalCount > 0 && (
                 <span>
-                  Showing {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, totalCount)} of {totalCount}
+                  {t("admin.showing", "Showing ")} {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, totalCount)} {t("admin.of", " of ")} {totalCount}
                 </span>
               )}
             </div>
@@ -293,9 +291,7 @@ const Doctors = () => {
                 className="doc-page-prev"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-              >
-                Previous
-              </button>
+              >{t("admin.previous", "Previous")}</button>
               <div className="doc-page-numbers">
                 {getPageNumbers().map((num) => (
                   <button
@@ -311,9 +307,7 @@ const Doctors = () => {
                 className="doc-page-next"
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-              >
-                Next
-              </button>
+              >{t("admin.next", "Next")}</button>
             </div>
           </div>
         </div>

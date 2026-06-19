@@ -346,9 +346,7 @@ const NewDoctor = () => {
               type="button"
               className="nd-btn-cancel"
               onClick={() => navigate("/admin/doctors")}
-            >
-              Cancel
-            </button>
+            >{t("admin.cancel", "Cancel")}</button>
             <button
               type="submit"
               className="nd-btn-save"
