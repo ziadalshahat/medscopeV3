@@ -297,3 +297,54 @@
     font-size: 17px;
   }
 }
+
+/* ── Editable Total Bed Capacity Styles ── */
+.admin-bed-total-clickable {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.admin-bed-total-clickable:hover {
+  background-color: rgba(0, 79, 120, 0.08);
+  color: #00334e;
+}
+
+.admin-bed-edit-icon {
+  font-size: 12px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.admin-bed-total-clickable:hover .admin-bed-edit-icon {
+  opacity: 1;
+}
+
+.admin-bed-total-input {
+  width: 55px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #004F78;
+  background-color: #ffffff;
+  border: 1.5px solid #004F78;
+  border-radius: 6px;
+  padding: 2px 4px;
+  text-align: center;
+  outline: none;
+  font-family: inherit;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.admin-bed-total-input:focus {
+  border-color: #002d45;
+  box-shadow: 0 0 0 3px rgba(0, 79, 120, 0.15);
+}
+
+/* Adjustments for RTL/Arabic compatibility if any */
+body[dir="rtl"] .admin-bed-total-clickable {
+  flex-direction: row-reverse;
+}

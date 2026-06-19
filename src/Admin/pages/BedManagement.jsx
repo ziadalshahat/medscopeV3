@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "../styles/BedManagement.css";
-import { getBeds, increaseBed, decreaseBed } from "../services/bedManagement";
+import { getBeds, increaseBed, decreaseBed, setTotalBeds } from "../services/bedManagement";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faBed, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faBed, faChevronUp, faChevronDown, faPen } from "@fortawesome/free-solid-svg-icons";
 import Loader from "../../components/Loader";
 import ThemeToggle from "../../components/ThemeToggle";
 import LanguageToggle from "../../components/LanguageToggle";
@@ -14,6 +14,8 @@ const BedManagement = () => {
   const [beds, setBeds] = useState([]);
   const [loading, setLoading] = useState(false);
   const [updatingId, setUpdatingId] = useState(null);
+  const [editingTotalId, setEditingTotalId] = useState(null);
+  const [tempTotal, setTempTotal] = useState("");
 
   // Retrieve user details from localStorage
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -104,6 +106,41 @@ const BedManagement = () => {
     }
   };
 
+  const handleSaveTotal = async (bed) => {
+    const total = parseInt(tempTotal, 10);
+    if (isNaN(total) || total < 0) {
+      toast.error("Please enter a valid number of beds");
+      return;
+    }
+    if (total < bed.usedBeds) {
+      toast.error(`Total beds cannot be less than occupied beds (${bed.usedBeds})`);
+      return;
+    }
+
+    try {
+      setUpdatingId(bed.id);
+      
+      // Optimistic update
+      setBeds((prev) =>
+        prev.map((b) =>
+          b.id === bed.id
+            ? { ...b, totalBeds: total, availableBeds: total - b.usedBeds }
+            : b
+        )
+      );
+      setEditingTotalId(null);
+
+      await setTotalBeds(bed.id, total);
+      toast.success(`${bed.ward} total beds updated to ${total}`);
+    } catch (err) {
+      console.error("Error setting total beds:", err);
+      toast.error("Failed to update total beds: " + err.message);
+      fetchBeds(); // Rollback
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
   return (
     <div className="admin-bed-page">
       {loading && <Loader message={t("admin.loading_beds", "Loading bed statistics...")} />}
@@ -156,7 +193,34 @@ const BedManagement = () => {
                     {/* Controls & Count */}
                     <div className="admin-bed-controls-section">
                       <span className="admin-bed-count-text">
-                        {bed.usedBeds}/{bed.totalBeds}
+                        {bed.usedBeds}/
+                        {editingTotalId === bed.id ? (
+                          <input
+                            type="number"
+                            className="admin-bed-total-input"
+                            value={tempTotal}
+                            onChange={(e) => setTempTotal(e.target.value)}
+                            onBlur={() => handleSaveTotal(bed)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") handleSaveTotal(bed);
+                              if (e.key === "Escape") setEditingTotalId(null);
+                            }}
+                            autoFocus
+                            min={bed.usedBeds}
+                          />
+                        ) : (
+                          <span
+                            className="admin-bed-total-clickable"
+                            onClick={() => {
+                              setEditingTotalId(bed.id);
+                              setTempTotal(bed.totalBeds);
+                            }}
+                            title={t("admin.edit_total_beds", "Click to edit total beds")}
+                          >
+                            {bed.totalBeds}
+                            <FontAwesomeIcon icon={faPen} className="admin-bed-edit-icon" />
+                          </span>
+                        )}
                       </span>
                       <div className="admin-bed-arrows-stack">
                         <button

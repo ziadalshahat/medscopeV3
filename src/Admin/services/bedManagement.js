@@ -47,3 +47,8 @@ export const decreaseBed = async (id) => {
   if (!res.ok) throw new Error("Failed to decrease");
   return res.json();
 };
+
+export const setTotalBeds = async (id, total) => {
+  const res = await apiClient.put(`/BedManagement/${id}/set-total?total=${total}`);
+  return res.data;
+};
