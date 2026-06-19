@@ -588,7 +588,8 @@ const resources = {
         "visitSurgery": "Surgery",
         "confirmed": "Confirmed",
         "pending": "Pending",
-        "completed": "Completed"
+        "completed": "Completed",
+        "next": "Next"
       }
     }
   },
@@ -1177,7 +1178,8 @@ const resources = {
         "visitSurgery": "جراحة",
         "confirmed": "مؤكد",
         "pending": "قيد الانتظار",
-        "completed": "مكتمل"
+        "completed": "مكتمل",
+        "next": "التالي"
       }
     }
   }
