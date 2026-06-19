@@ -97,7 +97,7 @@ const SuperAdminLayout = () => {
                 style={{ width: "22px", height: "22px", objectFit: "contain" }} 
               />
             </div>
-            <div style={{ display: "flex", flexDirection: "column", lineHeight: "1.2" }}>
+            <div style={{ display: "flex", flexDirection: "column", lineHeight: "1.2", textAlign: "start" }}>
               <span style={{ 
                 fontSize: "18px", 
                 fontWeight: "700", 

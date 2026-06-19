@@ -79,7 +79,7 @@
   cursor: pointer;
   width: 100%;
   transition: all 0.2s ease;
-  text-align: left;
+  text-align: start;
 }
 
 .logout-btn i {
@@ -303,14 +303,14 @@
   font-size: 14px;
   font-weight: 600;
   margin: 0;
-  text-align: left;
+  text-align: start;
 }
 
 .super-user-role {
   color: #a8c8e0;
   font-size: 12px;
   margin: 0;
-  text-align: left;
+  text-align: start;
 }
 
 /* ===== MAIN ===== */
