@@ -16,9 +16,52 @@ import { getDashboardData } from "../services/dashboardService";
 import Loader from "../../components/Loader";
 
 const Dashboard = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Helper function to translate update messages
+  const translateUpdateMessage = (msg) => {
+    if (i18n.language !== 'ar') return msg;
+    
+    // Pattern 1: Appointment reminder with Dr. <Name>
+    const reminderMatch = msg.match(/^Appointment reminder with (Dr\.\s*)?(.+)$/i);
+    if (reminderMatch) {
+      const doctorName = reminderMatch[2];
+      return `تذكير بموعد مع د. ${doctorName}`;
+    }
+    
+    // Pattern 2: New doctor note added: <Title>
+    const noteMatch = msg.match(/^New doctor note added:\s*(.+)$/i);
+    if (noteMatch) {
+      const noteTitle = noteMatch[1];
+      return `تمت إضافة ملاحظة طبية جديدة: ${noteTitle}`;
+    }
+    
+    return msg;
+  };
+
+  // Helper function to translate update time
+  const translateUpdateTime = (time) => {
+    if (i18n.language !== 'ar') return time;
+    const cleanTime = time.trim().toLowerCase();
+    if (cleanTime === 'today') return 'اليوم';
+    if (cleanTime === 'yesterday') return 'أمس';
+    
+    const hoursMatch = time.match(/(\d+)\s*hours?\s*ago/i) || time.match(/hours?\s*ago\s*(\d+)/i);
+    if (hoursMatch) {
+      return `قبل ${hoursMatch[1]} ساعة`;
+    }
+    const minsMatch = time.match(/(\d+)\s*minutes?\s*ago/i) || time.match(/minutes?\s*ago\s*(\d+)/i);
+    if (minsMatch) {
+      return `قبل ${minsMatch[1]} دقيقة`;
+    }
+    const daysMatch = time.match(/(\d+)\s*days?\s*ago/i) || time.match(/days?\s*ago\s*(\d+)/i);
+    if (daysMatch) {
+      return `قبل ${daysMatch[1]} يوم`;
+    }
+    return time;
+  };
 
   useEffect(() => {
 
@@ -66,8 +109,8 @@ const Dashboard = () => {
           ) : (
             dashboardData.updates.map((update, index) => (
               <div key={index} className="update-item">
-                <p className="update-title">{update.message}</p>
-                <p className="update-time">{update.time}</p>
+                <p className="update-title">{translateUpdateMessage(update.message)}</p>
+                <p className="update-time">{translateUpdateTime(update.time)}</p>
               </div>
             ))
           )}
