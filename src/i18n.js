@@ -135,6 +135,10 @@ const resources = {
         "security_incidents": "Receive alerts for security incidents",
         "appointment_reminders": "Appointment Reminders",
         "not_set": "Not set"
+      },
+      "hero": {
+        "title": "Your Health,",
+        "subtitle": "Our Priority"
       }
     }
   },
@@ -270,6 +274,10 @@ const resources = {
         "security_incidents": "تلقي تنبيهات للحوادث الأمنية",
         "appointment_reminders": "تذكيرات المواعيد",
         "not_set": "لم يحدد"
+      },
+      "hero": {
+        "title": "صحتك،",
+        "subtitle": "أولويتنا"
       }
     }
   }

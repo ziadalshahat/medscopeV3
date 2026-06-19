@@ -41,7 +41,7 @@ const Header = () => {
                         <div className="logo-icon">
                             <img src={logoImage} alt="MedScope Logo" className="logo-icon-img" width={35} height={35} />
                         </div>
-                        <div className="logo-text">
+                        <div className="logo-text" style={{ textAlign: "start" }}>
                             <h1 className="logo-title">MedScope</h1>
                             <p className="logo-subtitle">{t("footer.empower")}</p>
                         </div>
