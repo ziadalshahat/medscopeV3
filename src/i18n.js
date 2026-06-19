@@ -16,6 +16,17 @@ const resources = {
       "hospital_types": {
         "general": "General"
       },
+      "wards": {
+        "icu": "ICU",
+        "emergency": "Emergency",
+        "operating_room": "Operating Room",
+        "operating_room_beds": "Operating Room (OR) Beds",
+        "pediatric": "Pediatric",
+        "general": "General"
+      },
+      "hospital_types": {
+        "general": "General"
+      },
       "footer": {
         "title": "MedScope",
         "empower": "Healthcare Excellence",
@@ -64,6 +75,9 @@ const resources = {
         }
       },
       "hospital": {
+    "haya": "Al Haya",
+    "nada": "El Nada",
+    "zahraa": "El Zahraa",
         "add_new": "+ Add New Hospital",
         "search": "Search",
         "filter_status": "Filter by Status",
@@ -91,6 +105,17 @@ const resources = {
         "back_to_list": "Back to hospitals"
       },
       "admin": {
+    "new_doctor_btn": "+ New Doctor",
+    "loading_blood_bank": "Loading blood bank inventory...",
+    "quantity_units": "Quantity (units)",
+    "low_stock": "Low Stock",
+    "in_stock": "In Stock",
+    "loading_hospitals": "Loading hospitals data...",
+    "beds_count": "beds",
+    "no_hospitals_found": "No hospitals found",
+    "loading": "Loading...",
+    "no_doctors_found": "No doctors found.",
+    "processing": "Processing...",
         "action": "ACTION",
         "notes": "Notes",
         "optional": "Optional",
@@ -157,7 +182,6 @@ const resources = {
         "create_btn": "+ Create New Admin",
         "employee_id": "Employee ID",
         "name": "Name",
-        "email": "Email",
         "hospital": "Hospital",
         "status": "Status",
         "last_login": "Last Login",
@@ -706,6 +730,17 @@ const resources = {
       "hospital_types": {
         "general": "عام"
       },
+      "wards": {
+        "icu": "العناية المركزة",
+        "emergency": "الطوارئ",
+        "operating_room": "غرفة العمليات",
+        "operating_room_beds": "أسرة غرفة العمليات",
+        "pediatric": "الأطفال",
+        "general": "العام"
+      },
+      "hospital_types": {
+        "general": "عام"
+      },
       "footer": {
         "title": "ميدسكوب",
         "empower": "التميز في الرعاية الصحية",
@@ -754,6 +789,9 @@ const resources = {
         }
       },
       "hospital": {
+    "haya": "الحياة",
+    "nada": "الندى",
+    "zahraa": "الزهراء",
         "add_new": "+ إضافة مستشفى جديد",
         "search": "بحث",
         "filter_status": "تصفية حسب الحالة",
@@ -781,6 +819,17 @@ const resources = {
         "back_to_list": "العودة للمستشفيات"
       },
       "admin": {
+    "new_doctor_btn": "+ طبيب جديد",
+    "loading_blood_bank": "جاري تحميل مخزون بنك الدم...",
+    "quantity_units": "الكمية (بالوحدات)",
+    "low_stock": "مخزون منخفض",
+    "in_stock": "متوفر",
+    "loading_hospitals": "جاري تحميل بيانات المستشفيات...",
+    "beds_count": "سرير",
+    "no_hospitals_found": "لم يتم العثور على مستشفيات",
+    "loading": "جاري التحميل...",
+    "no_doctors_found": "لم يتم العثور على أطباء.",
+    "processing": "جاري المعالجة...",
         "action": "الإجراء",
         "notes": "ملاحظات",
         "optional": "اختياري",
@@ -847,7 +896,6 @@ const resources = {
         "create_btn": "+ إنشاء مدير جديد",
         "employee_id": "معرف الموظف",
         "name": "الاسم",
-        "email": "البريد الإلكتروني",
         "hospital": "المستشفى",
         "status": "الحالة",
         "last_login": "آخر تسجيل دخول",

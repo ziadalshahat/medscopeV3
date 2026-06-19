@@ -228,7 +228,7 @@ const Doctors = () => {
                 {loading ? (
                   <tr>
                     <td colSpan="7" className="doc-loading-cell">
-                      Loading...
+                      {t("admin.loading", "Loading...")}
                     </td>
                   </tr>
                 ) : doctors.length > 0 ? (
@@ -269,7 +269,7 @@ const Doctors = () => {
                 ) : (
                   <tr>
                     <td colSpan="7" className="doc-empty-cell">
-                      No doctors found.
+                      {t("admin.no_doctors_found", "No doctors found.")}
                     </td>
                   </tr>
                 )}
@@ -327,7 +327,7 @@ const Doctors = () => {
         onClose={() => setSuccessMsg("")}
       />
 
-      {loading && <Loader message="Processing..." />}
+      {loading && <Loader message={t("admin.processing", "Processing...")} />}
     </div>
   );
 };

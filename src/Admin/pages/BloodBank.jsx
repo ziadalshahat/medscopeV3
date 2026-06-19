@@ -97,11 +97,11 @@ const BloodBank = () => {
 
   return (
     <div className="blood-container">
-      {loading && <Loader message="Loading blood bank inventory..." />}
+      {loading && <Loader message={t("admin.loading_blood_bank", "Loading blood bank inventory...")} />}
 
       {/* Top Profile Header */}
       <div className="admin-bed-header-block">
-        <h2 className="admin-bed-page-title">🩸 Blood Bank</h2>
+        <h2 className="admin-bed-page-title">🩸 {t("admin.bloodBank", "Blood Bank")}</h2>
         <div className="admin-bed-profile-area">
           <LanguageToggle />
           <ThemeToggle />
@@ -130,7 +130,7 @@ const BloodBank = () => {
                 {blood.bloodType}
               </div>
 
-              <p className="blood-label">Quantity (units)</p>
+              <p className="blood-label">{t("admin.quantity_units", "Quantity (units)")}</p>
 
               {/* 🔥 control */}
               <div className="quantity-control">
@@ -166,7 +166,7 @@ const BloodBank = () => {
               </div>
 
               <p className={`blood-status ${blood.quantity < 10 ? "low" : ""}`}>
-                {blood.quantity < 10 ? "Low Stock" : "In Stock"}
+                {blood.quantity < 10 ? t("admin.low_stock", "Low Stock") : t("admin.in_stock", "In Stock")}
               </p>
 
             </div>

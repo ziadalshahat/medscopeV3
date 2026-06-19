@@ -58,14 +58,14 @@ const MultiHospitalView = () => {
   };
 
   // UI states
-  if (loading) return <Loader message="Loading hospitals data..." />;
+  if (loading) return <Loader message={t("admin.loading_hospitals", "Loading hospitals data...")} />;
   if (error) return <div className="multi-page">{error}</div>;
 
   return (
     <div className="multi-page">
       {/* Top Profile Header */}
       <div className="multi-header-block">
-        <h2 className="multi-page-title">Multi-Hospital View</h2>
+        <h2 className="multi-page-title">{t("admin.multiHospital", "Multi Hospital View")}</h2>
         <div className="multi-profile-area">
           <LanguageToggle />
           <ThemeToggle />
@@ -82,7 +82,7 @@ const MultiHospitalView = () => {
         </div>
       </div>
 
-      {hospitals.length === 0 && <p>No hospitals found</p>}
+      {hospitals.length === 0 && <p>{t("admin.no_hospitals_found", "No hospitals found")}</p>}
 
       {hospitals.map((hospital, index) => {
         return (
@@ -91,7 +91,7 @@ const MultiHospitalView = () => {
               <div className="hospital-icon">
                 <FontAwesomeIcon icon={faHospital} />
               </div>
-              <h3>{hospital.hospital}</h3>
+              <h3>{t("hospital." + hospital.hospital.toLowerCase().replace(/\s+/g, '_').replace(/al_/g, '').replace(/el_/g, '').trim(), hospital.hospital)}</h3>
             </div>
 
             <div className="beds-container">
@@ -103,9 +103,9 @@ const MultiHospitalView = () => {
                 return (
                   <div className="bed-row" key={i}>
                     <div className="bed-text-row">
-                      <span className="bed-label">{bed.name}</span>
+                      <span className="bed-label">{t("wards." + bed.name.toLowerCase().replace(/ beds/g, '').replace(/\(or\)/g, '').replace(/\s+/g, '_').trim(), bed.name)}</span>
                       <span className="bed-count-text">
-                        {used}/{total} beds
+                        {used}/{total} {t("admin.beds_count", "beds")}
                       </span>
                     </div>
                     <div className="bed-bar-container">
