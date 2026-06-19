@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { createDoctor } from "../services/doctors";
 import "../styles/new-doctor.css";
@@ -14,6 +15,7 @@ import ThemeToggle from "../../components/ThemeToggle";
 import LanguageToggle from "../../components/LanguageToggle";
 
 const NewDoctor = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);

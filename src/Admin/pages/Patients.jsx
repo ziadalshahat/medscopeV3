@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import "../styles/Patients.css";
 import ThemeToggle from "../../components/ThemeToggle";
 import LanguageToggle from "../../components/LanguageToggle";
@@ -12,6 +13,7 @@ import ConfirmModal from "../../components/ConfirmModal";
 import SuccessModal from "../../components/SuccessModal";
 
 const Patients = () => {
+  const { t } = useTranslation();
   // Retrieve user details from localStorage
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const userName = user.fullName || "Jonitha";
@@ -162,7 +164,7 @@ const Patients = () => {
     <div className="admin-patients-container">
       {/* Top Header Block matching standard layout */}
       <div className="admin-patients-header-block">
-        <h2 className="admin-patients-title">Patient Details</h2>
+        <h2 className="admin-patients-title">{t("admin.patients_details", "Patient Details")}</h2>
         
         <div className="admin-patients-profile-area">
           <LanguageToggle />
@@ -183,7 +185,7 @@ const Patients = () => {
         <div className="admin-patients-card">
           {/* Header Tab */}
           <div className="admin-patients-header">
-            <div className="patients-tab active">Patient Info</div>
+            <div className="patients-tab active">{t("admin.patients_info", "Patient Info")}</div>
           </div>
 
           {/* Search and Filter Panel */}
@@ -192,7 +194,7 @@ const Patients = () => {
               <FontAwesomeIcon icon={faSearch} className="search-icon" />
               <input
                 type="text"
-                placeholder="Search"
+                placeholder={t("admin.search", "Search")}
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
@@ -211,9 +213,9 @@ const Patients = () => {
                   setCurrentPage(1);
                 }}
               >
-                <option value="">Filter by Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
+                <option value="">{t("admin.filter_gender", "Filter by Gender")}</option>
+                <option value="Male">{t("admin.male", "Male")}</option>
+                <option value="Female">{t("admin.female", "Female")}</option>
               </select>
             </div>
           </div>
@@ -223,20 +225,20 @@ const Patients = () => {
             <table className="admin-patients-table">
               <thead>
                 <tr>
-                  <th>Patient Name</th>
-                  <th>Age</th>
-                  <th>Gender</th>
-                  <th>Blood Group</th>
-                  <th>Phone Number</th>
-                  <th>Email ID</th>
-                  <th style={{ textAlign: "center" }}>User Action</th>
+                  <th>{t("admin.patient_name", "Patient Name")}</th>
+                  <th>{t("admin.age", "Age")}</th>
+                  <th>{t("admin.gender", "Gender")}</th>
+                  <th>{t("admin.blood_group", "Blood Group")}</th>
+                  <th>{t("admin.phone_number", "Phone Number")}</th>
+                  <th>{t("admin.email_id", "Email ID")}</th>
+                  <th style={{ textAlign: "center" }}>{t("admin.user_action", "User Action")}</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
                     <td colSpan="7" className="table-loading-row">
-                      Loading patient data...
+                      {t("admin.loading_patients", "Loading patient data...")}
                     </td>
                   </tr>
                 ) : patients.length > 0 ? (
@@ -272,7 +274,7 @@ const Patients = () => {
                 ) : (
                   <tr>
                     <td colSpan="7" className="table-empty-row">
-                      No patients found matching the criteria.
+                      {t("admin.no_patients_found", "No patients found matching the criteria.")}
                     </td>
                   </tr>
                 )}
@@ -319,14 +321,14 @@ const Patients = () => {
         <div className="edit-modal-overlay">
           <div className="edit-modal-content">
             <div className="modal-header">
-              <h3>Edit Patient Details</h3>
+              <h3>{t("admin.edit_patient", "Edit Patient Details")}</h3>
               <button className="modal-close-btn" onClick={() => setIsEditModalOpen(false)}>
                 <FontAwesomeIcon icon={faTimes} />
               </button>
             </div>
             <form onSubmit={handleSaveEdit} className="modal-form">
               <div className="form-group">
-                <label>Full Name</label>
+                <label>{t("admin.full_name", "Full Name")}</label>
                 <input
                   type="text"
                   required
@@ -337,7 +339,7 @@ const Patients = () => {
 
               <div className="form-row">
                 <div className="form-group half">
-                  <label>Age</label>
+                  <label>{t("admin.age", "Age")}</label>
                   <input
                     type="number"
                     required
@@ -348,22 +350,22 @@ const Patients = () => {
                   />
                 </div>
                 <div className="form-group half">
-                  <label>Gender</label>
+                  <label>{t("admin.gender", "Gender")}</label>
                   <select
                     required
                     value={editForm.gender}
                     onChange={(e) => setEditForm({ ...editForm, gender: e.target.value })}
                   >
-                    <option value="">Select</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                    <option value="">{t("admin.select", "Select")}</option>
+                    <option value="Male">{t("admin.male", "Male")}</option>
+                    <option value="Female">{t("admin.female", "Female")}</option>
                   </select>
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group half">
-                  <label>Blood Group</label>
+                  <label>{t("admin.blood_group", "Blood Group")}</label>
                   <input
                     type="text"
                     placeholder="e.g. A+ve"
@@ -372,7 +374,7 @@ const Patients = () => {
                   />
                 </div>
                 <div className="form-group half">
-                  <label>Phone Number</label>
+                  <label>{t("admin.phone_number", "Phone Number")}</label>
                   <input
                     type="text"
                     required
@@ -383,7 +385,7 @@ const Patients = () => {
               </div>
 
               <div className="form-group">
-                <label>Email Address</label>
+                <label>{t("admin.email", "Email Address")}</label>
                 <input
                   type="email"
                   required

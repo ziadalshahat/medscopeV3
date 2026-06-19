@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import "../styles/BloodBank.css";
 import { getBloodBank, increaseBlood, decreaseBlood } from "../services/bloodBank";
 import toast from "react-hot-toast";
@@ -9,6 +10,7 @@ import ThemeToggle from "../../components/ThemeToggle";
 import LanguageToggle from "../../components/LanguageToggle";
 
 const BloodBank = () => {
+  const { t } = useTranslation();
   const [bloodData, setBloodData] = useState([]);
   const [loadingIds, setLoadingIds] = useState([]);
   const [loading, setLoading] = useState(false);

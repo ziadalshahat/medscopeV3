@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import "../styles/BedManagement.css";
 import { getBeds, increaseBed, decreaseBed } from "../services/bedManagement";
 import toast from "react-hot-toast";
@@ -9,6 +10,7 @@ import ThemeToggle from "../../components/ThemeToggle";
 import LanguageToggle from "../../components/LanguageToggle";
 
 const BedManagement = () => {
+  const { t } = useTranslation();
   const [beds, setBeds] = useState([]);
   const [loading, setLoading] = useState(false);
   const [updatingId, setUpdatingId] = useState(null);

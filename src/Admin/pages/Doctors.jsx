@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import "../styles/Doctors.css";
 import ThemeToggle from "../../components/ThemeToggle";
 import LanguageToggle from "../../components/LanguageToggle";
@@ -15,6 +16,7 @@ import SuccessModal from "../../components/SuccessModal";
 const PAGE_SIZE = 7;
 
 const Doctors = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -189,7 +191,7 @@ const Doctors = () => {
               <FontAwesomeIcon icon={faSearch} className="doc-search-icon" />
               <input
                 type="text"
-                placeholder="Search"
+                placeholder={t("admin.search", "Search")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="doc-search-input"

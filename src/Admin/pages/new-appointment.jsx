@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import "../styles/new-appointment.css";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +14,7 @@ import ThemeToggle from "../../components/ThemeToggle";
 import LanguageToggle from "../../components/LanguageToggle";
 
 const NewAppointment = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -275,12 +277,12 @@ const NewAppointment = () => {
         {/* Breadcrumb */}
         <div className="na-breadcrumb" onClick={() => navigate("/admin/appointments")}>
           <FontAwesomeIcon icon={faArrowsLeftRight} className="na-breadcrumb-icon" />
-          <span>Appointment Management</span>
+          <span>{t("admin.appointment_management", "Appointment Management")}</span>
         </div>
 
         {/* Title */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-          <h2 className="na-title" style={{ margin: 0 }}>New Appointment</h2>
+          <h2 className="na-title" style={{ margin: 0 }}>{t("admin.new_appointment", "New Appointment")}</h2>
           <LanguageToggle />
           <ThemeToggle />
         </div>

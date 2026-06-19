@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import "../styles/Appointments.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,6 +22,7 @@ import LanguageToggle from "../../components/LanguageToggle";
 const PAGE_SIZE = 10;
 
 const Appointments = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -194,7 +196,7 @@ const Appointments = () => {
     <div className="admin-appt-container">
       {/* Top Header Section */}
       <div className="admin-appt-header-block">
-        <h2 className="admin-appt-title">Appointments</h2>
+        <h2 className="admin-appt-title">{t("admin.appointments", "Appointments")}</h2>
         <div className="admin-appt-profile-area">
           <LanguageToggle />
           <ThemeToggle />
@@ -239,7 +241,7 @@ const Appointments = () => {
               <FontAwesomeIcon icon={faSearch} className="search-icon" />
               <input
                 type="text"
-                placeholder="Search"
+                placeholder={t("admin.search", "Search")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -262,22 +264,22 @@ const Appointments = () => {
               <thead>
                 {activeTab === "new" ? (
                   <tr>
-                    <th>Time</th>
-                    <th>Date</th>
-                    <th>Patient Name</th>
+                    <th>{t("admin.time", "Time")}</th>
+                    <th>{t("admin.date", "Date")}</th>
+                    <th>{t("admin.patient_name", "Patient Name")}</th>
                     <th>Patient Age</th>
-                    <th>Doctor</th>
-                    <th>Visit Type</th>
-                    <th style={{ textAlign: "center" }}>User Action</th>
+                    <th>{t("admin.doctor", "Doctor")}</th>
+                    <th>{t("admin.visit_type", "Visit Type")}</th>
+                    <th style={{ textAlign: "center" }}>{t("admin.user_action", "User Action")}</th>
                   </tr>
                 ) : (
                   <tr>
-                    <th>Time</th>
-                    <th>Date</th>
-                    <th>Patient Name</th>
+                    <th>{t("admin.time", "Time")}</th>
+                    <th>{t("admin.date", "Date")}</th>
+                    <th>{t("admin.patient_name", "Patient Name")}</th>
                     <th>Patient Age</th>
-                    <th>Doctor</th>
-                    <th>Specialty</th>
+                    <th>{t("admin.doctor", "Doctor")}</th>
+                    <th>{t("admin.specialty", "Specialty")}</th>
                   </tr>
                 )}
               </thead>
@@ -285,7 +287,7 @@ const Appointments = () => {
                 {loading ? (
                   <tr>
                     <td colSpan={activeTab === "new" ? 7 : 6} className="table-loading-row">
-                      Loading appointments...
+                      {t("admin.loading_appointments", "Loading appointments...")}
                     </td>
                   </tr>
                 ) : appointments.length > 0 ? (
@@ -321,7 +323,7 @@ const Appointments = () => {
                 ) : (
                   <tr>
                     <td colSpan={activeTab === "new" ? 7 : 6} className="table-empty-row">
-                      No appointments found.
+                      {t("admin.no_appointments", "No appointments found.")}
                     </td>
                   </tr>
                 )}
