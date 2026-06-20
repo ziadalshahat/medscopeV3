@@ -59,23 +59,7 @@ const DoctorAppointments = () => {
     fetchAppointments();
   }, [activeTab, activePage]);
 
-  const filteredAppointments = React.useMemo(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    return appointments.filter((item) => {
-      const itemDateStr = item.date || item.appointmentDate;
-      if (!itemDateStr) return false;
-
-      const apptDate = new Date(itemDateStr);
-      apptDate.setHours(0, 0, 0, 0);
-
-      // Only today and future appointments
-      return apptDate >= today;
-    });
-  }, [appointments]);
-
-  const displayedAppointments = filteredAppointments;
+  const displayedAppointments = appointments;
 
   // Step 1: click Logout → open ConfirmModal
   const handleLogoutClick = () => {
@@ -219,7 +203,7 @@ const DoctorAppointments = () => {
                   <tr>
                     <td colSpan="6" className="da-error">{error}</td>
                   </tr>
-                ) : filteredAppointments.length === 0 && !loading ? (
+                ) : displayedAppointments.length === 0 && !loading ? (
                   <tr>
                     <td colSpan="6" className="da-empty">No appointments found</td>
                   </tr>
