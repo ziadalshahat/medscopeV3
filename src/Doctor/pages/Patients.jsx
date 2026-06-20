@@ -234,11 +234,6 @@ const Patients = () => {
                   <tr key={p.patientId || index}>
                     <td>
                       <div className="pt-patient-cell">
-                        <img
-                          src={`https://i.pravatar.cc/100?img=${index + 1}`}
-                          alt={p.fullName}
-                          className="pt-avatar"
-                        />
                         {p.fullName}
                       </div>
                     </td>
