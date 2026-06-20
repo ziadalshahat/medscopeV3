@@ -39,7 +39,8 @@ const DoctorAppointments = () => {
         const data = await getUpcomingAppointments(
           today,
           activeTab,
-          activePage
+          1,
+          100
         );
 
         if (Array.isArray(data)) {
@@ -60,7 +61,8 @@ const DoctorAppointments = () => {
     };
 
     fetchAppointments();
-  }, [activeTab, activePage]);
+    setActivePage(1);
+  }, [activeTab]);
 
   const filteredAppointments = React.useMemo(() => {
     const today = new Date();
@@ -101,7 +103,15 @@ const DoctorAppointments = () => {
     });
   }, [appointments, activeTab]);
 
-  const displayedAppointments = filteredAppointments;
+  const ITEMS_PER_PAGE = 5;
+  const totalPages = Math.max(1, Math.ceil(filteredAppointments.length / ITEMS_PER_PAGE));
+
+  const displayedAppointments = React.useMemo(() => {
+    return filteredAppointments.slice(
+      (activePage - 1) * ITEMS_PER_PAGE,
+      activePage * ITEMS_PER_PAGE
+    );
+  }, [filteredAppointments, activePage]);
 
   // Step 1: click Logout → open ConfirmModal
   const handleLogoutClick = () => {
@@ -297,33 +307,37 @@ const DoctorAppointments = () => {
           </div>
 
           {/* Pagination */}
-          <div className="da-pagination">
-            <button
-              className="da-page-nav"
-              onClick={() => { if (activePage > 1) setActivePage(activePage - 1); }}
-            >
-              {t("doctor.previous")}
-            </button>
+          {totalPages > 1 && (
+            <div className="da-pagination">
+              <button
+                className="da-page-nav"
+                onClick={() => { if (activePage > 1) setActivePage(activePage - 1); }}
+                disabled={activePage === 1}
+              >
+                {t("doctor.previous")}
+              </button>
 
-            <div className="da-pages">
-              {[1, 2, 3, 4].map((page) => (
-                <button
-                  key={page}
-                  className={`da-page-btn ${activePage === page ? "da-page-active" : ""}`}
-                  onClick={() => setActivePage(page)}
-                >
-                  {page}
-                </button>
-              ))}
+              <div className="da-pages">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    className={`da-page-btn ${activePage === page ? "da-page-active" : ""}`}
+                    onClick={() => setActivePage(page)}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                className="da-page-nav"
+                onClick={() => { if (activePage < totalPages) setActivePage(activePage + 1); }}
+                disabled={activePage === totalPages}
+              >
+                {t("doctor.next")}
+              </button>
             </div>
-
-            <button
-              className="da-page-nav"
-              onClick={() => setActivePage(activePage + 1)}
-            >
-              {t("doctor.next")}
-            </button>
-          </div>
+          )}
         </div>
       </main>
     </div>
