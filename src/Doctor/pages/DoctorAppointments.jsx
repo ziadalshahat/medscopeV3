@@ -47,7 +47,7 @@ const DoctorAppointments = () => {
 
         const items = resData?.data || [];
         setAppointments(items);
-        setTotalPages(Math.max(1, Math.ceil((resData?.totalCount || items.length) / 10)));
+        setTotalPages(resData?.totalPages || 1);
       } catch (err) {
         console.error(err);
         setError("Failed to load appointments");
