@@ -255,37 +255,35 @@ const DoctorAppointments = () => {
           </div>
 
           {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="da-pagination">
-              <button
-                className="da-page-nav"
-                onClick={() => { if (activePage > 1) setActivePage(activePage - 1); }}
-                disabled={activePage === 1}
-              >
-                {t("doctor.previous")}
-              </button>
+          <div className="da-pagination">
+            <button
+              className="da-page-nav"
+              onClick={() => { if (activePage > 1) setActivePage(activePage - 1); }}
+              disabled={activePage === 1}
+            >
+              {t("doctor.previous")}
+            </button>
 
-              <div className="da-pages">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    className={`da-page-btn ${activePage === page ? "da-page-active" : ""}`}
-                    onClick={() => setActivePage(page)}
-                  >
-                    {page}
-                  </button>
-                ))}
-              </div>
-
-              <button
-                className="da-page-nav"
-                onClick={() => { if (activePage < totalPages) setActivePage(activePage + 1); }}
-                disabled={activePage === totalPages}
-              >
-                {t("doctor.next")}
-              </button>
+            <div className="da-pages">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  className={`da-page-btn ${activePage === page ? "da-page-active" : ""}`}
+                  onClick={() => setActivePage(page)}
+                >
+                  {page}
+                </button>
+              ))}
             </div>
-          )}
+
+            <button
+              className="da-page-nav"
+              onClick={() => { if (activePage < totalPages) setActivePage(activePage + 1); }}
+              disabled={activePage === totalPages}
+            >
+              {t("doctor.next")}
+            </button>
+          </div>
         </div>
       </main>
     </div>
