@@ -35,6 +35,30 @@ const formatDate = (isoString) => {
 };
 
 /**
+ * Formats an ISO date string into a human-readable date and time.
+ * Returns null if the input is falsy.
+ */
+const formatDateTime = (isoString) => {
+  if (!isoString) return null;
+  try {
+    const date = new Date(isoString);
+    const datePart = date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    const timePart = date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+    return `${datePart} at ${timePart}`;
+  } catch {
+    return null;
+  }
+};
+
+/**
  * Converts the raw backend API response into a clean, consistent
  * frontend data shape. Called by every service method so all consumers
  * (Profile page, PatientContext, etc.) always get the same structure.
@@ -58,7 +82,7 @@ export const normalizeProfile = (raw) => {
     patientId: raw.patientId ?? null,
     accountStatus: raw.accountStatus || 'Active',
     registrationDate: formatDate(raw.registrationDate),
-    lastLogin: formatDate(raw.lastLogin),
+    lastLogin: formatDateTime(raw.lastLogin),
 
     // Notifications — the API returns these as top-level booleans
     notifications: {
