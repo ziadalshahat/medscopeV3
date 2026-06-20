@@ -3,9 +3,8 @@ import axiosInstance from "../../api/axiosInstance";
 // Get Upcoming Appointments
 export const getUpcomingAppointments = async (
   date,
-  view = "Day",
-  page = 1,
-  pageSize = 100
+  view = "day",
+  page = 1
 ) => {
   try {
     const response = await axiosInstance.get(
@@ -13,9 +12,8 @@ export const getUpcomingAppointments = async (
       {
         params: {
           date,
-          view,
+          view: view.toLowerCase(),
           page,
-          pageSize,
         },
       }
     );

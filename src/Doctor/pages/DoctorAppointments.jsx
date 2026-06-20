@@ -13,6 +13,7 @@ const DoctorAppointments = () => {
   const { t, i18n } = useTranslation();
   const [activeTab, setActiveTab] = useState("Day");
   const [activePage, setActivePage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,9 +25,11 @@ const DoctorAppointments = () => {
   // SuccessModal — ready for future use
   const [successMessage, setSuccessMessage] = useState("");
 
-
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setActivePage(1);
+  }, [activeTab]);
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -36,22 +39,15 @@ const DoctorAppointments = () => {
 
         const today = new Date().toISOString().split("T")[0];
 
-        const data = await getUpcomingAppointments(
+        const resData = await getUpcomingAppointments(
           today,
           activeTab,
-          1,
-          100
+          activePage
         );
 
-        if (Array.isArray(data)) {
-          setAppointments(data);
-        } else if (data.data && Array.isArray(data.data)) {
-          setAppointments(data.data);
-        } else if (data.items) {
-          setAppointments(data.items);
-        } else {
-          setAppointments([]);
-        }
+        const items = resData?.data || [];
+        setAppointments(items);
+        setTotalPages(Math.max(1, Math.ceil((resData?.totalCount || items.length) / 10)));
       } catch (err) {
         console.error(err);
         setError("Failed to load appointments");
@@ -61,20 +57,25 @@ const DoctorAppointments = () => {
     };
 
     fetchAppointments();
-    setActivePage(1);
-  }, [activeTab]);
+  }, [activeTab, activePage]);
 
-  const filteredAppointments = appointments;
+  const filteredAppointments = React.useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-  const ITEMS_PER_PAGE = 5;
-  const totalPages = Math.max(1, Math.ceil(filteredAppointments.length / ITEMS_PER_PAGE));
+    return appointments.filter((item) => {
+      const itemDateStr = item.date || item.appointmentDate;
+      if (!itemDateStr) return false;
 
-  const displayedAppointments = React.useMemo(() => {
-    return filteredAppointments.slice(
-      (activePage - 1) * ITEMS_PER_PAGE,
-      activePage * ITEMS_PER_PAGE
-    );
-  }, [filteredAppointments, activePage]);
+      const apptDate = new Date(itemDateStr);
+      apptDate.setHours(0, 0, 0, 0);
+
+      // Only today and future appointments
+      return apptDate >= today;
+    });
+  }, [appointments]);
+
+  const displayedAppointments = filteredAppointments;
 
   // Step 1: click Logout → open ConfirmModal
   const handleLogoutClick = () => {
