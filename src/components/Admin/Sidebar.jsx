@@ -59,12 +59,12 @@ const Sidebar = () => {
             {/* Header */}
             <div className="sidebar-header">
                 <div className="logo-icon">
-                    <FontAwesomeIcon 
+                    <FontAwesomeIcon
                         icon={faClinicMedical}
                     />
                 </div>
                 <h2>
-                    Alhaya
+                    MedScope
                 </h2>
             </div>
 
@@ -72,20 +72,20 @@ const Sidebar = () => {
             <nav className="sidebar-nav">
                 <ul>
                     {
-                        menuItems.map((item)=> (
+                        menuItems.map((item) => (
                             <li
                                 key={item.path}
                                 className={
                                     location.pathname === item.path
-                                    ? "active"
-                                    : ""
+                                        ? "active"
+                                        : ""
                                 }
                             >
                                 <Link to={item.path}>
-                                    <i 
-                                      className={
-                                        `fas ${item.icon} nav-icon`
-                                      }
+                                    <i
+                                        className={
+                                            `fas ${item.icon} nav-icon`
+                                        }
                                     >
                                     </i>
                                     <span>
@@ -100,7 +100,7 @@ const Sidebar = () => {
 
             {/* Logout */}
             <div className="sidebar-footer" style={{ padding: '10px 15px' }}>
-                <Link 
+                <Link
                     to="/"
                     className="logout-btn"
                     style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '12px 15px', borderRadius: '8px', width: '100%' }}
